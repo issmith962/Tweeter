@@ -62,9 +62,9 @@ public class FollowGenerator {
      * @return the generated {@link Follow} objects.
      */
     public List<Follow> generateUsersAndFollows(int userCount, int minFollowersPerUser,
-                                                       int maxFollowersPerUser, Sort sortOrder) {
+                                                       int maxFollowersPerUser) {
         List<User> users = UserGenerator.getInstance().generateUsers(userCount);
-        return generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, sortOrder);
+        return generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser);
     }
 
     /**
@@ -81,8 +81,7 @@ public class FollowGenerator {
     @SuppressWarnings("WeakerAccess")
     public List<Follow> generateFollowsForUsers(@NotNull List<User> users,
                                                 int minFollowersPerUser,
-                                                int maxFollowersPerUser,
-                                                Sort sortOrder) {
+                                                int maxFollowersPerUser) {
         List<Follow> follows = new ArrayList<>();
 
         if(users.size() == 0) {
@@ -110,16 +109,21 @@ public class FollowGenerator {
         }
 
         // Add the test user and make him follow everyone
-        // isaac's addendum: make everyone follow him as well
+        // isaac's addendum: make every third person follow him
         User testUser = new User("Test", "User", UserGenerator.MALE_IMAGE_URL);
-
+        int count = 0;
         for(User user : users) {
             Follow follow = new Follow(testUser, user);
             follows.add(follow);
-
-            Follow follow2 = new Follow(user, testUser);
-            follows.add(follow2);
+            if (count % 3 == 0) {
+                Follow follow2 = new Follow(user, testUser);
+                follows.add(follow2);
+            }
+            count++;
         }
+        return follows;
+    }
+    public List<Follow> sortFollows(List<Follow> follows, Sort sortOrder) {
         // Sort by the specified sort order
         switch (sortOrder) {
             case FOLLOWEE_FOLLOWER:

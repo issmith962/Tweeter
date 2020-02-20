@@ -1,11 +1,9 @@
 package edu.byu.cs.tweeter.net;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.Follow;
@@ -48,8 +46,9 @@ public class ServerFacade {
         }
 
         if(followeesByFollower == null) {
-            followeesByFollower = initializeFollows();
-            followersByFollowee = initializeFollowers(followeesByFollower);
+            Map[] maps = initializeFollows();
+            followeesByFollower = maps[0];
+            followersByFollowee = maps[1];
         }
 
         List<User> allFollowees = followeesByFollower.get(request.getFollower());
@@ -103,16 +102,19 @@ public class ServerFacade {
 
     /**
      * Generates the follow data.
+     * @return two maps, one with followers as keys, one with followees as keys
      */
-    private Map<User, List<User>> initializeFollows() {
+    private Map[] initializeFollows() {
 
         Map<User, List<User>> followeesByFollower = new HashMap<>();
+        Map<User, List<User>> followersByFollowee = new HashMap<>();
 
-        List<Follow> follows = getFollowGenerator().generateUsersAndFollows(100,
-                0, 50, FollowGenerator.Sort.FOLLOWER_FOLLOWEE);
+        List<Follow> follows1 = getFollowGenerator().sortFollows(getFollowGenerator().generateUsersAndFollows(100,
+                0, 50), FollowGenerator.Sort.FOLLOWER_FOLLOWEE);
+        List<Follow> follows2 = getFollowGenerator().sortFollows(follows1, FollowGenerator.Sort.FOLLOWER_FOLLOWEE);
 
         // Populate a map of followees, keyed by follower so we can easily handle followee requests
-        for(Follow follow : follows) {
+        for(Follow follow : follows1) {
             List<User> followees = followeesByFollower.get(follow.getFollower());
 
             if(followees == null) {
@@ -123,30 +125,39 @@ public class ServerFacade {
             followees.add(follow.getFollowee());
         }
 
-        return followeesByFollower;
+        for (Follow follow : follows2) {
+            List<User> followers = followersByFollowee.get(follow.getFollowee());
+
+            if (followers == null) {
+                followers = new ArrayList<>();
+                followersByFollowee.put(follow.getFollowee(), followers);
+            }
+            followers.add(follow.getFollower());
+        }
+        return new Map[]{followeesByFollower, followersByFollowee};
     }
 
     /**
      * Takes the initializeFollows generated data and reverses the map to be keyed by followee, rather
      * than by follower.
      */
-    private Map<User, List<User>> initializeFollowers(Map<User, List<User>> followeesByFollower) {
-        Map<User, List<User>> followersByFollowee = new HashMap<>();
-        for (Map.Entry<User, List<User>> entry : followeesByFollower.entrySet()) {
-            User follower = entry.getKey();
-            List<User> followees = entry.getValue();
-            for (User followee : followees) {
-                if (followersByFollowee.containsKey(followee)) {
-                    followersByFollowee.get(followee).add(follower);
-                } else {
-                    List<User> followers = new ArrayList<>();
-                    followers.add(follower);
-                    followersByFollowee.put(followee, followers);
-                }
-            }
-        }
-        return followersByFollowee;
-    }
+//    private Map<User, List<User>> initializeFollowers(Map<User, List<User>> followeesByFollower) {
+//        Map<User, List<User>> followersByFollowee = new HashMap<>();
+//        for (Map.Entry<User, List<User>> entry : followeesByFollower.entrySet()) {
+//            User follower = entry.getKey();
+//            List<User> followees = entry.getValue();
+//            for (User followee : followees) {
+//                if (followersByFollowee.containsKey(followee)) {
+//                    followersByFollowee.get(followee).add(follower);
+//                } else {
+//                    List<User> followers = new ArrayList<>();
+//                    followers.add(follower);
+//                    followersByFollowee.put(followee, followers);
+//                }
+//            }
+//        }
+//        return followersByFollowee;
+//    }
     /**
      * Returns an instance of FollowGenerator that can be used to generate Follow data. This is
      * written as a separate method to allow mocking of the generator.
@@ -183,8 +194,9 @@ public class ServerFacade {
         }
 
         if(followersByFollowee == null) {
-            followeesByFollower = initializeFollows();
-            followersByFollowee = initializeFollowers(followeesByFollower);
+            Map[] maps = initializeFollows();
+            followeesByFollower = maps[0];
+            followersByFollowee = maps[1];
         }
 
         List<User> allFollowers = followersByFollowee.get(request.getFollower());
