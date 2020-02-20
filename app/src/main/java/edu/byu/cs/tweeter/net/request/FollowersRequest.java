@@ -8,21 +8,21 @@ import edu.byu.cs.tweeter.model.domain.User;
  */
 public class FollowersRequest {
 
-    private final User followee;
+    private final User follower;
     private final int limit;
     private final User lastFollower;
 
     /**
      * Creates an instance.
      *
-     * @param followee the {@link User} whose followers are to be returned.
+     * @param follower the {@link User} whose followers are to be returned.
      * @param limit the maximum number of followers to return.
      * @param lastFollower the last follower that was returned in the previous request (null if
      *                     there was no previous request or if no followers were returned in the
      *                     previous request).
      */
-    public FollowersRequest(User followee, int limit, User lastFollower) {
-        this.followee = followee;
+    public FollowersRequest(User follower, int limit, User lastFollower) {
+        this.follower = follower;
         this.limit = limit;
         this.lastFollower = lastFollower;
     }
@@ -32,8 +32,8 @@ public class FollowersRequest {
      *
      * @return the followee.
      */
-    public User getfollowee() {
-        return followee;
+    public User getFollower() {
+        return follower;
     }
 
     /**
@@ -51,7 +51,7 @@ public class FollowersRequest {
      *
      * @return the last follower.
      */
-    public User getlastFollower() {
+    public User getLastFollower() {
         return lastFollower;
     }
 }

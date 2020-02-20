@@ -110,13 +110,16 @@ public class FollowGenerator {
         }
 
         // Add the test user and make him follow everyone
+        // isaac's addendum: make everyone follow him as well
         User testUser = new User("Test", "User", UserGenerator.MALE_IMAGE_URL);
 
         for(User user : users) {
             Follow follow = new Follow(testUser, user);
             follows.add(follow);
-        }
 
+            Follow follow2 = new Follow(user, testUser);
+            follows.add(follow2);
+        }
         // Sort by the specified sort order
         switch (sortOrder) {
             case FOLLOWEE_FOLLOWER:
