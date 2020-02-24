@@ -1,11 +1,14 @@
 package edu.byu.cs.tweeter.view.main.login;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,8 +35,13 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mAlias = "";
         mPassword = "";
+
+        // THE FOLLOWING ARE JUST FOR TEST PURPOSES!!!
+        mAlias = "@TestUser";
+        mPassword = "test_password";
     }
 
     @Override
@@ -84,6 +92,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
     private void signInButtonClicked() {
         LoginAttemptTask task = new LoginAttemptTask(presenter, this);
         LoginRequest request = new LoginRequest(mAlias, mPassword);
+        hideKeyboardFrom(Objects.requireNonNull(getContext()), Objects.requireNonNull(getView()));
         task.execute(request);
     }
 
@@ -97,5 +106,11 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
             ((MainActivity) getActivity()).loadUserDisplay();
             ((MainActivity) getActivity()).startFeedState();
         }
+    }
+
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        view.clearFocus();
     }
 }

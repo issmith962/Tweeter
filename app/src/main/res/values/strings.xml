@@ -14,10 +14,14 @@
     <string name="sampleAlias">"@UserAlias"</string>
     <string name="sampleUserName">The User</string>
     <string name="alias_label">Alias:</string>
-    <string name="alias_hint">\@TestAlias</string>
+    <string name="alias_hint">\@TestUser</string>
     <string name="password_label">Password:</string>
     <string name="password_hint">test_password</string>
     <string name="sign_in_button">SIGN IN</string>
     <string name="login_title">Login</string>
     <string name="register_title">Register</string>
+    <string name="statusImageContentDescription">The image for the user the status belongs to.</string>
+    <string name="name">name</string>
+    <string name="alias">name</string>
+    <string name="date">date</string>
 </resources>

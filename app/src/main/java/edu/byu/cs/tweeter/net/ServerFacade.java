@@ -1,5 +1,7 @@
 package edu.byu.cs.tweeter.net;
 
+import android.os.AsyncTask;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,13 +9,16 @@ import java.util.Map;
 
 import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.Follow;
+import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.net.response.StoryResponse;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
@@ -24,6 +29,7 @@ public class ServerFacade {
     private static Map<User, List<User>> followeesByFollower;
     private static Map<User, List<User>> followersByFollowee;
     private static ArrayList<String> correctLoginInfo;
+    private static Map<User, List<Status>> statusesByUser;
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -251,6 +257,8 @@ public class ServerFacade {
         return followersIndex;
     }
 
+    //--------------------------------------------------------------------------------------
+
     /**
      * Sets the correct alias, password, authtoken, first name, last name, and profile image URL
      * for Test_User. Initializes the login for test purposes until the facade is no longer needed.
@@ -295,4 +303,76 @@ public class ServerFacade {
             return new LoginResponse("Login Failure!\nIncorrect alias or password");
         }
     }
+
+    //-------------------------------------------------------------------------------------------
+
+    public void initializeStory() {
+        User user = new User("Test", "User", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        //give test user some statuses:
+        List<Status> testStatuses = new ArrayList<>();
+
+        for (int i = 0; i < 25; i++) {
+            testStatuses.add(new Status(user, "date" + Integer.toString(i), "status number: " + Integer.toString(i)));
+        }
+        if (statusesByUser == null) {
+            statusesByUser = new HashMap<>();
+        }
+        statusesByUser.put(user, testStatuses);
+    }
+
+
+    public StoryResponse getStory(StoryRequest request) {
+        // Used in place of assert statements because Android does not support them
+        if(BuildConfig.DEBUG) {
+            if(request.getLimit() < 0) {
+                throw new AssertionError();
+            }
+
+            if(request.getUser() == null) {
+                throw new AssertionError();
+            }
+        }
+
+        if (statusesByUser == null) {
+            initializeStory();
+        }
+
+        List<Status> allStatuses = statusesByUser.get(request.getUser());
+        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
+
+        boolean hasMorePages = false;
+
+        if(request.getLimit() > 0) {
+            if (allStatuses != null) {
+                int statusIndex = getStatusStartingIndex(request.getLastStatus(), allStatuses);
+                for(int limitCounter = 0; statusIndex < allStatuses.size() && limitCounter < request.getLimit(); statusIndex++, limitCounter++) {
+                    responseStatuses.add(allStatuses.get(statusIndex));
+                }
+                hasMorePages = statusIndex < allStatuses.size();
+            }
+        }
+
+        return new StoryResponse(responseStatuses, hasMorePages);
+    }
+
+    private int getStatusStartingIndex(Status lastStatus, List<Status> allStatuses) {
+        int statusIndex = 0;
+
+        if(lastStatus != null) {
+            // This is a paged request for something after the first page. Find the first item
+            // we should return
+            for (int i = 0; i < allStatuses.size(); i++) {
+                if(lastStatus.equals(allStatuses.get(i))) {
+                    // We found the index of the last item returned last time. Increment to get
+                    // to the first one we should return
+                    statusIndex = i + 1;
+                }
+            }
+        }
+
+        return statusIndex;
+    }
+
+
+
 }

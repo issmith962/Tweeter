@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view.main;
+package edu.byu.cs.tweeter.view.main.adapters;
 
 import android.content.Context;
 
@@ -13,13 +13,14 @@ import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.view.main.PlaceholderFragment;
 import edu.byu.cs.tweeter.view.main.followers.FollowersFragment;
 import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
+import edu.byu.cs.tweeter.view.main.story.StoryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages
  * of the Main Activity.
  */
 public class FeedSectionsPagerAdapter extends FragmentStatePagerAdapter {
-
+    private static final int STORY_FRAGMENT_POSITION = 1;
     private static final int FOLLOWING_FRAGMENT_POSITION = 2;
     private static final int FOLLOWERS_FRAGMENT_POSITION = 3;
 
@@ -39,6 +40,9 @@ public class FeedSectionsPagerAdapter extends FragmentStatePagerAdapter {
         }
         else if (position == FOLLOWERS_FRAGMENT_POSITION) {
             return new FollowersFragment();
+        }
+        else if (position == STORY_FRAGMENT_POSITION) {
+            return new StoryFragment();
         } else {
             return PlaceholderFragment.newInstance(position + 1);
         }
