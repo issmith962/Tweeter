@@ -10,8 +10,10 @@ import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
+import edu.byu.cs.tweeter.net.response.LoginResponse;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
@@ -21,6 +23,7 @@ public class ServerFacade {
 
     private static Map<User, List<User>> followeesByFollower;
     private static Map<User, List<User>> followersByFollowee;
+    private static ArrayList<String> correctLoginInfo;
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -138,27 +141,6 @@ public class ServerFacade {
     }
 
     /**
-     * Takes the initializeFollows generated data and reverses the map to be keyed by followee, rather
-     * than by follower.
-     */
-//    private Map<User, List<User>> initializeFollowers(Map<User, List<User>> followeesByFollower) {
-//        Map<User, List<User>> followersByFollowee = new HashMap<>();
-//        for (Map.Entry<User, List<User>> entry : followeesByFollower.entrySet()) {
-//            User follower = entry.getKey();
-//            List<User> followees = entry.getValue();
-//            for (User followee : followees) {
-//                if (followersByFollowee.containsKey(followee)) {
-//                    followersByFollowee.get(followee).add(follower);
-//                } else {
-//                    List<User> followers = new ArrayList<>();
-//                    followers.add(follower);
-//                    followersByFollowee.put(followee, followers);
-//                }
-//            }
-//        }
-//        return followersByFollowee;
-//    }
-    /**
      * Returns an instance of FollowGenerator that can be used to generate Follow data. This is
      * written as a separate method to allow mocking of the generator.
      *
@@ -247,8 +229,52 @@ public class ServerFacade {
 
         return followersIndex;
     }
+    // ---------------------------------------------------------------------
 
+    /**
+     * Sets the correct alias, password, authtoken, first name, last name, and profile image URL
+     * for Test_User. Initializes the login for test purposes until the facade is no longer needed.
+     *
+     * Once the backend is put in, this will get each of these from the database. NONE OF THEM
+     * CAN BE EMPTY STRINGS
+     * @return ArrayList with correct alias, password, authtoken, first name, last name, and
+     * imageURL. (in that order)
+     */
+    private ArrayList<String> initializeLogin() {
+        ArrayList<String> correctLoginInfo = new ArrayList<String>();
+        correctLoginInfo.add("test_alias");
+        correctLoginInfo.add("test_password");
+        correctLoginInfo.add("test_auth");
+        correctLoginInfo.add("Test");
+        correctLoginInfo.add("User");
+        correctLoginInfo.add("https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        return correctLoginInfo;
+    }
 
+    /**
+     * Checks the user input for alias and password and checks them against
+     * the proper alias and password.
+     * @param loginRequest containing the user input alias and password.
+     * @return LoginResponse. If successful, response contains all of user's key info. If not, re
+     */
+    public LoginResponse checkLogin(LoginRequest loginRequest) {
+        if (correctLoginInfo == null) {
+            correctLoginInfo = initializeLogin();
+        }
+        String alias = correctLoginInfo.get(0);
+        String password = correctLoginInfo.get(1);
+        String authToken = correctLoginInfo.get(2);
+        String firstName = correctLoginInfo.get(3);
+        String lastName = correctLoginInfo.get(4);
+        String imageURL = correctLoginInfo.get(5);
+
+        if (loginRequest.getAlias().equals(alias) && loginRequest.getPassword().equals(password)) {
+            return new LoginResponse("Login Successful!", alias, password, authToken, firstName, lastName, imageURL);
+        }
+        else {
+            return new LoginResponse("Login Failure!\nIncorrect alias or password");
+        }
+    }
 }
 
 

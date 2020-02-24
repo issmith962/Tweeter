@@ -1,6 +1,9 @@
 package edu.byu.cs.tweeter.model.services;
 
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.response.LoginResponse;
 
 /**
  * Contains the business logic for login and sign up.
@@ -12,6 +15,7 @@ public class LoginService {
      */
     private static LoginService instance;
 
+    private final ServerFacade serverFacade;
     /**
      * The logged in user.
      */
@@ -35,10 +39,22 @@ public class LoginService {
      * cannot be instantiated by external classes).
      */
     private LoginService() {
-        // TODO: Remove when the actual login functionality exists
-        currentUser = new User("Test", "User",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        setCurrentUser(currentUser);
+        serverFacade = new ServerFacade();
+        currentUser = null;
+    }
+
+    /**
+     * Checks the login attempt. If successful, sets the current User to the response's data.
+     * If unsuccessful, current user remains null.
+     * @param request the LoginRequest containing the alias and password to be checked.
+     */
+    public LoginResponse checkLogin(LoginRequest request) {
+        LoginResponse response = serverFacade.checkLogin(request);
+        if (!(response.getAuthToken() == null)) {
+            setCurrentUser(new User(response.getFirstName(), response.getLastName(),
+                    response.getAlias(), response.getImageURL()));
+        }
+        return response;
     }
 
     /**

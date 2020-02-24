@@ -75,7 +75,6 @@ public class FollowGenerator {
      * @param users the list of users to be used to generate follow objects.
      * @param minFollowersPerUser the minimum number of followers each user will have.
      * @param maxFollowersPerUser the maximum number of followers each user will have.
-     * @param sortOrder specifies the sort order or returned results.
      * @return the generated {@link Follow} objects.
      */
     @SuppressWarnings("WeakerAccess")

@@ -13,4 +13,11 @@
 
     <string name="sampleAlias">"@UserAlias"</string>
     <string name="sampleUserName">The User</string>
+    <string name="login_title">Login</string>
+    <string name="register_title">Register</string>
+    <string name="alias_label">Alias:</string>
+    <string name="alias_hint">test_alias</string>
+    <string name="password_label">Password:</string>
+    <string name="password_hint">test_password</string>
+    <string name="sign_in_button">SIGN IN</string>
 </resources>
