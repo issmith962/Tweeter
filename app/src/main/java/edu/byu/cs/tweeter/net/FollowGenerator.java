@@ -62,7 +62,7 @@ public class FollowGenerator {
      * @return the generated {@link Follow} objects.
      */
     public List<Follow> generateUsersAndFollows(int userCount, int minFollowersPerUser,
-                                                       int maxFollowersPerUser) {
+                                                int maxFollowersPerUser) {
         List<User> users = UserGenerator.getInstance().generateUsers(userCount);
         return generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser);
     }

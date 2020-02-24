@@ -7,8 +7,10 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.view.main.PlaceholderFragment;
 import edu.byu.cs.tweeter.view.main.followers.FollowersFragment;
 import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
 
@@ -16,7 +18,7 @@ import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
  * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages
  * of the Main Activity.
  */
-class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class FeedSectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int FOLLOWING_FRAGMENT_POSITION = 2;
     private static final int FOLLOWERS_FRAGMENT_POSITION = 3;
@@ -25,7 +27,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.feedTabTitle, R.string.storyTabTitle, R.string.followingTabTitle, R.string.followersTabTitle};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public FeedSectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
@@ -53,4 +55,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Show 4 total pages.
         return 4;
     }
+
+
+
 }
