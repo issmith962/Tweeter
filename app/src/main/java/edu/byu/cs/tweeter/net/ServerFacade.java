@@ -6,15 +6,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
+import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
@@ -30,6 +33,8 @@ public class ServerFacade {
     private static Map<User, List<User>> followersByFollowee;
     private static ArrayList<String> correctLoginInfo;
     private static Map<User, List<Status>> statusesByUser;
+    private static boolean story_initialized = false;
+    private static boolean feed_initialized = false;
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -307,6 +312,7 @@ public class ServerFacade {
     //-------------------------------------------------------------------------------------------
 
     public void initializeStory() {
+        story_initialized = true;
         User user = new User("Test", "User", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         //give test user some statuses:
         List<Status> testStatuses = new ArrayList<>();
@@ -333,10 +339,9 @@ public class ServerFacade {
             }
         }
 
-        if (statusesByUser == null) {
+        if (!story_initialized) {
             initializeStory();
         }
-
         List<Status> allStatuses = statusesByUser.get(request.getUser());
         List<Status> responseStatuses = new ArrayList<>(request.getLimit());
 
@@ -373,6 +378,71 @@ public class ServerFacade {
         return statusIndex;
     }
 
+    //---------------------------------------------------------------------------------------
+
+    public void initializeFeed() {
+        feed_initialized = true;
+        User user = new User("Test", "User", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        //give test user's followees one status each
+        if (statusesByUser == null) {
+            statusesByUser = new HashMap<>();
+        }
+        if(followeesByFollower == null) {
+            Map[] maps = initializeFollows();
+            followeesByFollower = maps[0];
+            followersByFollowee = maps[1];
+        }
+        List<User> followeesOfTestUser = followeesByFollower.get(user);
+        if (followeesOfTestUser != null) {
+            for (User followee : followeesOfTestUser) {
+                List<Status> statusesOfFollowee = statusesByUser.get(followee);
+                if (statusesOfFollowee == null) {
+                    statusesOfFollowee = new ArrayList<>();
+                }
+                statusesOfFollowee.add(new Status(followee, "date" + Integer.toString(1), "status number: " + Integer.toString(1)));
+                statusesByUser.put(followee, statusesOfFollowee);
+                if(BuildConfig.DEBUG) {
+                    if (statusesByUser.get(followee) == null) {
+                        throw new AssertionError();
+                    }
+                }
+            }
+        }
+    }
 
 
+    public FeedResponse getFeed(FeedRequest request) {
+        // Used in place of assert statements because Android does not support them
+        if(BuildConfig.DEBUG) {
+            if(request.getLimit() < 0) {
+                throw new AssertionError();
+            }
+
+            if(request.getUser() == null) {
+                throw new AssertionError();
+            }
+        }
+
+        initializeFeed();
+
+        List<Status> allFolloweeStatuses = new ArrayList<>();
+        for (Map.Entry<User, List<Status>> entry : statusesByUser.entrySet()) {
+            if (Objects.requireNonNull(followeesByFollower.get(request.getUser())).contains(entry.getKey())) {
+                allFolloweeStatuses.addAll(entry.getValue());
+            }
+        }
+        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
+
+        boolean hasMorePages = false;
+
+        if(request.getLimit() > 0) {
+            int statusIndex = getStatusStartingIndex(request.getLastStatus(), allFolloweeStatuses);
+            for(int limitCounter = 0; statusIndex < allFolloweeStatuses.size() && limitCounter < request.getLimit(); statusIndex++, limitCounter++) {
+                responseStatuses.add(allFolloweeStatuses.get(statusIndex));
+            }
+            hasMorePages = statusIndex < allFolloweeStatuses.size();
+        }
+        boolean t = true;
+        return new FeedResponse(responseStatuses, hasMorePages);
+    }
 }

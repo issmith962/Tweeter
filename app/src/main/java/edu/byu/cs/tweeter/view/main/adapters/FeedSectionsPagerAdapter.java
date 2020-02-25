@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.view.main.PlaceholderFragment;
+import edu.byu.cs.tweeter.view.main.feed.FeedFragment;
 import edu.byu.cs.tweeter.view.main.followers.FollowersFragment;
 import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
 import edu.byu.cs.tweeter.view.main.story.StoryFragment;
@@ -20,9 +21,11 @@ import edu.byu.cs.tweeter.view.main.story.StoryFragment;
  * of the Main Activity.
  */
 public class FeedSectionsPagerAdapter extends FragmentStatePagerAdapter {
+    private static final int FEED_FRAGMENT_POSITION = 0;
     private static final int STORY_FRAGMENT_POSITION = 1;
     private static final int FOLLOWING_FRAGMENT_POSITION = 2;
     private static final int FOLLOWERS_FRAGMENT_POSITION = 3;
+
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.feedTabTitle, R.string.storyTabTitle, R.string.followingTabTitle, R.string.followersTabTitle};
@@ -35,15 +38,19 @@ public class FeedSectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == FOLLOWING_FRAGMENT_POSITION) {
+        if (position == FEED_FRAGMENT_POSITION) {
+            return new FeedFragment();
+        }
+        else if (position == STORY_FRAGMENT_POSITION) {
+            return new StoryFragment();
+        }
+        else if (position == FOLLOWING_FRAGMENT_POSITION) {
             return new FollowingFragment();
         }
         else if (position == FOLLOWERS_FRAGMENT_POSITION) {
             return new FollowersFragment();
         }
-        else if (position == STORY_FRAGMENT_POSITION) {
-            return new StoryFragment();
-        } else {
+        else {
             return PlaceholderFragment.newInstance(position + 1);
         }
     }
