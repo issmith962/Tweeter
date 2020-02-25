@@ -169,7 +169,8 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
 
             isLoading = false;
             removeLoadingFooter();
-            storyRecyclerViewAdapter.addItems(statuses);
+
+            storyRecyclerViewAdapter.addItems(story);
         }
 
         private void addLoadingFooter() {
