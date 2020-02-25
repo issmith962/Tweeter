@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.main;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -10,12 +11,19 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.response.PagedResponse;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
@@ -32,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     private User user;
     private ImageView userImageView;
     private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
 
         presenter = new MainPresenter(this);
         state = 0; // State begins as login by default
-
         updateUser();
         loadUserDisplay();
         loadCurrentState();
@@ -66,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
             userImageView.setImageResource(R.drawable.question);
             userName.setText("");
             userAlias.setText("");
-            FloatingActionButton fab = findViewById(R.id.fab);
+
         } else {
             // Asynchronously load the user's image if a user is logged in
             LoadImageTask loadImageTask = new LoadImageTask(this);
@@ -83,6 +91,17 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         viewPager.setAdapter(loginSectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        if (fab != null) {
+            fab.hide();
+        }
+        Button searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) { Snackbar.make(view, "Replace with search", Snackbar.LENGTH_LONG)
+                                                        .setAction("Action", null).show(); }});
+        Button logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setVisibility(View.GONE);
     }
 
     public void startFeedState() {
@@ -95,6 +114,9 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         tabs.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        if (fab != null) {
+            fab.show();
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +124,17 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                         .setAction("Action", null).show();
             }
         });
+        Button searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { Snackbar.make(view, "Replace with search", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show(); }});
+        Button logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setVisibility(View.VISIBLE);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { Snackbar.make(view, "Replace with logout", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show(); }});
     }
 
     @Override
@@ -112,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         loadUserDisplay();
         loadCurrentState();
     }
-
 
     @Override
     public void imageLoadProgressUpdated(Integer progress) {
@@ -133,4 +165,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
             userImageView.setImageDrawable(drawables[0]);
         }
     }
+
+    public void startActivity(Class aClass) {
+        Intent intent = new Intent(this, aClass);
+        startActivity(intent);
+    }
+
 }
