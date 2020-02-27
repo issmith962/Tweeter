@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +84,34 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
+                    // TODO: In the following section, replicate all code from following fragment once done
+
+                    PopupMenu popup = new PopupMenu(view.getContext(), view);
+                    popup.inflate(R.menu.popup_menu);
+                    popup.show();
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.follow_menu_item:
+                                    Toast.makeText(getContext(), "You selected follow", Toast.LENGTH_SHORT).show();
+                                    // SEND ASYNC TASK TO FOLLOW THE USER
+
+                                    return true;
+                                case R.id.story_menu_item:
+                                    Toast.makeText(getContext(), "You selected go to story", Toast.LENGTH_SHORT).show();
+                                    // START VISITING_STORY ACTIVITY
+                                    //Intent intent = new Intent();
+                                    //intent.setAction(android.content.Intent.ACTION_VIEW);
+                                    //File file = new File(valueOfPath);
+                                    //intent.setDataAndType(Uri.fromFile(file), "audio/*");
+                                    //context.startActivity(intent);
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
                 }
             });
         }
