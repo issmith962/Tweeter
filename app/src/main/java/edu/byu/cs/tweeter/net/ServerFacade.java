@@ -1,6 +1,8 @@
 package edu.byu.cs.tweeter.net;
 
-import android.os.AsyncTask;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,15 +14,19 @@ import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.request.PostStatusRequest;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
+import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.net.response.PostStatusResponse;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
 
 /**
@@ -28,10 +34,10 @@ import edu.byu.cs.tweeter.net.response.StoryResponse;
  * this class.
  */
 public class ServerFacade {
-
+    private static List<User> allUsers;
     private static Map<User, List<User>> followeesByFollower;
     private static Map<User, List<User>> followersByFollowee;
-    private static ArrayList<String> correctLoginInfo;
+    private static List<String> correctLoginInfo;
     private static Map<User, List<Status>> statusesByUser;
     private static boolean story_initialized = false;
     private static boolean feed_initialized = false;
@@ -119,14 +125,31 @@ public class ServerFacade {
      * @return two maps, one with followers as keys, one with followees as keys
      */
     private Map[] initializeFollows() {
-
+        if (allUsers == null) {
+            allUsers = new ArrayList<>();
+        }
         Map<User, List<User>> followeesByFollower = new HashMap<>();
         Map<User, List<User>> followersByFollowee = new HashMap<>();
 
         List<Follow> follows1 = getFollowGenerator().sortFollows(getFollowGenerator().generateUsersAndFollows(100,
                 0, 50), FollowGenerator.Sort.FOLLOWER_FOLLOWEE);
         List<Follow> follows2 = getFollowGenerator().sortFollows(follows1, FollowGenerator.Sort.FOLLOWER_FOLLOWEE);
-
+        for (Follow follow : follows1) {
+            if (!allUsers.contains(follow.getFollowee())) {
+                allUsers.add(follow.getFollowee());
+            }
+            if (!allUsers.contains(follow.getFollower())) {
+                allUsers.add(follow.getFollower());
+            }
+        }
+        for (Follow follow : follows2) {
+            if (!allUsers.contains(follow.getFollowee())) {
+                allUsers.add(follow.getFollowee());
+            }
+            if (!allUsers.contains(follow.getFollower())) {
+                allUsers.add(follow.getFollower());
+            }
+        }
         // Populate a map of followees, keyed by follower so we can easily handle followee requests
         for(Follow follow : follows1) {
             List<User> followees = followeesByFollower.get(follow.getFollower());
@@ -445,4 +468,45 @@ public class ServerFacade {
         boolean t = true;
         return new FeedResponse(responseStatuses, hasMorePages);
     }
+    //------------------------------------------------------------------------------------------
+
+    public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) {
+        User follower = request.getFollower();
+        String followeeAlias = request.getFolloweeAlias();
+        if (followeesByFollower == null) {
+            return new CheckUserFollowingResponse(false);
+        }
+        if (followeesByFollower.get(follower) == null) {
+            return new CheckUserFollowingResponse(false);
+        }
+        else {
+            for (User followee : Objects.requireNonNull(followeesByFollower.get(follower))) {
+                if (followee.getAlias().equals(request.getFolloweeAlias())) {
+                    return new CheckUserFollowingResponse(true);
+                }
+            }
+        }
+        return new CheckUserFollowingResponse(false);
+    }
+
+    // -----------------------------------------------------------------------------------------
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public PostStatusResponse postStatus(PostStatusRequest request) {
+        if (!request.getNewStatus().equals("") && allUsers.contains(request.getUser())) {
+            User user = request.getUser();
+            if (!statusesByUser.containsKey(user)) {
+                statusesByUser.put(user, new ArrayList<Status>());
+            }
+            Status newStatus = new Status(request.getUser(), request.getDate(), request.getNewStatus());
+            statusesByUser.get(request.getUser()).add(newStatus);
+            return new PostStatusResponse("Status successfully posted!");
+        }
+        else {
+            return new PostStatusResponse("Status posting failed...");
+        }
+    }
+
+
+
 }

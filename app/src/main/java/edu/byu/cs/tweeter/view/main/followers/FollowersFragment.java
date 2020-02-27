@@ -93,11 +93,6 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
-                                case R.id.follow_menu_item:
-                                    Toast.makeText(getContext(), "You selected follow", Toast.LENGTH_SHORT).show();
-                                    // SEND ASYNC TASK TO FOLLOW THE USER
-
-                                    return true;
                                 case R.id.story_menu_item:
                                     Toast.makeText(getContext(), "You selected go to story", Toast.LENGTH_SHORT).show();
                                     // START VISITING_STORY ACTIVITY

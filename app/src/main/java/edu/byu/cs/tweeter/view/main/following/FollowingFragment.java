@@ -24,9 +24,12 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.presenter.FollowingPresenter;
+import edu.byu.cs.tweeter.view.asyncTasks.CheckUserFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.main.MainActivity;
@@ -84,32 +87,13 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
-
                     PopupMenu popup = new PopupMenu(view.getContext(), view);
                     popup.inflate(R.menu.popup_menu);
-                    // async task isUserFollowing returns response with true or false
-//                    if (response.isUserFollowing() == true) {
-//                        popup.getMenu().getItem(0).setTitle("Unfollow");
-//                    }
-//                    else {
-//                        popup.getMenu().getItem(0).setTitle("Follow");
-//                    }
                     popup.show();
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
-                                case R.id.follow_menu_item:
-                                    Toast.makeText(getContext(), "You selected follow", Toast.LENGTH_SHORT).show();
-                                    // SEND ASYNC TASK TO FOLLOW THE USER
-                                    if (item.getTitle().equals("Follow")) {
-                                        // send async task to follow the user
-                                    }
-                                    else if (item.getTitle().equals("Unfollow")) {
-                                        // send async task to unfollow the user
-                                }
-                                    return true;
                                 case R.id.story_menu_item:
                                     Toast.makeText(getContext(), "You selected go to story", Toast.LENGTH_SHORT).show();
                                     // START VISITING_STORY ACTIVITY

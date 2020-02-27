@@ -1,7 +1,10 @@
 package edu.byu.cs.tweeter.presenter;
 
+import edu.byu.cs.tweeter.model.services.CheckUserFollowingService;
 import edu.byu.cs.tweeter.model.services.FollowingService;
+import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 
 /**
@@ -37,5 +40,9 @@ public class FollowingPresenter extends Presenter {
      */
     public FollowingResponse getFollowing(FollowingRequest request) {
         return FollowingService.getInstance().getFollowees(request);
+    }
+
+    public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) {
+        return CheckUserFollowingService.getInstance().isUserFollowing(request);
     }
 }
