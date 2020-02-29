@@ -6,9 +6,11 @@ import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.presenter.CheckUserFollowingPresenter;
 import edu.byu.cs.tweeter.presenter.FollowingPresenter;
+import edu.byu.cs.tweeter.presenter.Presenter;
+import edu.byu.cs.tweeter.presenter.VisitorPresenter;
 
 public class CheckUserFollowingTask extends AsyncTask<CheckUserFollowingRequest, Void, CheckUserFollowingResponse> {
-    private final FollowingPresenter presenter;
+    private final Presenter presenter;
     private final CheckUserFollowingObserver observer;
 
     public interface CheckUserFollowingObserver {
@@ -20,9 +22,22 @@ public class CheckUserFollowingTask extends AsyncTask<CheckUserFollowingRequest,
         this.observer = observer;
     }
 
+    public CheckUserFollowingTask(VisitorPresenter presenter, CheckUserFollowingObserver observer) {
+        this.presenter = presenter;
+        this.observer = observer;
+    }
+
     @Override
     protected CheckUserFollowingResponse doInBackground(CheckUserFollowingRequest... requests) {
-        return presenter.isUserFollowing(requests[0]);
+        if (presenter instanceof FollowingPresenter) {
+            return ((FollowingPresenter) presenter).isUserFollowing(requests[0]);
+        }
+        else if (presenter instanceof VisitorPresenter) {
+            return ((VisitorPresenter) presenter).isUserFollowing(requests[0]);
+        }
+        else {
+            return null;
+        }
     }
 
     @Override

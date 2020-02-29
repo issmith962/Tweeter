@@ -6,9 +6,9 @@ public class CheckUserFollowingRequest {
     private User follower;
     private String followeeAlias;
 
-    public CheckUserFollowingRequest(User follower, String followee) {
+    public CheckUserFollowingRequest(User follower, String followeeAlias) {
         this.follower = follower;
-        this.followeeAlias = followee;
+        this.followeeAlias = followeeAlias;
     }
 
     public User getFollower() {

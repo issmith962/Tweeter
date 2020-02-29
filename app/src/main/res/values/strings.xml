@@ -27,4 +27,9 @@
     <string name="date">date</string>
     <string name="search_title">Search</string>
     <string name="settings_title">Settings</string>
+    <string name="visiting_activity_title">VISITING STORY</string>
+    <string name="title_activity_visitor">VisitorActivity</string>
+    <string name="follow_button">Follow</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
 </resources>

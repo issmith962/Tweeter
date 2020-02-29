@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.main.feed;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -33,9 +34,10 @@ import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.main.VisitorActivity;
 
 public class FeedFragment extends Fragment implements FeedPresenter.View {
-
+    private User user;
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
 
@@ -49,6 +51,24 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        Bundle bundle = this.getArguments();
+        String alias;
+        String firstName;
+        String lastName;
+        String imageURL;
+        if (bundle != null) {
+            alias = bundle.getString("alias", "");
+            firstName = bundle.getString("firstName", "");
+            lastName = bundle.getString("lastName", "");
+            imageURL = bundle.getString("imageURL", "");
+        }
+        else {
+            alias = "";
+            firstName = "";
+            lastName = "";
+            imageURL = "";
+        }
+        user = new User(firstName, lastName, alias, imageURL);
 
         presenter = new FeedPresenter(this);
 
@@ -160,7 +180,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             addLoadingFooter();
 
             GetFeedTask getFeedTask = new GetFeedTask(presenter, this);
-            FeedRequest request = new FeedRequest(presenter.getCurrentUser(), PAGE_SIZE, lastStatus);
+            FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus);
             getFeedTask.execute(request);
         }
 
@@ -209,5 +229,14 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
                 }
             }
         }
+    }
+
+    public void startVisitorActivity(User visitingUser) {
+        Intent intent = new Intent(getActivity(), VisitorActivity.class);
+        intent.putExtra("alias", visitingUser.getAlias());
+        intent.putExtra("firstName", visitingUser.getFirstName());
+        intent.putExtra("lastName", visitingUser.getLastName());
+        intent.putExtra("imageURL", visitingUser.getImageUrl());
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.main.followers;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,12 +30,13 @@ import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowersTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.main.VisitorActivity;
 
 /**
  * The fragment that displays on the 'Followers' tab.
  */
 public class FollowersFragment extends Fragment implements FollowersPresenter.View {
-
+    private User user;
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
 
@@ -48,7 +50,23 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_followers, container, false);
-
+        Bundle bundle = this.getArguments();
+        String alias;
+        String firstName;
+        String lastName;
+        String imageURL;
+        if (bundle != null) {
+            alias = bundle.getString("alias", "");
+            firstName = bundle.getString("firstName", "");
+            lastName = bundle.getString("lastName", "");
+            imageURL = bundle.getString("imageURL", "");
+        } else {
+            alias = "";
+            firstName = "";
+            lastName = "";
+            imageURL = "";
+        }
+        user = new User(firstName, lastName, alias, imageURL);
         presenter = new FollowersPresenter(this);
 
         RecyclerView followersRecyclerView = view.findViewById(R.id.followersRecyclerView);
@@ -73,12 +91,16 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
         private final TextView userAlias;
         private final TextView userName;
 
+        private User holderUser;
+
         FollowersHolder(@NonNull View itemView) {
             super(itemView);
 
             userImage = itemView.findViewById(R.id.userImage);
             userAlias = itemView.findViewById(R.id.userAlias);
             userName = itemView.findViewById(R.id.userName);
+
+            holderUser = null;
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,13 +116,8 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.story_menu_item:
-                                    Toast.makeText(getContext(), "You selected go to story", Toast.LENGTH_SHORT).show();
-                                    // START VISITING_STORY ACTIVITY
-                                    //Intent intent = new Intent();
-                                    //intent.setAction(android.content.Intent.ACTION_VIEW);
-                                    //File file = new File(valueOfPath);
-                                    //intent.setDataAndType(Uri.fromFile(file), "audio/*");
-                                    //context.startActivity(intent);
+                                    //Toast.makeText(getContext(), "You selected go to story", Toast.LENGTH_SHORT).show();
+                                    startVisitorActivity(holderUser);
                                     return true;
                                 default:
                                     return false;
@@ -115,6 +132,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(user));
             userAlias.setText(user.getAlias());
             userName.setText(user.getName());
+            holderUser = user;
         }
     }
 
@@ -173,10 +191,10 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
         }
 
         /**
-         *  Creates a view holder for a follower to be displayed in the RecyclerView or for a message
-         *  indicating that new rows are being loaded if we are waiting for rows to load.
+         * Creates a view holder for a follower to be displayed in the RecyclerView or for a message
+         * indicating that new rows are being loaded if we are waiting for rows to load.
          *
-         * @param parent the parent view.
+         * @param parent   the parent view.
          * @param viewType the type of the view (ignored in the current implementation).
          * @return the view holder.
          */
@@ -186,8 +204,8 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             LayoutInflater layoutInflater = LayoutInflater.from(FollowersFragment.this.getContext());
             View view;
 
-            if(viewType == LOADING_DATA_VIEW) {
-                view =layoutInflater.inflate(R.layout.loading_row, parent, false);
+            if (viewType == LOADING_DATA_VIEW) {
+                view = layoutInflater.inflate(R.layout.loading_row, parent, false);
 
             } else {
                 view = layoutInflater.inflate(R.layout.user_row, parent, false);
@@ -201,18 +219,19 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
          * we are loading new data, the display at that position will be the data loading footer.
          *
          * @param followersHolder the ViewHolder to which the follower should be bound.
-         * @param position the position (in the list of followers) that contains the follower to be
-         *                 bound.
+         * @param position        the position (in the list of followers) that contains the follower to be
+         *                        bound.
          */
         @Override
         public void onBindViewHolder(@NonNull FollowersHolder followersHolder, int position) {
-            if(!isLoading) {
+            if (!isLoading) {
                 followersHolder.bindUser(users.get(position));
             }
         }
 
         /**
          * Returns the current number of followees available for display.
+         *
          * @return the number of followees available for display.
          */
         @Override
@@ -241,7 +260,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             addLoadingFooter();
 
             GetFollowersTask getFollowersTask = new GetFollowersTask(presenter, this);
-            FollowersRequest request = new FollowersRequest(presenter.getCurrentUser(), PAGE_SIZE, lastFollower);
+            FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower);
             getFollowersTask.execute(request);
         }
 
@@ -255,7 +274,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
         public void followersRetrieved(FollowersResponse followersResponse) {
             List<User> followers = followersResponse.getFollowers();
 
-            lastFollower = (followers.size() > 0) ? followers.get(followers.size() -1) : null;
+            lastFollower = (followers.size() > 0) ? followers.get(followers.size() - 1) : null;
             hasMorePages = followersResponse.hasMorePages();
 
             isLoading = false;
@@ -303,8 +322,8 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
          * indicated that there was more data to load.
          *
          * @param recyclerView the RecyclerView.
-         * @param dx the amount of horizontal scroll.
-         * @param dy the amount of vertical scroll.
+         * @param dx           the amount of horizontal scroll.
+         * @param dy           the amount of vertical scroll.
          */
         @Override
         public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
@@ -321,5 +340,14 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
                 }
             }
         }
+    }
+
+    public void startVisitorActivity(User visitingUser) {
+        Intent intent = new Intent(getActivity(), VisitorActivity.class);
+        intent.putExtra("alias", visitingUser.getAlias());
+        intent.putExtra("firstName", visitingUser.getFirstName());
+        intent.putExtra("lastName", visitingUser.getLastName());
+        intent.putExtra("imageURL", visitingUser.getImageUrl());
+        startActivity(intent);
     }
 }

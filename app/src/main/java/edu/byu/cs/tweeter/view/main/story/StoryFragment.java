@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.main.story;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,9 +30,10 @@ import edu.byu.cs.tweeter.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.main.VisitorActivity;
 
 public class StoryFragment extends Fragment implements StoryPresenter.View {
-
+    private User user;
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
 
@@ -45,6 +47,23 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_story, container, false);
+        Bundle bundle = this.getArguments();
+        String alias;
+        String firstName;
+        String lastName;
+        String imageURL;
+        if (bundle != null) {
+            alias = bundle.getString("alias", "");
+            firstName = bundle.getString("firstName", "");
+            lastName = bundle.getString("lastName", "");
+            imageURL = bundle.getString("imageURL", "");
+        } else {
+            alias = "";
+            firstName = "";
+            lastName = "";
+            imageURL = "";
+        }
+        user = new User(firstName, lastName, alias, imageURL);
 
         presenter = new StoryPresenter(this);
 
@@ -124,8 +143,8 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             LayoutInflater layoutInflater = LayoutInflater.from(StoryFragment.this.getContext());
             View view;
 
-            if(viewType == LOADING_DATA_VIEW) {
-                view =layoutInflater.inflate(R.layout.loading_row, parent, false);
+            if (viewType == LOADING_DATA_VIEW) {
+                view = layoutInflater.inflate(R.layout.loading_row, parent, false);
 
             } else {
                 view = layoutInflater.inflate(R.layout.status_row, parent, false);
@@ -136,7 +155,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
 
         @Override
         public void onBindViewHolder(@NonNull StatusHolder statusHolder, int position) {
-            if(!isLoading) {
+            if (!isLoading) {
                 statusHolder.bindStatus(statuses.get(position));
             }
         }
@@ -156,7 +175,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             addLoadingFooter();
 
             GetStoryTask getStoryTask = new GetStoryTask(presenter, this);
-            StoryRequest request = new StoryRequest(presenter.getCurrentUser(), PAGE_SIZE, lastStatus);
+            StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus);
             getStoryTask.execute(request);
         }
 
@@ -164,7 +183,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
         public void storyRetrieved(StoryResponse storyResponse) {
             List<Status> story = storyResponse.getStory();
 
-            lastStatus = (story.size() > 0) ? story.get(story.size() -1) : null;
+            lastStatus = (story.size() > 0) ? story.get(story.size() - 1) : null;
             hasMorePages = storyResponse.hasMorePages();
 
             isLoading = false;
@@ -205,5 +224,14 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
                 }
             }
         }
+    }
+
+    public void startVisitorActivity(User visitingUser) {
+        Intent intent = new Intent(getActivity(), VisitorActivity.class);
+        intent.putExtra("alias", visitingUser.getAlias());
+        intent.putExtra("firstName", visitingUser.getFirstName());
+        intent.putExtra("lastName", visitingUser.getLastName());
+        intent.putExtra("imageURL", visitingUser.getImageUrl());
+        startActivity(intent);
     }
 }

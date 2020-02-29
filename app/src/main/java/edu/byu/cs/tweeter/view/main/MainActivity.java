@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     public void startLoginState() {
         state = 0;
         LoginSectionsPagerAdapter loginSectionsPagerAdapter = new LoginSectionsPagerAdapter(this, getSupportFragmentManager());
-        viewPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.main_view_pager);
         viewPager.setAdapter(loginSectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
+        TabLayout tabs = findViewById(R.id.main_tabs);
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = findViewById(R.id.fab);
         if (fab != null) {
@@ -121,10 +121,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     public void startFeedState() {
         state = 1;
 
-        FeedSectionsPagerAdapter feedSectionsPagerAdapter = new FeedSectionsPagerAdapter(this, getSupportFragmentManager());
-        viewPager = findViewById(R.id.view_pager);
+        FeedSectionsPagerAdapter feedSectionsPagerAdapter = new FeedSectionsPagerAdapter(this, getSupportFragmentManager(), user);
+        viewPager = findViewById(R.id.main_view_pager);
         viewPager.setAdapter(feedSectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
+        TabLayout tabs = findViewById(R.id.main_tabs);
         tabs.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = findViewById(R.id.fab);

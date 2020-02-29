@@ -341,7 +341,15 @@ public class ServerFacade {
         List<Status> testStatuses = new ArrayList<>();
 
         for (int i = 0; i < 25; i++) {
-            testStatuses.add(new Status(user, "date" + Integer.toString(i), "status number: " + Integer.toString(i)));
+            if (i == 0) {
+                testStatuses.add(new Status(user, "01/01/1991", "status number: " + Integer.toString(i)));
+            }
+            else if (i < 10) {
+                testStatuses.add(new Status(user, "0" + Integer.toString(i) + "/23/1996" , "status number: " + Integer.toString(i)));
+            }
+            else {
+                testStatuses.add(new Status(user, "01/" + Integer.toString(i) + "/1996", "status number: " + Integer.toString(i)));
+            }
         }
         if (statusesByUser == null) {
             statusesByUser = new HashMap<>();
