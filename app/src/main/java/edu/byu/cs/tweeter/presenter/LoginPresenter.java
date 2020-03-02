@@ -2,8 +2,13 @@ package edu.byu.cs.tweeter.presenter;
 
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.services.LoginService;
+import edu.byu.cs.tweeter.model.services.RegisterService;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.request.RegisterRequest;
+import edu.byu.cs.tweeter.net.request.StartUpRequest;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.net.response.StartUpResponse;
 
 /**
  * The presenter for the "login" functionality of the application.
@@ -36,5 +41,13 @@ public class LoginPresenter extends Presenter {
      */
     public LoginResponse checkLogin(LoginRequest request) {
         return LoginService.getInstance().checkLogin(request);
+    }
+
+    public RegisterResponse registerUser(RegisterRequest request) {
+        return RegisterService.getInstance().registerUser(request);
+    }
+
+    public StartUpResponse startUp(StartUpRequest request) {
+        return LoginService.getInstance().startUp(request);
     }
 }

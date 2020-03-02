@@ -16,18 +16,28 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
+import edu.byu.cs.tweeter.net.request.FollowUserRequest;
 import edu.byu.cs.tweeter.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.net.request.GetAllUsersRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.request.PostStatusRequest;
+import edu.byu.cs.tweeter.net.request.RegisterRequest;
+import edu.byu.cs.tweeter.net.request.StartUpRequest;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
+import edu.byu.cs.tweeter.net.request.UnfollowUserRequest;
 import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
+import edu.byu.cs.tweeter.net.response.FollowUserResponse;
 import edu.byu.cs.tweeter.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
+import edu.byu.cs.tweeter.net.response.GetAllUsersResponse;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
 import edu.byu.cs.tweeter.net.response.PostStatusResponse;
+import edu.byu.cs.tweeter.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.net.response.StartUpResponse;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
+import edu.byu.cs.tweeter.net.response.UnfollowUserResponse;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
@@ -35,12 +45,16 @@ import edu.byu.cs.tweeter.net.response.StoryResponse;
  */
 public class ServerFacade {
     private static List<User> allUsers;
+    private static List<String> allAliases;
     private static Map<User, List<User>> followeesByFollower;
     private static Map<User, List<User>> followersByFollowee;
     private static List<String> correctLoginInfo;
     private static Map<User, List<Status>> statusesByUser;
     private static boolean story_initialized = false;
+    private static boolean follows_initialized = false;
     private static boolean feed_initialized = false;
+    private static Map<User, String> passwordsByUser;
+    private static boolean login_initialized = false;
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -70,6 +84,8 @@ public class ServerFacade {
             followeesByFollower = maps[0];
             followersByFollowee = maps[1];
         }
+
+        List<User> followees = followeesByFollower.get(request.getFollower());
 
         List<User> allFollowees = followeesByFollower.get(request.getFollower());
         List<User> responseFollowees = new ArrayList<>(request.getLimit());
@@ -125,8 +141,12 @@ public class ServerFacade {
      * @return two maps, one with followers as keys, one with followees as keys
      */
     private Map[] initializeFollows() {
+        follows_initialized = true;
         if (allUsers == null) {
             allUsers = new ArrayList<>();
+        }
+        if (passwordsByUser == null) {
+            passwordsByUser = new HashMap<>();
         }
         Map<User, List<User>> followeesByFollower = new HashMap<>();
         Map<User, List<User>> followersByFollowee = new HashMap<>();
@@ -149,6 +169,10 @@ public class ServerFacade {
             if (!allUsers.contains(follow.getFollower())) {
                 allUsers.add(follow.getFollower());
             }
+        }
+        allAliases = new ArrayList<>();
+        for (User user : allUsers) {
+            allAliases.add(user.getAlias());
         }
         // Populate a map of followees, keyed by follower so we can easily handle followee requests
         for(Follow follow : follows1) {
@@ -225,7 +249,7 @@ public class ServerFacade {
                 throw new AssertionError();
             }
 
-            if(request.getFollower() == null) {
+            if(request.getFollowee() == null) {
                 throw new AssertionError();
             }
         }
@@ -236,7 +260,7 @@ public class ServerFacade {
             followersByFollowee = maps[1];
         }
 
-        List<User> allFollowers = followersByFollowee.get(request.getFollower());
+        List<User> allFollowers = followersByFollowee.get(request.getFollowee());
         List<User> responseFollowers = new ArrayList<>(request.getLimit());
 
         boolean hasMorePages = false;
@@ -296,15 +320,14 @@ public class ServerFacade {
      * @return ArrayList with correct alias, password, authtoken, first name, last name, and
      * imageURL. (in that order)
      */
-    private ArrayList<String> initializeLogin() {
-        ArrayList<String> correctLoginInfo = new ArrayList<String>();
-        correctLoginInfo.add("@TestUser");
-        correctLoginInfo.add("test_password");
-        correctLoginInfo.add("test_auth");
-        correctLoginInfo.add("Test");
-        correctLoginInfo.add("User");
-        correctLoginInfo.add("https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        return correctLoginInfo;
+    private void initializeLogin() {
+        login_initialized = true;
+        if (passwordsByUser == null) {
+            passwordsByUser = new HashMap<>();
+        }
+        passwordsByUser.put(new User("Test", "User", "@TestUser",
+                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png"),
+                "test_password");
     }
 
     /**
@@ -314,24 +337,37 @@ public class ServerFacade {
      * @return LoginResponse. If successful, response contains all of user's key info. If not, re
      */
     public LoginResponse checkLogin(LoginRequest loginRequest) {
-        if (correctLoginInfo == null) {
-            correctLoginInfo = initializeLogin();
+        if (!login_initialized) {
+            initializeLogin();
         }
-        String alias = correctLoginInfo.get(0);
-        String password = correctLoginInfo.get(1);
-        String authToken = correctLoginInfo.get(2);
-        String firstName = correctLoginInfo.get(3);
-        String lastName = correctLoginInfo.get(4);
-        String imageURL = correctLoginInfo.get(5);
-
-        if (loginRequest.getAlias().equals(alias) && loginRequest.getPassword().equals(password)) {
-            return new LoginResponse("Login Successful!", alias, password, authToken, firstName, lastName, imageURL);
+        if (allAliases.contains(loginRequest.getAlias())) {
+            User user = allUsers.get(findIndexOfUser(loginRequest.getAlias()));
+            if (passwordsByUser.containsKey(user)) {
+                if (passwordsByUser.get(user).equals(loginRequest.getPassword())) {
+                    if (user.getImageUri() == null) {
+                        return new LoginResponse("Login Successful!", loginRequest.getAlias(),
+                                loginRequest.getPassword(), "test_auth", user.getFirstName(),
+                                user.getLastName(), user.getImageUrl());
+                    }
+                    else {
+                        return new LoginResponse("Login Successful!", loginRequest.getAlias(),
+                                loginRequest.getPassword(), "test_auth", user.getFirstName(),
+                                user.getLastName(), user.getImageUri());
+                    }
+                }
+            }
         }
-        else {
-            return new LoginResponse("Login Failure!\nIncorrect alias or password");
-        }
+        return new LoginResponse("Login Failure!\nIncorrect alias or password");
     }
 
+    public int findIndexOfUser(String alias) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            if (allUsers.get(i).getAlias().equals(alias)) {
+                return i;
+            }
+        }
+        return -1;
+    }
     //-------------------------------------------------------------------------------------------
 
     public void initializeStory() {
@@ -453,13 +489,20 @@ public class ServerFacade {
                 throw new AssertionError();
             }
         }
-
-        initializeFeed();
-
+        if (!feed_initialized) {
+            initializeFeed();
+        }
         List<Status> allFolloweeStatuses = new ArrayList<>();
         for (Map.Entry<User, List<Status>> entry : statusesByUser.entrySet()) {
-            if (Objects.requireNonNull(followeesByFollower.get(request.getUser())).contains(entry.getKey())) {
-                allFolloweeStatuses.addAll(entry.getValue());
+            if (entry.getValue() == null) {
+                entry.setValue(new ArrayList<Status>());
+            }
+            else {
+                if (followeesByFollower.get(request.getUser()) != null) {
+                    if (followeesByFollower.get(request.getUser()).contains(entry.getKey())) {
+                        allFolloweeStatuses.addAll(entry.getValue());
+                    }
+                }
             }
         }
         List<Status> responseStatuses = new ArrayList<>(request.getLimit());
@@ -515,6 +558,72 @@ public class ServerFacade {
         }
     }
 
+    //-------------------------------------------------------------------------------------------
 
+    public UnfollowUserResponse unfollowUser(UnfollowUserRequest request) {
+        try {
+            followeesByFollower.get(request.getFollower()).remove(request.getFollowee());
+            followersByFollowee.get(request.getFollowee()).remove(request.getFollower());
+        } catch (Exception e) {
+            return new UnfollowUserResponse("Unfollow Failed!");
+        }
+        return new UnfollowUserResponse(request.getFollowee().getName() + " unfollowed!");
+    }
 
+    public FollowUserResponse followUser(FollowUserRequest request) {
+        List<User> followers = followersByFollowee.get(request.getFollowee());
+        List<User> followees = followeesByFollower.get(request.getFollower());
+        followeesByFollower.get(request.getFollower()).add(request.getFollowee());
+        followersByFollowee.get(request.getFollowee()).add(request.getFollower());
+        followers = followersByFollowee.get(request.getFollowee());
+        followees = followeesByFollower.get(request.getFollower());
+        return new FollowUserResponse(request.getFollowee().getName() + " followed!");
+    }
+
+    public GetAllUsersResponse getAllUsers(GetAllUsersRequest request) {
+        return new GetAllUsersResponse(allUsers);
+    }
+
+    //------------------------------------------------------------------------------------------
+
+    public RegisterResponse registerUser(RegisterRequest request) {
+        // upload uri to server get get URL back?
+        User newUser;
+        try {
+            newUser = new User(request.getName().split(" ")[0], request.getName().split(" ")[1],
+                    request.getAlias(), request.getImageUri());
+        } catch (Exception e) {
+            newUser = null;
+        }
+        if (newUser != null) {
+            allUsers.add(newUser);
+            allAliases.add(newUser.getAlias());
+            passwordsByUser.put(newUser, request.getPassword());
+            followeesByFollower.put(newUser, new ArrayList<User>());
+            followersByFollowee.put(newUser, new ArrayList<User>());
+            statusesByUser.put(newUser, new ArrayList<Status>());
+        }
+        return new RegisterResponse(newUser, request.getPassword());
+    }
+
+        public StartUpResponse startUp(StartUpRequest request) {
+            if (!follows_initialized) {
+                Map[] maps = initializeFollows();
+                followeesByFollower = maps[0];
+                followersByFollowee = maps[1];
+            }
+            if (statusesByUser == null) {
+                statusesByUser = new HashMap<>();
+            }
+            if (allUsers == null) {
+                allUsers = new ArrayList<>();
+            }
+            if (allAliases == null) {
+                allAliases = new ArrayList<>();
+            }
+            if (passwordsByUser == null) {
+                passwordsByUser = new HashMap<>();
+            }
+            return new StartUpResponse("Success!");
+        }
 }

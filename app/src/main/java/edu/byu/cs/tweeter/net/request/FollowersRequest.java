@@ -4,11 +4,11 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 /**
  * Contains all the information needed to make a request to have the server return the next page of
- * followees for a specified follower.
+ * followees for a specified followee.
  */
 public class FollowersRequest {
 
-    private final User follower;
+    private final User followee;
     private final int limit;
     private final User lastFollower;
 
@@ -17,12 +17,12 @@ public class FollowersRequest {
      *
      * @param follower the {@link User} whose followers are to be returned.
      * @param limit the maximum number of followers to return.
-     * @param lastFollower the last follower that was returned in the previous request (null if
+     * @param lastFollower the last followee that was returned in the previous request (null if
      *                     there was no previous request or if no followers were returned in the
      *                     previous request).
      */
     public FollowersRequest(User follower, int limit, User lastFollower) {
-        this.follower = follower;
+        this.followee = follower;
         this.limit = limit;
         this.lastFollower = lastFollower;
     }
@@ -32,8 +32,8 @@ public class FollowersRequest {
      *
      * @return the followee.
      */
-    public User getFollower() {
-        return follower;
+    public User getFollowee() {
+        return followee;
     }
 
     /**
@@ -46,10 +46,10 @@ public class FollowersRequest {
     }
 
     /**
-     * Returns the last follower that was returned in the previous request or null if there was no
+     * Returns the last followee that was returned in the previous request or null if there was no
      * previous request or if no followers were returned in the previous request.
      *
-     * @return the last follower.
+     * @return the last followee.
      */
     public User getLastFollower() {
         return lastFollower;

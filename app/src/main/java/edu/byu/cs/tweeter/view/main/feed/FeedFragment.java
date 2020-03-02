@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.view.main.feed;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,16 +24,9 @@ import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
-import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
-import edu.byu.cs.tweeter.net.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.FeedPresenter;
-import edu.byu.cs.tweeter.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;
-import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
-import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.main.VisitorActivity;
 
@@ -56,20 +50,31 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
         String firstName;
         String lastName;
         String imageURL;
+        Uri imageUri;
         if (bundle != null) {
             alias = bundle.getString("alias", "");
             firstName = bundle.getString("firstName", "");
             lastName = bundle.getString("lastName", "");
-            imageURL = bundle.getString("imageURL", "");
+            imageURL = bundle.getString("imageURL", null);
+            if (bundle.getString("imageUri") == null) {
+                imageUri = null;
+            }else {
+                imageUri = Uri.parse(bundle.getString("imageUri"));
+            }
         }
         else {
             alias = "";
             firstName = "";
             lastName = "";
-            imageURL = "";
+            imageURL = null;
+            imageUri = null;
         }
-        user = new User(firstName, lastName, alias, imageURL);
-
+        if (imageUri == null) {
+            user = new User(firstName, lastName, alias, imageURL);
+        }
+        else {
+            user = new User(firstName, lastName, alias, imageUri);
+        }
         presenter = new FeedPresenter(this);
 
         RecyclerView feedRecyclerView = view.findViewById(R.id.feedRecyclerView);
@@ -179,7 +184,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             isLoading = true;
             addLoadingFooter();
 
-            GetFeedTask getFeedTask = new GetFeedTask(presenter, this);
+            GetFeedTask getFeedTask = new GetFeedTask(presenter, this, getContext());
             FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus);
             getFeedTask.execute(request);
         }
@@ -237,6 +242,12 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
         intent.putExtra("firstName", visitingUser.getFirstName());
         intent.putExtra("lastName", visitingUser.getLastName());
         intent.putExtra("imageURL", visitingUser.getImageUrl());
+        if (visitingUser.getImageUri() == null) {
+            intent.putExtra("imageUri", visitingUser.getImageUri());
+        }
+        else {
+            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
+        }
         startActivity(intent);
     }
 }

@@ -3,6 +3,8 @@
     package="edu.byu.cs.tweeter">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +26,10 @@
         <activity
             android:name=".view.main.VisitorActivity"
             android:label="@string/title_activity_visitor"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".view.main.SearchActivity"
+            android:label="SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
      </application>
 

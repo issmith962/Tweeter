@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.main;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -12,6 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,10 +30,12 @@ import java.time.format.DateTimeFormatter;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.services.LoginService;
 import edu.byu.cs.tweeter.net.request.PostStatusRequest;
 import edu.byu.cs.tweeter.net.response.PostStatusResponse;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
+import edu.byu.cs.tweeter.view.asyncTasks.LoadUriImageTask;
 import edu.byu.cs.tweeter.view.asyncTasks.PostStatusTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.main.adapters.FeedSectionsPagerAdapter;
@@ -40,21 +44,29 @@ import edu.byu.cs.tweeter.view.main.adapters.LoginSectionsPagerAdapter;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
-    private static final String[] STATES = new String[]{"Login", "Feed"};
+public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
+    private static final String[] STATES = new String[]{"Login", "Feed", "Reset", "Register"};
     private int state;
     private MainPresenter presenter;
     private User user;
     private ImageView userImageView;
+    TextView userName;
+    TextView userAlias;
     private ViewPager viewPager;
+    public static Context contextOfApplication;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Intent intent = getIntent();
+        state = intent.getIntExtra("state", 0);
+        if (state == 2) {
+            reset();
+        }
         presenter = new MainPresenter(this);
-        state = 0; // State begins as login by default
+        contextOfApplication = getApplicationContext();
         updateUser();
         loadUserDisplay();
         loadCurrentState();
@@ -65,9 +77,14 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
             startLoginState();
         } else if (STATES[state].equals("Feed")) {
             startFeedState();
+        } else if (STATES[state].equals("Reset")) {
+            reset();
         }
     }
+    private void clearUser() {
+        LoginService.getInstance().setCurrentUser(null);
 
+    }
     public void updateUser() {
         user = getCurrentUser();
     }
@@ -79,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     public void loadUserDisplay() {
         updateUser();
         userImageView = findViewById(R.id.userImage);
-        TextView userName = findViewById(R.id.userName);
-        TextView userAlias = findViewById(R.id.userAlias);
+        userName = findViewById(R.id.userName);
+        userAlias = findViewById(R.id.userAlias);
         if (user == null) {
             userImageView.setImageResource(R.drawable.question);
             userName.setText("");
@@ -88,13 +105,27 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
 
         } else {
             // Asynchronously load the user's image if a user is logged in
-            LoadImageTask loadImageTask = new LoadImageTask(this);
-            loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
+
+            if (presenter.getCurrentUser().getImageUri() == null) {
+                LoadImageTask loadImageTask = new LoadImageTask(this);
+                loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
+            }
+            else {
+                LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, MainActivity.this);
+                loadUriImageTask.execute(presenter.getCurrentUser().getImageUri());
+            }
             userName.setText(user.getName());
             userAlias.setText(user.getAlias());
         }
     }
 
+    public void reset() {
+        clearUser();
+        presenter = new MainPresenter(this);
+        loadUserDisplay();
+        state = 0;
+        loadCurrentState();
+    }
     public void startLoginState() {
         state = 0;
         LoginSectionsPagerAdapter loginSectionsPagerAdapter = new LoginSectionsPagerAdapter(this, getSupportFragmentManager());
@@ -110,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with search", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(SearchActivity.class);
             }
         });
         Button logoutButton = findViewById(R.id.logout_button);
@@ -143,8 +173,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with search", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(SearchActivity.class);
             }
         });
         Button logoutButton = findViewById(R.id.logout_button);
@@ -152,12 +181,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with logout", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                reset();
             }
         });
     }
-
     private void popUpEditText() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("New Status");
@@ -202,10 +229,11 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     @Override
     public void onResume() {
         super.onResume();
-
-        updateUser();
-        loadUserDisplay();
-        loadCurrentState();
+        if (state != 3) {
+            updateUser();
+            loadUserDisplay();
+            loadCurrentState();
+        }
     }
 
     @Override
@@ -231,5 +259,11 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     public void startActivity(Class aClass) {
         Intent intent = new Intent(this, aClass);
         startActivity(intent);
+    }
+    public static Context getContextOfApplication() {
+        return contextOfApplication;
+    }
+    public void setState(int state) {
+        this.state = state;
     }
 }

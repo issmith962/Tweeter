@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.view.main.PlaceholderFragment;
 import edu.byu.cs.tweeter.view.main.login.LoginFragment;
+import edu.byu.cs.tweeter.view.main.login.RegisterFragment;
 
 public class LoginSectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -37,6 +38,9 @@ public class LoginSectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         if (position == LOGIN_FRAGMENT_POSITION) {
             return new LoginFragment();
+        }
+        else if (position == REGISTER_FRAGMENT_POSITION) {
+            return new RegisterFragment();
         }
         //else if (position == REGISTER_FRAGMENT_POSITION) {
         //    return new RegisterFragment(); }

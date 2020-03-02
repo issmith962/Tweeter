@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.asyncTasks;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,11 +9,8 @@ import java.io.IOException;
 
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FollowersRequest;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.response.FollowersResponse;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.presenter.FollowersPresenter;
-import edu.byu.cs.tweeter.presenter.FollowingPresenter;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
@@ -23,6 +21,7 @@ public class GetFollowersTask extends AsyncTask<FollowersRequest, Void, Follower
 
     private final FollowersPresenter presenter;
     private final GetFollowersObserver observer;
+    private Context context;
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
@@ -34,13 +33,14 @@ public class GetFollowersTask extends AsyncTask<FollowersRequest, Void, Follower
 
     /**
      * Creates an instance.
-     *
-     * @param presenter the presenter from whom this task should retrieve followers.
+     *  @param presenter the presenter from whom this task should retrieve followers.
      * @param observer the observer who wants to be notified when this task completes.
+     * @param context
      */
-    public GetFollowersTask(FollowersPresenter presenter, GetFollowersObserver observer) {
+    public GetFollowersTask(FollowersPresenter presenter, GetFollowersObserver observer, Context context) {
         this.presenter = presenter;
         this.observer = observer;
+        this.context = context;
     }
 
     /**
@@ -67,7 +67,7 @@ public class GetFollowersTask extends AsyncTask<FollowersRequest, Void, Follower
             Drawable drawable;
 
             try {
-                drawable = ImageUtils.drawableFromUrl(user.getImageUrl());
+                drawable = ImageUtils.makeDrawable(user, context);
             } catch (IOException e) {
                 Log.e(this.getClass().getName(), e.toString(), e);
                 drawable = null;

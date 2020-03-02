@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.view.main.following;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,16 +24,11 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
-import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.presenter.FollowingPresenter;
-import edu.byu.cs.tweeter.presenter.VisitorPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.CheckUserFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
-import edu.byu.cs.tweeter.view.main.MainActivity;
 import edu.byu.cs.tweeter.view.main.VisitorActivity;
 
 /**
@@ -61,19 +55,31 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
         String firstName;
         String lastName;
         String imageURL;
+        Uri imageUri;
         if (bundle != null) {
             alias = bundle.getString("alias", "");
             firstName = bundle.getString("firstName", "");
             lastName = bundle.getString("lastName", "");
-            imageURL = bundle.getString("imageURL", "");
+            imageURL = bundle.getString("imageURL", null);
+            if (bundle.getString("imageUri") == null) {
+                imageUri = null;
+            }else {
+                imageUri = Uri.parse(bundle.getString("imageUri"));
+            }
         }
         else {
             alias = "";
             firstName = "";
             lastName = "";
-            imageURL = "";
+            imageURL = null;
+            imageUri = null;
         }
-        user = new User(firstName, lastName, alias, imageURL);
+        if (imageUri == null) {
+            user = new User(firstName, lastName, alias, imageURL);
+        }
+        else {
+            user = new User(firstName, lastName, alias, imageUri);
+        }
         presenter = new FollowingPresenter(this);
 
         RecyclerView followingRecyclerView = view.findViewById(R.id.followingRecyclerView);
@@ -262,7 +268,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
             isLoading = true;
             addLoadingFooter();
 
-            GetFollowingTask getFollowingTask = new GetFollowingTask(presenter, this);
+            GetFollowingTask getFollowingTask = new GetFollowingTask(presenter, this, getContext());
             FollowingRequest request = new FollowingRequest(user, PAGE_SIZE, lastFollowee);
             getFollowingTask.execute(request);
         }
@@ -351,6 +357,12 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
         intent.putExtra("firstName", visitingUser.getFirstName());
         intent.putExtra("lastName", visitingUser.getLastName());
         intent.putExtra("imageURL", visitingUser.getImageUrl());
+        if (visitingUser.getImageUri() == null) {
+            intent.putExtra("imageUri", visitingUser.getImageUri());
+        }
+        else {
+            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
+        }
         startActivity(intent);
     }
 }

@@ -3,7 +3,9 @@ package edu.byu.cs.tweeter.model.services;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.request.StartUpRequest;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.net.response.StartUpResponse;
 
 /**
  * Contains the business logic for login and sign up.
@@ -51,10 +53,20 @@ public class LoginService {
     public LoginResponse checkLogin(LoginRequest request) {
         LoginResponse response = serverFacade.checkLogin(request);
         if (!(response.getAuthToken() == null)) {
-            setCurrentUser(new User(response.getFirstName(), response.getLastName(),
-                    response.getAlias(), response.getImageURL()));
+            if (response.getImageURL() == null) {
+                setCurrentUser(new User(response.getFirstName(), response.getLastName(),
+                        response.getAlias(), response.getImageUri()));
+            }
+            else {
+                setCurrentUser(new User(response.getFirstName(), response.getLastName(),
+                        response.getAlias(), response.getImageURL()));
+            }
         }
         return response;
+    }
+
+    public StartUpResponse startUp(StartUpRequest request) {
+        return serverFacade.startUp(request);
     }
 
     /**
@@ -66,7 +78,7 @@ public class LoginService {
         return currentUser;
     }
 
-    private void setCurrentUser(User currentUser) {
+    public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
 }

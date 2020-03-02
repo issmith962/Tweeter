@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.view.main.followers;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,7 +27,6 @@ import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.net.response.FollowersResponse;
-import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowersTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
@@ -55,18 +55,31 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
         String firstName;
         String lastName;
         String imageURL;
+        Uri imageUri;
         if (bundle != null) {
             alias = bundle.getString("alias", "");
             firstName = bundle.getString("firstName", "");
             lastName = bundle.getString("lastName", "");
-            imageURL = bundle.getString("imageURL", "");
-        } else {
+            imageURL = bundle.getString("imageURL", null);
+            if (bundle.getString("imageUri") == null) {
+                imageUri = null;
+            }else {
+                imageUri = Uri.parse(bundle.getString("imageUri"));
+            }
+        }
+        else {
             alias = "";
             firstName = "";
             lastName = "";
-            imageURL = "";
+            imageURL = null;
+            imageUri = null;
         }
-        user = new User(firstName, lastName, alias, imageURL);
+        if (imageUri == null) {
+            user = new User(firstName, lastName, alias, imageURL);
+        }
+        else {
+            user = new User(firstName, lastName, alias, imageUri);
+        }
         presenter = new FollowersPresenter(this);
 
         RecyclerView followersRecyclerView = view.findViewById(R.id.followersRecyclerView);
@@ -106,8 +119,6 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
-                    // TODO: In the following section, replicate all code from following fragment once done
-
                     PopupMenu popup = new PopupMenu(view.getContext(), view);
                     popup.inflate(R.menu.popup_menu);
                     popup.show();
@@ -259,7 +270,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             isLoading = true;
             addLoadingFooter();
 
-            GetFollowersTask getFollowersTask = new GetFollowersTask(presenter, this);
+            GetFollowersTask getFollowersTask = new GetFollowersTask(presenter, this, getContext());
             FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower);
             getFollowersTask.execute(request);
         }
@@ -348,6 +359,12 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
         intent.putExtra("firstName", visitingUser.getFirstName());
         intent.putExtra("lastName", visitingUser.getLastName());
         intent.putExtra("imageURL", visitingUser.getImageUrl());
+        if (visitingUser.getImageUri() == null) {
+            intent.putExtra("imageUri", visitingUser.getImageUri());
+        }
+        else {
+            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
+        }
         startActivity(intent);
     }
 }

@@ -32,4 +32,9 @@
     <string name="follow_button">Follow</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+    <string name="register_name_label">First + Last Name:</string>
+    <string name="register_alias_label">Alias:</string>
+    <string name="register_password_label">Password:</string>
+    <string name="upload_picture">Upload Profile Picture</string>
+    <string name="register_button">Register:</string>
 </resources>

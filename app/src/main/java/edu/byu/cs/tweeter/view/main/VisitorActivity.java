@@ -2,11 +2,13 @@ package edu.byu.cs.tweeter.view.main;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -17,28 +19,38 @@ import com.google.android.material.tabs.TabLayout;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
+import edu.byu.cs.tweeter.net.request.FollowUserRequest;
+import edu.byu.cs.tweeter.net.request.UnfollowUserRequest;
 import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
+import edu.byu.cs.tweeter.net.response.FollowUserResponse;
+import edu.byu.cs.tweeter.net.response.UnfollowUserResponse;
+import edu.byu.cs.tweeter.presenter.Presenter;
 import edu.byu.cs.tweeter.presenter.VisitorPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.CheckUserFollowingTask;
+import edu.byu.cs.tweeter.view.asyncTasks.FollowUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
+import edu.byu.cs.tweeter.view.asyncTasks.LoadUriImageTask;
+import edu.byu.cs.tweeter.view.asyncTasks.UnfollowUserTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.main.adapters.VisitingSectionsPagerAdapter;
 
-public class VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, VisitorPresenter.View, CheckUserFollowingTask.CheckUserFollowingObserver {
+public class VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, VisitorPresenter.View,
+        CheckUserFollowingTask.CheckUserFollowingObserver, FollowUserTask.FollowUserObserver, UnfollowUserTask.UnfollowUserObserver {
     private VisitorPresenter presenter;
     private User currentUser;
     private User visitingUser;
     private ImageView userImageView;
+    TextView userName;
+    TextView userAlias;
     private ViewPager viewPager;
     private boolean userIsFollowing;
     private boolean checkFollowingTaskCompleted;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstance) {
         checkFollowingTaskCompleted = false;
-        //TODO: Figure out how to use saved instance to get the name of the user to visit
-        //FamilyMap probably has some stuff to help with this.
         super.onCreate(savedInstance);
         userIsFollowing = false;
         setContentView(R.layout.activity_visitor);
@@ -48,6 +60,12 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         String firstName = intent.getStringExtra("firstName");
         String lastName = intent.getStringExtra("lastName");
         String imageURL = intent.getStringExtra("imageURL");
+        Uri imageUri;
+        if (intent.getStringExtra("imageUri") == null) {
+            imageUri = null;
+        }else {
+            imageUri = Uri.parse(intent.getStringExtra("imageUri"));
+        }
         if (firstName == null) {
             firstName = "";
         }
@@ -57,11 +75,11 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         if (alias == null) {
             alias = "";
         }
-        if (imageURL == null) {
-            imageURL = "";
+        if (imageUri == null) {
+            visitingUser = new User(firstName, lastName, alias, imageURL);
+        } else {
+            visitingUser = new User(firstName, lastName, alias, imageUri);
         }
-        visitingUser = new User(firstName, lastName, alias, imageURL);
-
         presenter = new VisitorPresenter(this);
         loadDisplay();
         // loadDisplay should contain the commands from loadUserDisplay and the necessary
@@ -71,16 +89,19 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
     public void loadDisplay() {
         updateCurrentUser();
         checkFollowingTaskCompleted = false;
-        CheckUserFollowingTask task = new CheckUserFollowingTask(presenter, this);
-        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser, visitingUser.getAlias());
-        task.execute(request);
+        checkUserFollowingVisitingUser();
 
         userImageView = findViewById(R.id.userImage);
-        TextView userName = findViewById(R.id.userName);
-        TextView userAlias = findViewById(R.id.userAlias);
-
-        LoadImageTask loadImageTask = new LoadImageTask(this);
-        loadImageTask.execute(visitingUser.getImageUrl());
+        userName = findViewById(R.id.userName);
+        userAlias = findViewById(R.id.userAlias);
+        if (visitingUser.getImageUri() == null) {
+            LoadImageTask loadImageTask = new LoadImageTask(this);
+            loadImageTask.execute(visitingUser.getImageUrl());
+        }
+        else {
+            LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, VisitorActivity.this);
+            loadUriImageTask.execute(visitingUser.getImageUri());
+        }
         userName.setText(visitingUser.getName());
         userAlias.setText(visitingUser.getAlias());
 
@@ -89,11 +110,11 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         viewPager.setAdapter(visitingSectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.visitor_tabs);
         Button searchButton = findViewById(R.id.search_button);
+        searchButton.setVisibility(View.VISIBLE);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with search", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(SearchActivity.class);
             }
         });
         Button logoutButton = findViewById(R.id.logout_button);
@@ -101,8 +122,9 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with logout", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(VisitorActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("state", 2);
+                startActivity(intent);
             }
         });
         Button followButton = findViewById(R.id.follow_button);
@@ -111,21 +133,35 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
             followButton.setText("...");
         }
         else if (userIsFollowing) {
-            followButton.setText(R.string.follow);
-        }
-        else {
             followButton.setText(R.string.unfollow);
         }
+        else {
+            followButton.setText(R.string.follow);
+        }
+        checkUserFollowingVisitingUser();
         followButton.setVisibility(View.VISIBLE);
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with follow/unfollow", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (userIsFollowing) {
+                    UnfollowUserTask unfollowUserTask = new UnfollowUserTask(presenter, VisitorActivity.this);
+                    UnfollowUserRequest request = new UnfollowUserRequest(currentUser, visitingUser);
+                    unfollowUserTask.execute(request);
+                }
+                else {
+                    FollowUserTask followUserTask = new FollowUserTask(presenter, VisitorActivity.this);
+                    FollowUserRequest request = new FollowUserRequest(currentUser, visitingUser);
+                    followUserTask.execute(request);
+                }
             }
         });
     }
 
+    private void checkUserFollowingVisitingUser() {
+        CheckUserFollowingTask task = new CheckUserFollowingTask(presenter, this);
+        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser, visitingUser.getAlias());
+        task.execute(request);
+    }
     @Override
     public void imageLoadProgressUpdated(Integer progress) {
         // we're just loading one image. no need to indicate progress.
@@ -158,15 +194,47 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         userIsFollowing = response.isUserFollowing();
         Button followButton = findViewById(R.id.follow_button);
         if (userIsFollowing) {
-            followButton.setText(R.string.follow);
+            followButton.setText(R.string.unfollow);
         }
         else {
-            followButton.setText(R.string.unfollow);
+            followButton.setText(R.string.follow);
         }
     }
 
     private void updateCurrentUser() {
         currentUser = presenter.getCurrentUser();
+    }
+
+    @Override
+    public void followUserAttempted(FollowUserResponse response) {
+        Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+        checkUserFollowingVisitingUser();
+        Button followButton = findViewById(R.id.follow_button);
+        if (!checkFollowingTaskCompleted) {
+            followButton.setText("...");
+        }
+        else if (userIsFollowing) {
+            followButton.setText(R.string.unfollow);
+        }
+        else {
+            followButton.setText(R.string.follow);
+        }
+    }
+
+    @Override
+    public void unfollowUserAttempted(UnfollowUserResponse response) {
+        Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+        checkUserFollowingVisitingUser();
+        Button followButton = findViewById(R.id.follow_button);
+        if (!checkFollowingTaskCompleted) {
+            followButton.setText("...");
+        }
+        else if (userIsFollowing) {
+            followButton.setText(R.string.unfollow);
+        }
+        else {
+            followButton.setText(R.string.follow);
+        }
     }
 }
 

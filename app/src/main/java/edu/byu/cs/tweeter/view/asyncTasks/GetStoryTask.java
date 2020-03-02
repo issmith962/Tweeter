@@ -1,12 +1,12 @@
 package edu.byu.cs.tweeter.view.asyncTasks;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.StoryPresenter;
@@ -16,14 +16,16 @@ import edu.byu.cs.tweeter.view.util.ImageUtils;
 public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
     private final StoryPresenter presenter;
     private final GetStoryObserver observer;
+    private Context context;
 
     public interface GetStoryObserver {
         void storyRetrieved(StoryResponse storyResponse);
     }
 
-    public GetStoryTask(StoryPresenter presenter, GetStoryObserver observer) {
+    public GetStoryTask(StoryPresenter presenter, GetStoryObserver observer, Context context) {
         this.presenter = presenter;
         this.observer = observer;
+        this.context = context;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
         for (edu.byu.cs.tweeter.model.domain.Status status : response.getStory()) {
             Drawable drawable;
             try {
-                drawable = ImageUtils.drawableFromUrl(status.getUser().getImageUrl());
+                drawable = ImageUtils.makeDrawable(status.getUser(), context);
             } catch (IOException e) {
                 Log.e(this.getClass().getName(), e.toString(), e);
                 drawable = null;

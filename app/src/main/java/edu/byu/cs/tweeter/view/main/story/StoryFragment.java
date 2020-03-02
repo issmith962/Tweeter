@@ -22,12 +22,9 @@ import java.util.List;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.StoryPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.main.VisitorActivity;
@@ -174,7 +171,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             isLoading = true;
             addLoadingFooter();
 
-            GetStoryTask getStoryTask = new GetStoryTask(presenter, this);
+            GetStoryTask getStoryTask = new GetStoryTask(presenter, this, getContext());
             StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus);
             getStoryTask.execute(request);
         }

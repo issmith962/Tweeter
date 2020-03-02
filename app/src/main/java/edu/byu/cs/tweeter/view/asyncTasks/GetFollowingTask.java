@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.asyncTasks;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,6 +21,7 @@ public class GetFollowingTask extends AsyncTask<FollowingRequest, Void, Followin
 
     private final FollowingPresenter presenter;
     private final GetFolloweesObserver observer;
+    private Context context;
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
@@ -31,13 +33,14 @@ public class GetFollowingTask extends AsyncTask<FollowingRequest, Void, Followin
 
     /**
      * Creates an instance.
-     *
-     * @param presenter the presenter from whom this task should retrieve followees.
+     *  @param presenter the presenter from whom this task should retrieve followees.
      * @param observer the observer who wants to be notified when this task completes.
+     * @param context
      */
-    public GetFollowingTask(FollowingPresenter presenter, GetFolloweesObserver observer) {
+    public GetFollowingTask(FollowingPresenter presenter, GetFolloweesObserver observer, Context context) {
         this.presenter = presenter;
         this.observer = observer;
+        this.context = context;
     }
 
     /**
@@ -64,7 +67,7 @@ public class GetFollowingTask extends AsyncTask<FollowingRequest, Void, Followin
             Drawable drawable;
 
             try {
-                drawable = ImageUtils.drawableFromUrl(user.getImageUrl());
+                drawable = ImageUtils.makeDrawable(user, context);
             } catch (IOException e) {
                 Log.e(this.getClass().getName(), e.toString(), e);
                 drawable = null;

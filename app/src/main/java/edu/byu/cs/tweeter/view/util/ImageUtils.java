@@ -1,15 +1,21 @@
 package edu.byu.cs.tweeter.view.util;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.model.domain.User;
 
 /**
  * Contains utility methods for working with images in an Android application.
@@ -24,7 +30,6 @@ public class ImageUtils {
      * @throws IOException if an I/O error occurs while attempting to read the image data.
      */
     public static Drawable drawableFromUrl(String urlString) throws IOException {
-
         URL url = new URL(urlString);
         HttpURLConnection connection = null;
 
@@ -43,6 +48,26 @@ public class ImageUtils {
             if(connection != null) {
                 connection.disconnect();
             }
+        }
+    }
+
+    public static Drawable drawableFromUri(Uri imageUri, Context context) {
+        Drawable drawable;
+        try {
+            InputStream is = context.getContentResolver().openInputStream(imageUri);
+            drawable = Drawable.createFromStream(is, imageUri.toString());
+        } catch (FileNotFoundException e) {
+            drawable = context.getResources().getDrawable(R.drawable.question);
+        }
+        return drawable;
+    }
+
+    public static Drawable makeDrawable(User user, Context context) throws IOException {
+        if (user.getImageUri() == null) {
+            return drawableFromUrl(user.getImageUrl());
+        }
+        else {
+            return drawableFromUri(user.getImageUri(), context);
         }
     }
 }
