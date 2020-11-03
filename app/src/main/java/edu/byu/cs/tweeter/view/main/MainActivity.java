@@ -139,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements GetFollowerCountT
         }
     }
 
+    // OLD RESET (LOGOUT)
+    // Need to test a full reset (i.e. asynchronous call to
     public void reset() {
         clearUser();
         presenter = new MainPresenter(this);

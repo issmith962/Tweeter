@@ -50,7 +50,7 @@ public class TestGetStory  implements StoryPresenter.View {
 
         StoryRequest request = new StoryRequest(user1, 10, null);
         StoryResponse response = presenter.getStory(request);
-
+        int a = 2; 
         assertTrue(response.getStory().contains(status1));
         assertTrue(response.getStory().contains(status2));
         assertTrue(response.getStory().contains(status3));

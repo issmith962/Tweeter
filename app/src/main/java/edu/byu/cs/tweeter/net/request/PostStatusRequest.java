@@ -6,11 +6,18 @@ public class PostStatusRequest {
     private User user;
     private String newStatus;
     private String date;
+    private String authToken;
+
 
     public PostStatusRequest(User user, String newStatus, String date) {
         this.user = user;
         this.newStatus = newStatus;
         this.date = date;
+        this.authToken = authToken;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 
     public User getUser() {
