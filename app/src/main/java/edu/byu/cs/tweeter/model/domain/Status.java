@@ -3,9 +3,12 @@ package edu.byu.cs.tweeter.model.domain;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
-public class Status {
+public class Status implements Comparable<Status> {
     private User user;
     private String date_posted;
     private String status_text;
@@ -53,5 +56,43 @@ public class Status {
     @Override
     public int hashCode() {
         return Objects.hash(user, date_posted, status_text);
+    }
+
+    @Override
+    public int compareTo(Status s) {
+        if (this.equals(s)) {
+            return 0;
+        }
+        // "06/25/2009"
+        // "01 2 34 5 678(10)"
+        int month = Integer.parseInt(date_posted.substring(0,2));
+        int otherMonth = Integer.parseInt(s.getDate_posted().substring(0,2));
+        int day = Integer.parseInt(date_posted.substring(3,5));
+        int otherDay = Integer.parseInt(s.getDate_posted().substring(3,5));
+        int year = Integer.parseInt(date_posted.substring(6,10));
+        int otherYear = Integer.parseInt(s.getDate_posted().substring(6,10));
+
+
+        if (year < otherYear) {
+            return -1;
+        }
+        else if (year > otherYear) {
+            return 1;
+        }
+        else {
+            if (month < otherMonth) {
+                return -1;
+            } else if (month > otherMonth) {
+                return 1;
+            } else {
+                if (day < otherDay) {
+                    return -1;
+                } else if (day > otherDay) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
     }
 }

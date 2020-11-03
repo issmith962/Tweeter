@@ -10,8 +10,11 @@ import java.io.IOException;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.GetAllUsersRequest;
 import edu.byu.cs.tweeter.net.response.GetAllUsersResponse;
+import edu.byu.cs.tweeter.presenter.Presenter;
 import edu.byu.cs.tweeter.presenter.SearchPresenter;
+import edu.byu.cs.tweeter.presenter.VisitorPresenter;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.main.SearchActivity;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 public class GetAllUsersTask extends AsyncTask<GetAllUsersRequest, Void, GetAllUsersResponse> {
@@ -29,7 +32,8 @@ public class GetAllUsersTask extends AsyncTask<GetAllUsersRequest, Void, GetAllU
     }
     @Override
     protected GetAllUsersResponse doInBackground(GetAllUsersRequest... getAllUsersRequests) {
-        GetAllUsersResponse response = presenter.getAllUsers(getAllUsersRequests[0]);
+        GetAllUsersResponse response;
+        response = presenter.getAllUsers(getAllUsersRequests[0]);
         loadImages(response);
         return response;
     }
@@ -39,7 +43,6 @@ public class GetAllUsersTask extends AsyncTask<GetAllUsersRequest, Void, GetAllU
             for (User user : response.getAllUsers()) {
                 Drawable drawable;
                 try {
-
                     drawable = ImageUtils.makeDrawable(user, context);
 
                 } catch (IOException e) {

@@ -4,10 +4,9 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 /**
  * Contains all the information needed to make a request to have the server return the next page of
- * followees for a specified followee.
+ * followers for a specified followee.
  */
 public class FollowersRequest {
-
     private final User followee;
     private final int limit;
     private final User lastFollower;

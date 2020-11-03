@@ -31,9 +31,15 @@ import java.time.format.DateTimeFormatter;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.services.LoginService;
+import edu.byu.cs.tweeter.net.request.FolloweeCountRequest;
+import edu.byu.cs.tweeter.net.request.FollowerCountRequest;
 import edu.byu.cs.tweeter.net.request.PostStatusRequest;
+import edu.byu.cs.tweeter.net.response.FolloweeCountResponse;
+import edu.byu.cs.tweeter.net.response.FollowerCountResponse;
 import edu.byu.cs.tweeter.net.response.PostStatusResponse;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.view.asyncTasks.GetFolloweeCountTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetFollowerCountTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadUriImageTask;
 import edu.byu.cs.tweeter.view.asyncTasks.PostStatusTask;
@@ -44,7 +50,7 @@ import edu.byu.cs.tweeter.view.main.adapters.LoginSectionsPagerAdapter;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
+public class MainActivity extends AppCompatActivity implements GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver, LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
     private static final String[] STATES = new String[]{"Login", "Feed", "Reset", "Register"};
     private int state;
     private MainPresenter presenter;
@@ -52,9 +58,13 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     private ImageView userImageView;
     TextView userName;
     TextView userAlias;
+    TextView userFollowerCount;
+    TextView userFolloweeCount;
+    int followerCount;
+    int followeeCount;
+
     private ViewPager viewPager;
     public static Context contextOfApplication;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +108,14 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         userImageView = findViewById(R.id.userImage);
         userName = findViewById(R.id.userName);
         userAlias = findViewById(R.id.userAlias);
+        userFollowerCount = findViewById(R.id.followerCount);
+        userFolloweeCount = findViewById(R.id.followeeCount);
         if (user == null) {
             userImageView.setImageResource(R.drawable.question);
             userName.setText("");
             userAlias.setText("");
-
+            userFollowerCount.setText("");
+            userFolloweeCount.setText("");
         } else {
             // Asynchronously load the user's image if a user is logged in
 
@@ -116,6 +129,13 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
             }
             userName.setText(user.getName());
             userAlias.setText(user.getAlias());
+            GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
+            FollowerCountRequest followerCountRequest = new FollowerCountRequest(user);
+            followerCountTask.execute(followerCountRequest);
+
+            GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
+            FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(user);
+            followeeCountTask.execute(followeeCountRequest);
         }
     }
 
@@ -266,4 +286,19 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     public void setState(int state) {
         this.state = state;
     }
+
+    @Override
+    public void followerCountRequested(FollowerCountResponse response) {
+        followerCount = response.getFollowerCount();
+        //userFollowerCount = findViewById(R.id.followerCount);
+        userFollowerCount.setText("Followers: " + Integer.toString(followerCount));
+    }
+
+    @Override
+    public void followeeCountRequested(FolloweeCountResponse response) {
+        followeeCount = response.getFolloweeCount();
+        //userFolloweeCount = findViewById(R.id.followeeCount);
+        userFolloweeCount.setText("Followees: " + Integer.toString(followeeCount));
+    }
+
 }

@@ -1,5 +1,9 @@
 package edu.byu.cs.tweeter.model.services;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
@@ -19,6 +23,7 @@ public class FeedService {
         serverFacade = new ServerFacade();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public FeedResponse getFeed(FeedRequest request) {
         return serverFacade.getFeed(request);
     }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,10 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.Status;
@@ -83,15 +87,15 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
         private final TextView statusName;
         private final TextView statusDate;
         private final TextView statusText;
-
+        private View view;
         StatusHolder(@NonNull View itemView) {
             super(itemView);
-
             statusImage = itemView.findViewById(R.id.status_image);
             statusAlias = itemView.findViewById(R.id.status_alias);
             statusName = itemView.findViewById(R.id.status_name);
             statusDate = itemView.findViewById(R.id.status_date);
             statusText = itemView.findViewById(R.id.status_text);
+
         }
 
         void bindStatus(Status status) {
@@ -101,6 +105,12 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             statusName.setText(user.getName());
             statusDate.setText(status.getDate_posted());
             statusText.setText(status.getStatus_text());
+            // Attempt at linkify
+            Pattern userMatcher = Pattern.compile("@[(\\w)]*(\\b|$)");
+            String visitViewURL = "visit://";
+            Linkify.addLinks(statusText, Linkify.WEB_URLS);
+            Linkify.addLinks(statusText, userMatcher, visitViewURL);
+
         }
     }
 
@@ -146,6 +156,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             } else {
                 view = layoutInflater.inflate(R.layout.status_row, parent, false);
             }
+
 
             return new StatusHolder(view);
         }
@@ -231,4 +242,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
         intent.putExtra("imageURL", visitingUser.getImageUrl());
         startActivity(intent);
     }
+
+
+
 }

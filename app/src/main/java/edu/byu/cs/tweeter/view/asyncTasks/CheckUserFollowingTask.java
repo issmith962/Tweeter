@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
-import edu.byu.cs.tweeter.presenter.CheckUserFollowingPresenter;
 import edu.byu.cs.tweeter.presenter.FollowingPresenter;
 import edu.byu.cs.tweeter.presenter.Presenter;
 import edu.byu.cs.tweeter.presenter.VisitorPresenter;

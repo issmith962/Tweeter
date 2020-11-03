@@ -1,9 +1,17 @@
 package edu.byu.cs.tweeter.model.services;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.net.request.FolloweeCountRequest;
+import edu.byu.cs.tweeter.net.request.FollowerCountRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.request.StartUpRequest;
+import edu.byu.cs.tweeter.net.response.FolloweeCountResponse;
+import edu.byu.cs.tweeter.net.response.FollowerCountResponse;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
 import edu.byu.cs.tweeter.net.response.StartUpResponse;
 
@@ -65,6 +73,7 @@ public class LoginService {
         return response;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public StartUpResponse startUp(StartUpRequest request) {
         return serverFacade.startUp(request);
     }
@@ -80,5 +89,12 @@ public class LoginService {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public FollowerCountResponse getFollowerCount(FollowerCountRequest request) {
+        return serverFacade.getFollowerCount(request);
+    }
+    public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) {
+        return serverFacade.getFolloweeCount(request);
     }
 }

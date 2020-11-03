@@ -1,6 +1,9 @@
 package edu.byu.cs.tweeter.view.asyncTasks;
 
 import android.os.AsyncTask;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import edu.byu.cs.tweeter.net.request.StartUpRequest;
 import edu.byu.cs.tweeter.net.response.StartUpResponse;
@@ -17,6 +20,7 @@ public class StartUpTask extends AsyncTask<StartUpRequest, Void, StartUpResponse
         this.presenter = presenter;
         this.observer = observer;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected StartUpResponse doInBackground(StartUpRequest... startUpRequests) {
         StartUpResponse response = presenter.startUp(startUpRequests[0]);

@@ -38,7 +38,7 @@ public class FollowingPresenter extends Presenter {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public FollowingResponse getFollowing(FollowingRequest request) {
+    public FollowingResponse getFollowing(FollowingRequest request) throws AssertionError {
         return FollowingService.getInstance().getFollowees(request);
     }
 

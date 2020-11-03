@@ -37,4 +37,6 @@
     <string name="register_password_label">Password:</string>
     <string name="upload_picture">Upload Profile Picture</string>
     <string name="register_button">Register:</string>
+    <string name="followerCount">No Followers</string>
+    <string name="followeeCount">No Followees</string>
 </resources>

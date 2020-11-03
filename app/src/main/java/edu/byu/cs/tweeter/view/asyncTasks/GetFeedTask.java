@@ -3,7 +3,10 @@ package edu.byu.cs.tweeter.view.asyncTasks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 
@@ -27,6 +30,7 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
         this.context = context;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected FeedResponse doInBackground(FeedRequest... feedRequests) {
         FeedResponse response = presenter.getFeed(feedRequests[0]);

@@ -4,8 +4,13 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import edu.byu.cs.tweeter.model.services.LoginService;
 import edu.byu.cs.tweeter.model.services.PostStatusService;
+import edu.byu.cs.tweeter.net.request.FolloweeCountRequest;
+import edu.byu.cs.tweeter.net.request.FollowerCountRequest;
 import edu.byu.cs.tweeter.net.request.PostStatusRequest;
+import edu.byu.cs.tweeter.net.response.FolloweeCountResponse;
+import edu.byu.cs.tweeter.net.response.FollowerCountResponse;
 import edu.byu.cs.tweeter.net.response.PostStatusResponse;
 
 /**
@@ -35,4 +40,5 @@ public class MainPresenter extends Presenter {
     public PostStatusResponse postStatus(PostStatusRequest request) {
         return PostStatusService.getInstance().postStatus(request);
     }
+
 }

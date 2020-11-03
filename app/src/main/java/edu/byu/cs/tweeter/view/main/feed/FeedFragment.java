@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.Status;
@@ -114,6 +116,11 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             statusName.setText(user.getName());
             statusDate.setText(status.getDate_posted());
             statusText.setText(status.getStatus_text());
+            // Attempt at linkify
+            Pattern userMatcher = Pattern.compile("@[(\\w)]*(\\b|$)");
+            String visitViewURL = "visit://";
+            Linkify.addLinks(statusText, Linkify.WEB_URLS);
+            Linkify.addLinks(statusText, userMatcher, visitViewURL);
         }
     }
 

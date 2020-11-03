@@ -1,5 +1,9 @@
 package edu.byu.cs.tweeter.presenter;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.services.LoginService;
 import edu.byu.cs.tweeter.model.services.RegisterService;
@@ -47,6 +51,7 @@ public class LoginPresenter extends Presenter {
         return RegisterService.getInstance().registerUser(request);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public StartUpResponse startUp(StartUpRequest request) {
         return LoginService.getInstance().startUp(request);
     }

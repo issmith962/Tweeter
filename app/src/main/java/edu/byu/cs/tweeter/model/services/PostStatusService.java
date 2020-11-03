@@ -8,7 +8,7 @@ import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.PostStatusRequest;
 import edu.byu.cs.tweeter.net.response.PostStatusResponse;
 
-public class PostStatusService {
+public class  PostStatusService {
     private static PostStatusService instance;
     private final ServerFacade serverFacade;
 

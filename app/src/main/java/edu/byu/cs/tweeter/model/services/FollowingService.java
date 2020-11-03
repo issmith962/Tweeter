@@ -46,7 +46,7 @@ public class FollowingService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public FollowingResponse getFollowees(FollowingRequest request) {
+    public FollowingResponse getFollowees(FollowingRequest request) throws AssertionError {
         return serverFacade.getFollowees(request);
     }
 
