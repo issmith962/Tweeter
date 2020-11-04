@@ -29,7 +29,7 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
         this.observer = observer;
         this.context = context;
     }
-
+    int a = 5;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected FeedResponse doInBackground(FeedRequest... feedRequests) {
