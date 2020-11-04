@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.main.MainActivity"
+            android:name=".Client.view.main.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.main.VisitorActivity"
+            android:name=".Client.view.main.VisitorActivity"
             android:label="@string/title_activity_visitor"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.main.SearchActivity"
+            android:name=".Client.view.main.SearchActivity"
             android:label="SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
      </application>

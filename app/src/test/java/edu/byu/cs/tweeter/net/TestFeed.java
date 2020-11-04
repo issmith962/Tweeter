@@ -9,14 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.ServerFacade;
-import edu.byu.cs.tweeter.net.request.FeedRequest;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
-import edu.byu.cs.tweeter.net.response.FeedResponse;
-import edu.byu.cs.tweeter.presenter.FeedPresenter;
+import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import edu.byu.cs.tweeter.Shared.domain.Follow;
+import edu.byu.cs.tweeter.Shared.domain.Status;
+import edu.byu.cs.tweeter.Shared.domain.User;
+import edu.byu.cs.tweeter.Shared.request.FeedRequest;
+import edu.byu.cs.tweeter.Shared.response.FeedResponse;
+import edu.byu.cs.tweeter.Client.presenter.FeedPresenter;
 
 public class TestFeed implements FeedPresenter.View {
     FeedPresenter presenter;

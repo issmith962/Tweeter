@@ -9,12 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.StoryRequest;
-import edu.byu.cs.tweeter.net.response.StoryResponse;
-import edu.byu.cs.tweeter.presenter.StoryPresenter;
+import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import edu.byu.cs.tweeter.Shared.domain.Follow;
+import edu.byu.cs.tweeter.Shared.domain.Status;
+import edu.byu.cs.tweeter.Shared.domain.User;
+import edu.byu.cs.tweeter.Shared.request.StoryRequest;
+import edu.byu.cs.tweeter.Shared.response.StoryResponse;
+import edu.byu.cs.tweeter.Client.presenter.StoryPresenter;
 
 public class TestGetStory  implements StoryPresenter.View {
     private StoryPresenter presenter;
@@ -48,7 +49,7 @@ public class TestGetStory  implements StoryPresenter.View {
         statusesByUser.put(user1, statuses);
         serverFacade.testInitialize(follows, statusesByUser, passwordsByUser, allUsers);
 
-        StoryRequest request = new StoryRequest(user1, 10, null);
+        StoryRequest request = new StoryRequest(user1, 10, null, );
         StoryResponse response = presenter.getStory(request);
         int a = 2; 
         assertTrue(response.getStory().contains(status1));

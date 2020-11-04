@@ -9,18 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
-import edu.byu.cs.tweeter.net.request.FollowUserRequest;
-import edu.byu.cs.tweeter.net.request.GetUserRequest;
-import edu.byu.cs.tweeter.net.request.UnfollowUserRequest;
-import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
-import edu.byu.cs.tweeter.net.response.FollowUserResponse;
-import edu.byu.cs.tweeter.net.response.GetUserResponse;
-import edu.byu.cs.tweeter.net.response.UnfollowUserResponse;
-import edu.byu.cs.tweeter.presenter.VisitorPresenter;
+import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import edu.byu.cs.tweeter.Shared.domain.Follow;
+import edu.byu.cs.tweeter.Shared.domain.Status;
+import edu.byu.cs.tweeter.Shared.domain.User;
+import edu.byu.cs.tweeter.Shared.request.CheckUserFollowingRequest;
+import edu.byu.cs.tweeter.Shared.request.FollowUserRequest;
+import edu.byu.cs.tweeter.Shared.request.GetUserRequest;
+import edu.byu.cs.tweeter.Shared.request.UnfollowUserRequest;
+import edu.byu.cs.tweeter.Shared.response.CheckUserFollowingResponse;
+import edu.byu.cs.tweeter.Shared.response.FollowUserResponse;
+import edu.byu.cs.tweeter.Shared.response.GetUserResponse;
+import edu.byu.cs.tweeter.Shared.response.UnfollowUserResponse;
+import edu.byu.cs.tweeter.Client.presenter.VisitorPresenter;
 
 public class TestVisitor implements VisitorPresenter.View {
     VisitorPresenter presenter;

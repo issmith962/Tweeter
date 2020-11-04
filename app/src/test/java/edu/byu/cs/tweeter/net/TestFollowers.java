@@ -9,18 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.ServerFacade;
-import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
-import edu.byu.cs.tweeter.net.request.FollowersRequest;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
-import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
-import edu.byu.cs.tweeter.net.response.FollowersResponse;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
-import edu.byu.cs.tweeter.presenter.FollowersPresenter;
-import edu.byu.cs.tweeter.presenter.FollowingPresenter;
+import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import edu.byu.cs.tweeter.Shared.domain.Follow;
+import edu.byu.cs.tweeter.Shared.domain.Status;
+import edu.byu.cs.tweeter.Shared.domain.User;
+import edu.byu.cs.tweeter.Shared.request.FollowersRequest;
+import edu.byu.cs.tweeter.Shared.response.FollowersResponse;
+import edu.byu.cs.tweeter.Client.presenter.FollowersPresenter;
 
 public class TestFollowers implements FollowersPresenter.View {
     FollowersPresenter presenter;

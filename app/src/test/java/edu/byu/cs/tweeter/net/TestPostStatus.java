@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.PostStatusRequest;
-import edu.byu.cs.tweeter.net.response.PostStatusResponse;
-import edu.byu.cs.tweeter.presenter.FollowingPresenter;
-import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import edu.byu.cs.tweeter.Shared.domain.Follow;
+import edu.byu.cs.tweeter.Shared.domain.Status;
+import edu.byu.cs.tweeter.Shared.domain.User;
+import edu.byu.cs.tweeter.Shared.request.PostStatusRequest;
+import edu.byu.cs.tweeter.Shared.response.PostStatusResponse;
+import edu.byu.cs.tweeter.Client.presenter.MainPresenter;
 
 public class TestPostStatus implements MainPresenter.View {
     MainPresenter presenter;

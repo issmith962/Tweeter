@@ -1,7 +1,5 @@
 package edu.byu.cs.tweeter.net;
 
-import android.net.Uri;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,17 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.LoginRequest;
-import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.request.StartUpRequest;
-import edu.byu.cs.tweeter.net.response.LoginResponse;
-import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.net.response.StartUpResponse;
-import edu.byu.cs.tweeter.presenter.FollowingPresenter;
-import edu.byu.cs.tweeter.presenter.LoginPresenter;
+import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import edu.byu.cs.tweeter.Shared.domain.Follow;
+import edu.byu.cs.tweeter.Shared.domain.Status;
+import edu.byu.cs.tweeter.Shared.domain.User;
+import edu.byu.cs.tweeter.Shared.request.LoginRequest;
+import edu.byu.cs.tweeter.Shared.request.RegisterRequest;
+import edu.byu.cs.tweeter.Shared.request.StartUpRequest;
+import edu.byu.cs.tweeter.Shared.response.LoginResponse;
+import edu.byu.cs.tweeter.Shared.response.RegisterResponse;
+import edu.byu.cs.tweeter.Shared.response.StartUpResponse;
+import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 
 public class TestLogin implements LoginPresenter.View {
     LoginPresenter presenter;
