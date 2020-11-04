@@ -10,9 +10,9 @@ import java.io.IOException;
 import edu.byu.cs.tweeter.Client.presenter.SearchPresenter;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.util.ImageUtils;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.GetAllUsersRequest;
-import edu.byu.cs.tweeter.Shared.response.GetAllUsersResponse;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.GetAllUsersRequest;
+import byu.edu.cs.tweeter.shared.response.GetAllUsersResponse;
 
 public class GetAllUsersTask extends AsyncTask<GetAllUsersRequest, Void, GetAllUsersResponse> {
     private final SearchPresenter presenter;

@@ -25,10 +25,10 @@ import java.util.regex.Pattern;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFeedTask;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.Shared.domain.Status;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.FeedRequest;
-import edu.byu.cs.tweeter.Shared.response.FeedResponse;
+import byu.edu.cs.tweeter.shared.domain.Status;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.FeedRequest;
+import byu.edu.cs.tweeter.shared.response.FeedResponse;
 import edu.byu.cs.tweeter.Client.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.Client.view.main.VisitorActivity;
 

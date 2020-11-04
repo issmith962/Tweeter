@@ -23,10 +23,10 @@ import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.Shared.domain.Status;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.StoryRequest;
-import edu.byu.cs.tweeter.Shared.response.StoryResponse;
+import byu.edu.cs.tweeter.shared.domain.Status;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.StoryRequest;
+import byu.edu.cs.tweeter.shared.response.StoryResponse;
 import edu.byu.cs.tweeter.Client.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.Client.view.main.VisitorActivity;

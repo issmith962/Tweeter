@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.domain.Follow;
-import edu.byu.cs.tweeter.Shared.domain.Status;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.FeedRequest;
-import edu.byu.cs.tweeter.Shared.response.FeedResponse;
+import byu.edu.cs.tweeter.shared.domain.Follow;
+import byu.edu.cs.tweeter.shared.domain.Status;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.FeedRequest;
+import byu.edu.cs.tweeter.shared.response.FeedResponse;
 import edu.byu.cs.tweeter.Client.presenter.FeedPresenter;
 
 public class TestFeed implements FeedPresenter.View {

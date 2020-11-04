@@ -6,12 +6,12 @@ import androidx.annotation.RequiresApi;
 
 import edu.byu.cs.tweeter.Client.model.services.LoginService;
 import edu.byu.cs.tweeter.Client.model.services.RegisterService;
-import edu.byu.cs.tweeter.Shared.request.LoginRequest;
-import edu.byu.cs.tweeter.Shared.request.RegisterRequest;
-import edu.byu.cs.tweeter.Shared.request.StartUpRequest;
-import edu.byu.cs.tweeter.Shared.response.LoginResponse;
-import edu.byu.cs.tweeter.Shared.response.RegisterResponse;
-import edu.byu.cs.tweeter.Shared.response.StartUpResponse;
+import byu.edu.cs.tweeter.shared.request.LoginRequest;
+import byu.edu.cs.tweeter.shared.request.RegisterRequest;
+import byu.edu.cs.tweeter.shared.request.StartUpRequest;
+import byu.edu.cs.tweeter.shared.response.LoginResponse;
+import byu.edu.cs.tweeter.shared.response.RegisterResponse;
+import byu.edu.cs.tweeter.shared.response.StartUpResponse;
 
 /**
  * The presenter for the "login" functionality of the application.

@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
 import edu.byu.cs.tweeter.Client.model.services.FollowerService;
-import edu.byu.cs.tweeter.Shared.request.FollowersRequest;
-import edu.byu.cs.tweeter.Shared.response.FollowersResponse;
+import byu.edu.cs.tweeter.shared.request.FollowersRequest;
+import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 
 /**
  * The presenter for the "followers" functionality of the application.

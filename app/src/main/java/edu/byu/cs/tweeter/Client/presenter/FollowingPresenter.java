@@ -2,10 +2,10 @@ package edu.byu.cs.tweeter.Client.presenter;
 
 import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingService;
 import edu.byu.cs.tweeter.Client.model.services.FollowingService;
-import edu.byu.cs.tweeter.Shared.request.CheckUserFollowingRequest;
-import edu.byu.cs.tweeter.Shared.request.FollowingRequest;
-import edu.byu.cs.tweeter.Shared.response.CheckUserFollowingResponse;
-import edu.byu.cs.tweeter.Shared.response.FollowingResponse;
+import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
+import byu.edu.cs.tweeter.shared.request.FollowingRequest;
+import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
+import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 
 /**
  * The presenter for the "following" functionality of the application.

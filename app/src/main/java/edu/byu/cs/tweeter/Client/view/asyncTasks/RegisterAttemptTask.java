@@ -3,8 +3,8 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 import android.os.AsyncTask;
 
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
-import edu.byu.cs.tweeter.Shared.request.RegisterRequest;
-import edu.byu.cs.tweeter.Shared.response.RegisterResponse;
+import byu.edu.cs.tweeter.shared.request.RegisterRequest;
+import byu.edu.cs.tweeter.shared.response.RegisterResponse;
 
 public class RegisterAttemptTask extends AsyncTask<RegisterRequest, Void, RegisterResponse> {
     private final LoginPresenter presenter;

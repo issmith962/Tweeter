@@ -19,10 +19,10 @@ import java.util.Objects;
 
 import edu.byu.cs.tweeter.Client.view.asyncTasks.StartUpTask;
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.Shared.request.LoginRequest;
-import edu.byu.cs.tweeter.Shared.request.StartUpRequest;
-import edu.byu.cs.tweeter.Shared.response.LoginResponse;
-import edu.byu.cs.tweeter.Shared.response.StartUpResponse;
+import byu.edu.cs.tweeter.shared.request.LoginRequest;
+import byu.edu.cs.tweeter.shared.request.StartUpRequest;
+import byu.edu.cs.tweeter.shared.response.LoginResponse;
+import byu.edu.cs.tweeter.shared.response.StartUpResponse;
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoginAttemptTask;
 import edu.byu.cs.tweeter.Client.view.main.MainActivity;

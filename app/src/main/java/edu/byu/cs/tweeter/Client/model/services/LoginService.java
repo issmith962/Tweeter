@@ -5,16 +5,16 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.domain.AuthToken;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.FolloweeCountRequest;
-import edu.byu.cs.tweeter.Shared.request.FollowerCountRequest;
-import edu.byu.cs.tweeter.Shared.request.LoginRequest;
-import edu.byu.cs.tweeter.Shared.request.StartUpRequest;
-import edu.byu.cs.tweeter.Shared.response.FolloweeCountResponse;
-import edu.byu.cs.tweeter.Shared.response.FollowerCountResponse;
-import edu.byu.cs.tweeter.Shared.response.LoginResponse;
-import edu.byu.cs.tweeter.Shared.response.StartUpResponse;
+import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
+import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
+import byu.edu.cs.tweeter.shared.request.LoginRequest;
+import byu.edu.cs.tweeter.shared.request.StartUpRequest;
+import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
+import byu.edu.cs.tweeter.shared.response.FollowerCountResponse;
+import byu.edu.cs.tweeter.shared.response.LoginResponse;
+import byu.edu.cs.tweeter.shared.response.StartUpResponse;
 
 /**
  * Contains the business logic for login and sign up.

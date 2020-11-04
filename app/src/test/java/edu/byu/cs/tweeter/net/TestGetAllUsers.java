@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.net;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.domain.Follow;
-import edu.byu.cs.tweeter.Shared.domain.Status;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.GetAllUsersRequest;
-import edu.byu.cs.tweeter.Shared.response.GetAllUsersResponse;
+import byu.edu.cs.tweeter.shared.domain.Follow;
+import byu.edu.cs.tweeter.shared.domain.Status;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.GetAllUsersRequest;
+import byu.edu.cs.tweeter.shared.response.GetAllUsersResponse;
 import edu.byu.cs.tweeter.Client.presenter.SearchPresenter;
 
 public class TestGetAllUsers  implements SearchPresenter.View {

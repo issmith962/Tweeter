@@ -10,8 +10,8 @@ import java.io.IOException;
 import edu.byu.cs.tweeter.Client.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.util.ImageUtils;
-import edu.byu.cs.tweeter.Shared.request.StoryRequest;
-import edu.byu.cs.tweeter.Shared.response.StoryResponse;
+import byu.edu.cs.tweeter.shared.request.StoryRequest;
+import byu.edu.cs.tweeter.shared.response.StoryResponse;
 
 public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
     private final StoryPresenter presenter;
@@ -36,7 +36,7 @@ public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
     }
 
     private void loadImages(StoryResponse response) {
-        for (edu.byu.cs.tweeter.Shared.domain.Status status : response.getStory()) {
+        for (byu.edu.cs.tweeter.shared.domain.Status status : response.getStory()) {
             Drawable drawable;
             try {
                 drawable = ImageUtils.makeDrawable(status.getUser(), context);

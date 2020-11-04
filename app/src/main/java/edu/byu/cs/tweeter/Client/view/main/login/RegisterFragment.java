@@ -34,10 +34,10 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.Shared.request.LoginRequest;
-import edu.byu.cs.tweeter.Shared.request.RegisterRequest;
-import edu.byu.cs.tweeter.Shared.response.LoginResponse;
-import edu.byu.cs.tweeter.Shared.response.RegisterResponse;
+import byu.edu.cs.tweeter.shared.request.LoginRequest;
+import byu.edu.cs.tweeter.shared.request.RegisterRequest;
+import byu.edu.cs.tweeter.shared.response.LoginResponse;
+import byu.edu.cs.tweeter.shared.response.RegisterResponse;
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoginAttemptTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.RegisterAttemptTask;

@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.model.services;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.request.LogoutRequest;
-import edu.byu.cs.tweeter.Shared.response.LogoutResponse;
+import byu.edu.cs.tweeter.shared.request.LogoutRequest;
+import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 
 public class LogoutService {
     private static LogoutService instance;

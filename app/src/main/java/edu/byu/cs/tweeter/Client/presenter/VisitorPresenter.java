@@ -3,14 +3,14 @@ package edu.byu.cs.tweeter.Client.presenter;
 import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingService;
 import edu.byu.cs.tweeter.Client.model.services.FollowActionService;
 import edu.byu.cs.tweeter.Client.model.services.GetUserService;
-import edu.byu.cs.tweeter.Shared.request.CheckUserFollowingRequest;
-import edu.byu.cs.tweeter.Shared.request.FollowUserRequest;
-import edu.byu.cs.tweeter.Shared.request.GetUserRequest;
-import edu.byu.cs.tweeter.Shared.request.UnfollowUserRequest;
-import edu.byu.cs.tweeter.Shared.response.CheckUserFollowingResponse;
-import edu.byu.cs.tweeter.Shared.response.FollowUserResponse;
-import edu.byu.cs.tweeter.Shared.response.GetUserResponse;
-import edu.byu.cs.tweeter.Shared.response.UnfollowUserResponse;
+import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
+import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
+import byu.edu.cs.tweeter.shared.request.GetUserRequest;
+import byu.edu.cs.tweeter.shared.request.UnfollowUserRequest;
+import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
+import byu.edu.cs.tweeter.shared.response.FollowUserResponse;
+import byu.edu.cs.tweeter.shared.response.GetUserResponse;
+import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 
 public class VisitorPresenter extends Presenter {
     private final View view;

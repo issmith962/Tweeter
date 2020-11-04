@@ -1,15 +1,15 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
 import edu.byu.cs.tweeter.Client.model.services.LogoutService;
-import edu.byu.cs.tweeter.Shared.domain.AuthToken;
-import edu.byu.cs.tweeter.Shared.domain.User;
+import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.domain.User;
 import edu.byu.cs.tweeter.Client.model.services.LoginService;
-import edu.byu.cs.tweeter.Shared.request.FolloweeCountRequest;
-import edu.byu.cs.tweeter.Shared.request.FollowerCountRequest;
-import edu.byu.cs.tweeter.Shared.request.LogoutRequest;
-import edu.byu.cs.tweeter.Shared.response.FolloweeCountResponse;
-import edu.byu.cs.tweeter.Shared.response.FollowerCountResponse;
-import edu.byu.cs.tweeter.Shared.response.LogoutResponse;
+import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
+import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
+import byu.edu.cs.tweeter.shared.request.LogoutRequest;
+import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
+import byu.edu.cs.tweeter.shared.response.FollowerCountResponse;
+import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 
 /**
  * A common base class for all presenters in the application.

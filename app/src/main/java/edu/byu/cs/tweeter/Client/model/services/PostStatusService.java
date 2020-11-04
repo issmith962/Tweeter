@@ -5,8 +5,8 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.request.PostStatusRequest;
-import edu.byu.cs.tweeter.Shared.response.PostStatusResponse;
+import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
+import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 
 public class  PostStatusService {
     private static PostStatusService instance;

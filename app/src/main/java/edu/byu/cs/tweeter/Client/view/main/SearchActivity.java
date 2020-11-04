@@ -22,9 +22,9 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.GetAllUsersRequest;
-import edu.byu.cs.tweeter.Shared.response.GetAllUsersResponse;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.GetAllUsersRequest;
+import byu.edu.cs.tweeter.shared.response.GetAllUsersResponse;
 import edu.byu.cs.tweeter.Client.presenter.SearchPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetAllUsersTask;
 

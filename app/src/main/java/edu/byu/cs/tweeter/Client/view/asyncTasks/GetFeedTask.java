@@ -10,8 +10,8 @@ import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.Shared.request.FeedRequest;
-import edu.byu.cs.tweeter.Shared.response.FeedResponse;
+import byu.edu.cs.tweeter.shared.request.FeedRequest;
+import byu.edu.cs.tweeter.shared.response.FeedResponse;
 import edu.byu.cs.tweeter.Client.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.util.ImageUtils;
@@ -39,7 +39,7 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
     }
 
     private void loadImages(FeedResponse response) {
-        for (edu.byu.cs.tweeter.Shared.domain.Status status : response.getFeed()) {
+        for (byu.edu.cs.tweeter.shared.domain.Status status : response.getFeed()) {
             Drawable drawable;
             try {
                 drawable = ImageUtils.makeDrawable(status.getUser(), context);

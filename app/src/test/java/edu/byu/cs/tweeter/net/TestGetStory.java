@@ -2,7 +2,6 @@ package edu.byu.cs.tweeter.net;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.domain.Follow;
-import edu.byu.cs.tweeter.Shared.domain.Status;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.StoryRequest;
-import edu.byu.cs.tweeter.Shared.response.StoryResponse;
+import byu.edu.cs.tweeter.shared.domain.Follow;
+import byu.edu.cs.tweeter.shared.domain.Status;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.StoryRequest;
+import byu.edu.cs.tweeter.shared.response.StoryResponse;
 import edu.byu.cs.tweeter.Client.presenter.StoryPresenter;
 
 public class TestGetStory  implements StoryPresenter.View {

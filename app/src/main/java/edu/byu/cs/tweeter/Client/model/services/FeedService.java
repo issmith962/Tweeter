@@ -5,8 +5,8 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.request.FeedRequest;
-import edu.byu.cs.tweeter.Shared.response.FeedResponse;
+import byu.edu.cs.tweeter.shared.request.FeedRequest;
+import byu.edu.cs.tweeter.shared.response.FeedResponse;
 
 public class FeedService {
     private static FeedService instance;

@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.Shared.domain.User;
+import byu.edu.cs.tweeter.shared.domain.User;
 
 /**
  * Contains utility methods for working with images in an Android application.

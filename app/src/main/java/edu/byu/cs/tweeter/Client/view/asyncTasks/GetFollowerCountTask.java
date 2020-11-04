@@ -2,8 +2,8 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
-import edu.byu.cs.tweeter.Shared.request.FollowerCountRequest;
-import edu.byu.cs.tweeter.Shared.response.FollowerCountResponse;
+import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
+import byu.edu.cs.tweeter.shared.response.FollowerCountResponse;
 import edu.byu.cs.tweeter.Client.presenter.Presenter;
 
 public class GetFollowerCountTask extends AsyncTask<FollowerCountRequest, Void, FollowerCountResponse> {

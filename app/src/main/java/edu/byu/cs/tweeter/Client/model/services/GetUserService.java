@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.model.services;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.request.GetUserRequest;
-import edu.byu.cs.tweeter.Shared.response.GetUserResponse;
+import byu.edu.cs.tweeter.shared.request.GetUserRequest;
+import byu.edu.cs.tweeter.shared.response.GetUserResponse;
 
 public class GetUserService {
     private static GetUserService instance;

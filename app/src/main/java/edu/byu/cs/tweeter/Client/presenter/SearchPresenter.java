@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
 import edu.byu.cs.tweeter.Client.model.services.GetAllUsersService;
-import edu.byu.cs.tweeter.Shared.request.GetAllUsersRequest;
-import edu.byu.cs.tweeter.Shared.response.GetAllUsersResponse;
+import byu.edu.cs.tweeter.shared.request.GetAllUsersRequest;
+import byu.edu.cs.tweeter.shared.response.GetAllUsersResponse;
 
 public class SearchPresenter extends Presenter {
     private final View view;

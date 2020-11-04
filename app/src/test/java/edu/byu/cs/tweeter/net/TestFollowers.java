@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.domain.Follow;
-import edu.byu.cs.tweeter.Shared.domain.Status;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.FollowersRequest;
-import edu.byu.cs.tweeter.Shared.response.FollowersResponse;
+import byu.edu.cs.tweeter.shared.domain.Follow;
+import byu.edu.cs.tweeter.shared.domain.Status;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.FollowersRequest;
+import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 import edu.byu.cs.tweeter.Client.presenter.FollowersPresenter;
 
 public class TestFollowers implements FollowersPresenter.View {

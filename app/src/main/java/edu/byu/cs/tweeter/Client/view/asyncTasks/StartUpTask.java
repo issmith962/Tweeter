@@ -5,8 +5,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import edu.byu.cs.tweeter.Shared.request.StartUpRequest;
-import edu.byu.cs.tweeter.Shared.response.StartUpResponse;
+import byu.edu.cs.tweeter.shared.request.StartUpRequest;
+import byu.edu.cs.tweeter.shared.response.StartUpResponse;
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 
 public class StartUpTask extends AsyncTask<StartUpRequest, Void, StartUpResponse> {

@@ -3,8 +3,8 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 import android.os.AsyncTask;
 
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
-import edu.byu.cs.tweeter.Shared.request.LoginRequest;
-import edu.byu.cs.tweeter.Shared.response.LoginResponse;
+import byu.edu.cs.tweeter.shared.request.LoginRequest;
+import byu.edu.cs.tweeter.shared.response.LoginResponse;
 
 /**
  * An {@Link AsyncTask}  for attempting a login.

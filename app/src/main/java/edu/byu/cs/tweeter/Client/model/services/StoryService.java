@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.model.services;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.request.StoryRequest;
-import edu.byu.cs.tweeter.Shared.response.StoryResponse;
+import byu.edu.cs.tweeter.shared.request.StoryRequest;
+import byu.edu.cs.tweeter.shared.response.StoryResponse;
 
 public class StoryService {
 

@@ -3,8 +3,8 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 import android.os.AsyncTask;
 
 import edu.byu.cs.tweeter.Client.presenter.Presenter;
-import edu.byu.cs.tweeter.Shared.request.FolloweeCountRequest;
-import edu.byu.cs.tweeter.Shared.response.FolloweeCountResponse;
+import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
+import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
 
 public class GetFolloweeCountTask extends AsyncTask<FolloweeCountRequest, Void, FolloweeCountResponse> {
     private final Presenter presenter;

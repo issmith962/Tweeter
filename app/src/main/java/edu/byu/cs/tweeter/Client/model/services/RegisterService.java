@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.model.services;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.request.RegisterRequest;
-import edu.byu.cs.tweeter.Shared.response.RegisterResponse;
+import byu.edu.cs.tweeter.shared.request.RegisterRequest;
+import byu.edu.cs.tweeter.shared.response.RegisterResponse;
 
 public class RegisterService {
     private static RegisterService instance;

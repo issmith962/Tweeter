@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
 import edu.byu.cs.tweeter.Client.model.services.StoryService;
-import edu.byu.cs.tweeter.Shared.request.StoryRequest;
-import edu.byu.cs.tweeter.Shared.response.StoryResponse;
+import byu.edu.cs.tweeter.shared.request.StoryRequest;
+import byu.edu.cs.tweeter.shared.response.StoryResponse;
 
 public class StoryPresenter extends Presenter {
     private final View view;

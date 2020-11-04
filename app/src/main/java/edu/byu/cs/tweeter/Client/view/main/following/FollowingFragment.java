@@ -24,9 +24,9 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.Shared.domain.User;
-import edu.byu.cs.tweeter.Shared.request.FollowingRequest;
-import edu.byu.cs.tweeter.Shared.response.FollowingResponse;
+import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.request.FollowingRequest;
+import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 import edu.byu.cs.tweeter.Client.presenter.FollowingPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.Client.view.main.VisitorActivity;

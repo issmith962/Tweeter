@@ -2,8 +2,8 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
-import edu.byu.cs.tweeter.Shared.request.FollowUserRequest;
-import edu.byu.cs.tweeter.Shared.response.FollowUserResponse;
+import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
+import byu.edu.cs.tweeter.shared.response.FollowUserResponse;
 import edu.byu.cs.tweeter.Client.presenter.VisitorPresenter;
 
 public class FollowUserTask extends AsyncTask<FollowUserRequest, Void, FollowUserResponse> {

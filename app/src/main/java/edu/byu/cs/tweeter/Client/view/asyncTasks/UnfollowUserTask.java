@@ -3,8 +3,8 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 import android.os.AsyncTask;
 
 import edu.byu.cs.tweeter.Client.presenter.VisitorPresenter;
-import edu.byu.cs.tweeter.Shared.request.UnfollowUserRequest;
-import edu.byu.cs.tweeter.Shared.response.UnfollowUserResponse;
+import byu.edu.cs.tweeter.shared.request.UnfollowUserRequest;
+import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 
 public class UnfollowUserTask extends AsyncTask<UnfollowUserRequest, Void, UnfollowUserResponse> {
     private final VisitorPresenter presenter;

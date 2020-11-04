@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.model.services;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Shared.request.FollowersRequest;
-import edu.byu.cs.tweeter.Shared.response.FollowersResponse;
+import byu.edu.cs.tweeter.shared.request.FollowersRequest;
+import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 
 /**
  * Contains the business logic for getting the users a user has as followers.
