@@ -2,13 +2,15 @@ package edu.byu.cs.tweeter.net.response;
 
 import android.net.Uri;
 
+import edu.byu.cs.tweeter.model.domain.AuthToken;
+
 /**
  * A response for a {@Link edu.byu.cs.tweeter.net.request.LoginRequest}.
  */
 public class LoginResponse extends Response {
     String alias;
     String password;
-    String authToken;
+    AuthToken authToken;
     String firstName;
     String lastName;
     String imageURL;
@@ -25,7 +27,7 @@ public class LoginResponse extends Response {
      * @param lastName the user's last name
      * @param imageURL the user's profile picture URL
      */
-    public LoginResponse(String message, String alias, String password, String authToken, String firstName, String lastName, String imageURL) {
+    public LoginResponse(String message, String alias, String password, AuthToken authToken, String firstName, String lastName, String imageURL) {
         super(true, message);
         this.alias = alias;
         this.password = password;
@@ -35,7 +37,7 @@ public class LoginResponse extends Response {
         this.imageURL = imageURL;
         this.imageUri = null;
     }
-    public LoginResponse(String message, String alias, String password, String authToken, String firstName, String lastName, Uri imageUri) {
+    public LoginResponse(String message, String alias, String password, AuthToken authToken, String firstName, String lastName, Uri imageUri) {
         super(true, message);
         this.alias = alias;
         this.password = password;
@@ -62,7 +64,7 @@ public class LoginResponse extends Response {
     public String getPassword() {
         return password;
     }
-    public String getAuthToken() {
+    public AuthToken getAuthToken() {
         return authToken;
     }
     public String getFirstName() {return firstName;}

@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.FolloweeCountRequest;
@@ -30,6 +31,7 @@ public class LoginService {
      * The logged in user.
      */
     private User currentUser;
+    private AuthToken currentAuthToken;
 
     /**
      * Return the singleton instance of this class.
@@ -51,6 +53,7 @@ public class LoginService {
     private LoginService() {
         serverFacade = new ServerFacade();
         currentUser = null;
+        currentAuthToken = null;
     }
 
     /**
@@ -61,6 +64,7 @@ public class LoginService {
     public LoginResponse checkLogin(LoginRequest request) {
         LoginResponse response = serverFacade.checkLogin(request);
         if (!(response.getAuthToken() == null)) {
+            currentAuthToken = response.getAuthToken();
             if (response.getImageURL() == null) {
                 setCurrentUser(new User(response.getFirstName(), response.getLastName(),
                         response.getAlias(), response.getImageUri()));
@@ -78,11 +82,21 @@ public class LoginService {
         return serverFacade.startUp(request);
     }
 
+    public AuthToken getCurrentAuthToken() {
+        return currentAuthToken;
+    }
+
+    public void setCurrentAuthToken(AuthToken currentAuthToken) {
+        this.currentAuthToken = currentAuthToken;
+    }
+
     /**
      * Returns the currently logged in user.
      *
      * @return the user.
      */
+
+
     public User getCurrentUser() {
         return currentUser;
     }

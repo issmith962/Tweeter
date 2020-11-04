@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,19 +30,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.services.LoginService;
 import edu.byu.cs.tweeter.net.request.FolloweeCountRequest;
 import edu.byu.cs.tweeter.net.request.FollowerCountRequest;
+import edu.byu.cs.tweeter.net.request.LogoutRequest;
 import edu.byu.cs.tweeter.net.request.PostStatusRequest;
 import edu.byu.cs.tweeter.net.response.FolloweeCountResponse;
 import edu.byu.cs.tweeter.net.response.FollowerCountResponse;
+import edu.byu.cs.tweeter.net.response.LogoutResponse;
 import edu.byu.cs.tweeter.net.response.PostStatusResponse;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFolloweeCountTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowerCountTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadUriImageTask;
+import edu.byu.cs.tweeter.view.asyncTasks.LogoutTask;
 import edu.byu.cs.tweeter.view.asyncTasks.PostStatusTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.main.adapters.FeedSectionsPagerAdapter;
@@ -50,18 +55,17 @@ import edu.byu.cs.tweeter.view.main.adapters.LoginSectionsPagerAdapter;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver, LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
+public class MainActivity extends AppCompatActivity implements LogoutTask.LogoutObserver, GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver, LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
     private static final String[] STATES = new String[]{"Login", "Feed", "Reset", "Register"};
     private int state;
     private MainPresenter presenter;
     private User user;
     private ImageView userImageView;
-    TextView userName;
-    TextView userAlias;
-    TextView userFollowerCount;
-    TextView userFolloweeCount;
-    int followerCount;
-    int followeeCount;
+    private TextView userName;
+    private TextView userAlias;
+    private TextView userFollowerCount;
+    private TextView userFolloweeCount;
+    private AuthToken authToken;
 
     private ViewPager viewPager;
     public static Context contextOfApplication;
@@ -93,14 +97,19 @@ public class MainActivity extends AppCompatActivity implements GetFollowerCountT
     }
     private void clearUser() {
         LoginService.getInstance().setCurrentUser(null);
+        LoginService.getInstance().setCurrentAuthToken(null);
 
     }
     public void updateUser() {
         user = getCurrentUser();
+        authToken = getCurrentAuthToken();
     }
 
     public User getCurrentUser() {
         return presenter.getCurrentUser();
+    }
+    public AuthToken getCurrentAuthToken() {
+        return presenter.getCurrentAuthToken();
     }
 
     public void loadUserDisplay() {
@@ -108,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements GetFollowerCountT
         userImageView = findViewById(R.id.userImage);
         userName = findViewById(R.id.userName);
         userAlias = findViewById(R.id.userAlias);
-        userFollowerCount = findViewById(R.id.followerCount);
-        userFolloweeCount = findViewById(R.id.followeeCount);
+        userFollowerCount = findViewById(R.id.followerCountMain);
+        userFolloweeCount = findViewById(R.id.followeeCountMain);
         if (user == null) {
             userImageView.setImageResource(R.drawable.question);
             userName.setText("");
@@ -138,14 +147,27 @@ public class MainActivity extends AppCompatActivity implements GetFollowerCountT
             followeeCountTask.execute(followeeCountRequest);
         }
     }
+// OLD RESET
+//    public void reset() {
+//        clearUser();
+//        presenter = new MainPresenter(this);
+//        loadUserDisplay();
+//        state = 0;
+//        loadCurrentState();
+//    }
 
     public void reset() {
+        LogoutRequest request = new LogoutRequest(authToken);
+        LogoutTask task = new LogoutTask(presenter, this);
+        task.execute(request);
         clearUser();
-        presenter = new MainPresenter(this);
-        loadUserDisplay();
-        state = 0;
-        loadCurrentState();
+        Intent intent = new Intent(getContextOfApplication(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getContextOfApplication().startActivity(intent);
     }
+
     public void startLoginState() {
         state = 0;
         LoginSectionsPagerAdapter loginSectionsPagerAdapter = new LoginSectionsPagerAdapter(this, getSupportFragmentManager());
@@ -228,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements GetFollowerCountT
                 String date = dtf.format(now).substring(0, 10);
                 User currentUser = presenter.getCurrentUser();
                 PostStatusTask postStatusTask = new PostStatusTask(presenter, MainActivity.this);
-                PostStatusRequest request = new PostStatusRequest(currentUser, newStatus, date);
+                PostStatusRequest request = new PostStatusRequest(currentUser, newStatus, date, authToken);
                 postStatusTask.execute(request);
             }
         });
@@ -289,16 +311,16 @@ public class MainActivity extends AppCompatActivity implements GetFollowerCountT
 
     @Override
     public void followerCountRequested(FollowerCountResponse response) {
-        followerCount = response.getFollowerCount();
-        //userFollowerCount = findViewById(R.id.followerCount);
-        userFollowerCount.setText("Followers: " + Integer.toString(followerCount));
+        userFollowerCount.setText("Followers: " + Integer.toString(response.getFollowerCount()));
     }
 
     @Override
     public void followeeCountRequested(FolloweeCountResponse response) {
-        followeeCount = response.getFolloweeCount();
-        //userFolloweeCount = findViewById(R.id.followeeCount);
-        userFolloweeCount.setText("Followees: " + Integer.toString(followeeCount));
+        userFolloweeCount.setText("Followees: " + Integer.toString(response.getFolloweeCount()));
     }
 
+    @Override
+    public void logoutAttempted(LogoutResponse response) {
+        Toast.makeText(getApplicationContext(), response.getMessage(), Toast. LENGTH_SHORT).show();
+    }
 }
