@@ -71,6 +71,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
 
             mPasswordField = view.findViewById(R.id.password);
             mPasswordField.addTextChangedListener(new TextWatcher() {
+
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 

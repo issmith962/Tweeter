@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import edu.byu.cs.tweeter.BuildConfig;
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -29,6 +31,7 @@ import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.GetAllUsersRequest;
 import edu.byu.cs.tweeter.net.request.GetUserRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.request.LogoutRequest;
 import edu.byu.cs.tweeter.net.request.PostStatusRequest;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.net.request.StartUpRequest;
@@ -44,6 +47,7 @@ import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.GetAllUsersResponse;
 import edu.byu.cs.tweeter.net.response.GetUserResponse;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.net.response.LogoutResponse;
 import edu.byu.cs.tweeter.net.response.PostStatusResponse;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
 import edu.byu.cs.tweeter.net.response.StartUpResponse;
@@ -61,7 +65,7 @@ public class ServerFacade {
     private static Map<User, List<User>> followersByFollowee;
     private static Map<User, List<Status>> statusesByUser;
     private static Map<User, String> passwordsByUser;
-
+    private static Map<AuthToken, User> authTokensByUser;
     private static boolean story_initialized = false;
     private static boolean follows_initialized = false;
     private static boolean feed_initialized = false;
@@ -341,6 +345,9 @@ public class ServerFacade {
         if (passwordsByUser == null) {
             passwordsByUser = new HashMap<>();
         }
+        if (authTokensByUser == null) {
+            authTokensByUser = new HashMap<>();
+        }
         passwordsByUser.put(new User("Test", "User", "@TestUser",
                         "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png"),
                 "test_password");
@@ -361,19 +368,33 @@ public class ServerFacade {
             User user = allUsers.get(findIndexOfUser(loginRequest.getAlias()));
             if (passwordsByUser.containsKey(user)) {
                 if (passwordsByUser.get(user).equals(loginRequest.getPassword())) {
+                    AuthToken authToken = new AuthToken();
+                    String tok = UUID.randomUUID().toString();
+                    authToken.setAuthToken(tok);
                     if (user.getImageUri() == null) {
                         return new LoginResponse("Login Successful!", loginRequest.getAlias(),
-                                loginRequest.getPassword(), "test_auth", user.getFirstName(),
+                                loginRequest.getPassword(), authToken, user.getFirstName(),
                                 user.getLastName(), user.getImageUrl());
                     } else {
                         return new LoginResponse("Login Successful!", loginRequest.getAlias(),
-                                loginRequest.getPassword(), "test_auth", user.getFirstName(),
+                                loginRequest.getPassword(), authToken, user.getFirstName(),
                                 user.getLastName(), user.getImageUri());
                     }
                 }
             }
         }
         return new LoginResponse("Login Failure!\nIncorrect alias or password");
+    }
+
+    public LogoutResponse logout(LogoutRequest request) {
+        int i = 0;
+        try {
+            authTokensByUser.remove(request.getAuthToken());
+            return new LogoutResponse(true, "Logged out!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new LogoutResponse(false, "Error in logging out");
+        }
     }
 
     public int findIndexOfUser(String alias) {

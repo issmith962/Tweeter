@@ -1,18 +1,18 @@
 package edu.byu.cs.tweeter.net.request;
 
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class UnfollowUserRequest {
     private User follower;
     private User followee;
-    private String authToken;
-
-    public UnfollowUserRequest(User follower, User followee) {
+    private AuthToken authToken;
+    public UnfollowUserRequest(User follower, User followee, AuthToken authToken) {
         this.follower = follower;
         this.followee = followee;
         this.authToken = authToken;
     }
-    public String getAuthToken() {
+    public AuthToken getAuthToken() {
         return authToken;
     }
 

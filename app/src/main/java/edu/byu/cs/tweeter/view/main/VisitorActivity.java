@@ -22,37 +22,59 @@ import java.util.concurrent.TimeoutException;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.services.LoginService;
 import edu.byu.cs.tweeter.net.request.CheckUserFollowingRequest;
 import edu.byu.cs.tweeter.net.request.FollowUserRequest;
+import edu.byu.cs.tweeter.net.request.FolloweeCountRequest;
+import edu.byu.cs.tweeter.net.request.FollowerCountRequest;
+import edu.byu.cs.tweeter.net.request.GetAllUsersRequest;
 import edu.byu.cs.tweeter.net.request.GetUserRequest;
+import edu.byu.cs.tweeter.net.request.LogoutRequest;
 import edu.byu.cs.tweeter.net.request.UnfollowUserRequest;
 import edu.byu.cs.tweeter.net.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.net.response.FollowUserResponse;
+import edu.byu.cs.tweeter.net.response.FolloweeCountResponse;
+import edu.byu.cs.tweeter.net.response.FollowerCountResponse;
+import edu.byu.cs.tweeter.net.response.FollowingResponse;
+import edu.byu.cs.tweeter.net.response.GetAllUsersResponse;
 import edu.byu.cs.tweeter.net.response.GetUserResponse;
+import edu.byu.cs.tweeter.net.response.LogoutResponse;
 import edu.byu.cs.tweeter.net.response.UnfollowUserResponse;
+import edu.byu.cs.tweeter.presenter.Presenter;
 import edu.byu.cs.tweeter.presenter.VisitorPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.CheckUserFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.FollowUserTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetAllUsersTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetFolloweeCountTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetFollowerCountTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadUriImageTask;
+import edu.byu.cs.tweeter.view.asyncTasks.LogoutTask;
 import edu.byu.cs.tweeter.view.asyncTasks.UnfollowUserTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.main.adapters.VisitingSectionsPagerAdapter;
 
-public class VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, VisitorPresenter.View,
-        CheckUserFollowingTask.CheckUserFollowingObserver, FollowUserTask.FollowUserObserver, UnfollowUserTask.UnfollowUserObserver, GetUserTask.GetUserObserver {
+public class VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver,
+        LoadUriImageTask.LoadUriImageObserver, VisitorPresenter.View,
+        CheckUserFollowingTask.CheckUserFollowingObserver, FollowUserTask.FollowUserObserver,
+        UnfollowUserTask.UnfollowUserObserver, GetUserTask.GetUserObserver,
+        GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver,
+        LogoutTask.LogoutObserver {
     private VisitorPresenter presenter;
     private User currentUser;
     private User visitingUser;
     private ImageView userImageView;
-    TextView userName;
-    TextView userAlias;
+    private TextView userName;
+    private TextView userAlias;
     private ViewPager viewPager;
     private boolean userIsFollowing;
     private boolean checkFollowingTaskCompleted;
     private String username;
     private boolean flag;
+    private TextView userFollowerCount;
+    private TextView userFolloweeCount;
 
 
     @Override
@@ -127,6 +149,16 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         }
         userName.setText(visitingUser.getName());
         userAlias.setText(visitingUser.getAlias());
+        userFollowerCount = findViewById(R.id.followerCountVisitor);
+        userFolloweeCount = findViewById(R.id.followeeCountVisitor);
+
+        GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
+        FollowerCountRequest followerCountRequest = new FollowerCountRequest(visitingUser);
+        followerCountTask.execute(followerCountRequest);
+
+        GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
+        FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(visitingUser);
+        followeeCountTask.execute(followeeCountRequest);
 
         VisitingSectionsPagerAdapter visitingSectionsPagerAdapter = new VisitingSectionsPagerAdapter(this, getSupportFragmentManager(), visitingUser);
         viewPager = findViewById(R.id.visitor_view_pager);
@@ -151,9 +183,7 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(VisitorActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("state", 2);
-                startActivity(intent);
+                reset();
             }
         });
 
@@ -182,21 +212,39 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
             public void onClick(View view) {
                 if (userIsFollowing) {
                     UnfollowUserTask unfollowUserTask = new UnfollowUserTask(presenter, VisitorActivity.this);
-                    UnfollowUserRequest request = new UnfollowUserRequest(currentUser, visitingUser);
+                    UnfollowUserRequest request = new UnfollowUserRequest(currentUser, visitingUser, presenter.getCurrentAuthToken());
                     unfollowUserTask.execute(request);
                 }
                 else {
                     FollowUserTask followUserTask = new FollowUserTask(presenter, VisitorActivity.this);
-                    FollowUserRequest request = new FollowUserRequest(currentUser, visitingUser);
+                    FollowUserRequest request = new FollowUserRequest(currentUser, visitingUser, presenter.getCurrentAuthToken());
                     followUserTask.execute(request);
                 }
             }
         });
     }
 
+    private void clearUser() {
+        LoginService.getInstance().setCurrentUser(null);
+        LoginService.getInstance().setCurrentAuthToken(null);
+
+    }
+
+    public void reset() {
+        LogoutRequest request = new LogoutRequest(presenter.getCurrentAuthToken());
+        LogoutTask task = new LogoutTask(presenter, this);
+        task.execute(request);
+        clearUser();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+    }
+
     private void checkUserFollowingVisitingUser() {
         CheckUserFollowingTask task = new CheckUserFollowingTask(presenter, this);
-        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser, visitingUser.getAlias());
+        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser, visitingUser.getAlias(), presenter.getCurrentAuthToken());
         task.execute(request);
     }
     @Override
@@ -283,6 +331,21 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
             onBackPressed();
         }
         loadDisplay();
+    }
+
+    @Override
+    public void followerCountRequested(FollowerCountResponse response) {
+        userFollowerCount.setText("Followers: " + Integer.toString(response.getFollowerCount()));
+    }
+
+    @Override
+    public void followeeCountRequested(FolloweeCountResponse response) {
+        userFolloweeCount.setText("Followees: " + Integer.toString(response.getFolloweeCount()));
+    }
+
+    @Override
+    public void logoutAttempted(LogoutResponse response) {
+        Toast.makeText(getApplicationContext(), response.getMessage(), Toast. LENGTH_SHORT).show();
     }
 }
 
