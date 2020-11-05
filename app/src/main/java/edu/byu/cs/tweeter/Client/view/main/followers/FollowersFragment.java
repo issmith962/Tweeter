@@ -74,12 +74,12 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             imageURL = null;
             imageUri = null;
         }
-        if (imageUri == null) {
-            user = new User(firstName, lastName, alias, imageURL);
-        }
-        else {
-            user = new User(firstName, lastName, alias, imageUri);
-        }
+//        if (imageUri == null) {
+        user = new User(firstName, lastName, alias, imageURL);
+//        }
+//        else {
+//            user = new User(firstName, lastName, alias, imageUri);
+//        }
         presenter = new FollowersPresenter(this);
 
         RecyclerView followersRecyclerView = view.findViewById(R.id.followersRecyclerView);
@@ -359,12 +359,12 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
         intent.putExtra("firstName", visitingUser.getFirstName());
         intent.putExtra("lastName", visitingUser.getLastName());
         intent.putExtra("imageURL", visitingUser.getImageUrl());
-        if (visitingUser.getImageUri() == null) {
-            intent.putExtra("imageUri", visitingUser.getImageUri());
-        }
-        else {
-            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
-        }
+//        if (visitingUser.getImageUri() == null) {
+//            intent.putExtra("imageUri", visitingUser.getImageUri());
+//        }
+//        else {
+//            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
+//        }
         startActivity(intent);
     }
 }

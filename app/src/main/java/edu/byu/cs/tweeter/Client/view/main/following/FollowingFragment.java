@@ -74,12 +74,12 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
             imageURL = null;
             imageUri = null;
         }
-        if (imageUri == null) {
-            user = new User(firstName, lastName, alias, imageURL);
-        }
-        else {
-            user = new User(firstName, lastName, alias, imageUri);
-        }
+//        if (imageUri == null) {
+        user = new User(firstName, lastName, alias, imageURL);
+//        }
+//        else {
+//            user = new User(firstName, lastName, alias, imageUri);
+//        }
         presenter = new FollowingPresenter(this);
 
         RecyclerView followingRecyclerView = view.findViewById(R.id.followingRecyclerView);
@@ -357,12 +357,12 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
         intent.putExtra("firstName", visitingUser.getFirstName());
         intent.putExtra("lastName", visitingUser.getLastName());
         intent.putExtra("imageURL", visitingUser.getImageUrl());
-        if (visitingUser.getImageUri() == null) {
-            intent.putExtra("imageUri", visitingUser.getImageUri());
-        }
-        else {
-            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
-        }
+//        if (visitingUser.getImageUri() == null) {
+//            intent.putExtra("imageUri", visitingUser.getImageUri());
+//        }
+//        else {
+//            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
+//        }
         startActivity(intent);
     }
 }

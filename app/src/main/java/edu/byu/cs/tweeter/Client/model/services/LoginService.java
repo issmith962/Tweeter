@@ -65,14 +65,14 @@ public class LoginService {
         LoginResponse response = serverFacade.checkLogin(request);
         if (!(response.getAuthToken() == null)) {
             currentAuthToken = response.getAuthToken();
-            if (response.getImageURL() == null) {
-                setCurrentUser(new User(response.getFirstName(), response.getLastName(),
-                        response.getAlias(), response.getImageUri()));
-            }
-            else {
-                setCurrentUser(new User(response.getFirstName(), response.getLastName(),
-                        response.getAlias(), response.getImageURL()));
-            }
+//            if (response.getImageURL() == null) {
+//                setCurrentUser(new User(response.getFirstName(), response.getLastName(),
+//                        response.getAlias(), response.getImageUri()));
+//            }
+//            else {
+            setCurrentUser(new User(response.getFirstName(), response.getLastName(),
+                    response.getAlias(), response.getImageURL()));
+//            }
         }
         return response;
     }

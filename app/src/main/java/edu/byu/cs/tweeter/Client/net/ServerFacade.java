@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -370,15 +371,15 @@ public class ServerFacade {
                     AuthToken authToken = new AuthToken();
                     String tok = UUID.randomUUID().toString();
                     authToken.setAuthToken(tok);
-                    if (user.getImageUri() == null) {
-                        return new LoginResponse("Login Successful!", loginRequest.getAlias(),
-                                loginRequest.getPassword(), authToken, user.getFirstName(),
-                                user.getLastName(), user.getImageUrl());
-                    } else {
-                        return new LoginResponse("Login Successful!", loginRequest.getAlias(),
-                                loginRequest.getPassword(), authToken, user.getFirstName(),
-                                user.getLastName(), user.getImageUri());
-                    }
+                    //if (user.getImageUri() == null) {
+                    return new LoginResponse("Login Successful!", loginRequest.getAlias(),
+                            loginRequest.getPassword(), authToken, user.getFirstName(),
+                            user.getLastName(), user.getImageUrl());
+//                    } else {
+//                        return new LoginResponse("Login Successful!", loginRequest.getAlias(),
+//                                loginRequest.getPassword(), authToken, user.getFirstName(),
+//                                user.getLastName(), user.getImageUri());
+//                    }
                 }
             }
         }
@@ -688,10 +689,13 @@ public class ServerFacade {
 
     public RegisterResponse registerUser(RegisterRequest request) {
         // upload uri to server get get URL back?
+        // request.getImageData() -> is byte array in a string
+        
+        //byte[] decode = Base64.getDecoder().decode(request.getImageData());
         User newUser;
         try {
             newUser = new User(request.getName().split(" ")[0], request.getName().split(" ")[1],
-                    request.getAlias(), request.getImageUri());
+                    request.getAlias(), "url");
         } catch (Exception e) {
             newUser = null;
         }

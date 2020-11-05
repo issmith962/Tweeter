@@ -71,12 +71,12 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             imageURL = null;
             imageUri = null;
         }
-        if (imageUri == null) {
-            user = new User(firstName, lastName, alias, imageURL);
-        }
-        else {
-            user = new User(firstName, lastName, alias, imageUri);
-        }
+//        if (imageUri == null) {
+        user = new User(firstName, lastName, alias, imageURL);
+//        }
+//        else {
+//            user = new User(firstName, lastName, alias, imageUri);
+//        }
         presenter = new FeedPresenter(this);
 
         RecyclerView feedRecyclerView = view.findViewById(R.id.feedRecyclerView);
@@ -249,12 +249,12 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
         intent.putExtra("firstName", visitingUser.getFirstName());
         intent.putExtra("lastName", visitingUser.getLastName());
         intent.putExtra("imageURL", visitingUser.getImageUrl());
-        if (visitingUser.getImageUri() == null) {
-            intent.putExtra("imageUri", visitingUser.getImageUri());
-        }
-        else {
-            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
-        }
+//        if (visitingUser.getImageUri() == null) {
+//            intent.putExtra("imageUri", visitingUser.getImageUri());
+//        }
+//        else {
+//            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
+//        }
         startActivity(intent);
     }
 }

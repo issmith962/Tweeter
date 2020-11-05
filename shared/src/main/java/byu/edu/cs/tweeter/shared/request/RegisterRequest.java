@@ -1,18 +1,16 @@
 package byu.edu.cs.tweeter.shared.request;
 
-import android.net.Uri;
-
 public class RegisterRequest {
     private String name;
     private String alias;
     private String password;
-    private Uri imageUri;
+    private String imageData;
 
-    public RegisterRequest(String name, String alias, String password, Uri imageUri) {
+    public RegisterRequest(String name, String alias, String password, String imageData) {
         this.name = name;
         this.alias = alias;
         this.password = password;
-        this.imageUri = imageUri;
+        this.imageData = imageData;
     }
 
     public String getName() {
@@ -27,8 +25,8 @@ public class RegisterRequest {
         return password;
     }
 
-    public Uri getImageUri() {
-        return imageUri;
+    public String getImageData() {
+        return imageData;
     }
 }
 

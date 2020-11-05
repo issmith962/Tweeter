@@ -63,10 +63,11 @@ public class ImageUtils {
     }
 
     public static Drawable makeDrawable(User user, Context context) throws IOException {
-        if (user.getImageUri() != null) {
-            return drawableFromUri(user.getImageUri(), context);
-        }
-        else if (user.getImageUrl() != null) {
+//        if (user.getImageUri() != null) {
+//            return drawableFromUri(user.getImageUri(), context);
+//        }
+//        else if (user.getImageUrl() != null) {
+        if (user.getImageUrl() != null) {
             return drawableFromUrl(user.getImageUrl());
         }
         else {

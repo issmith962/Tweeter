@@ -125,14 +125,14 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
         } else {
             // Asynchronously load the user's image if a user is logged in
 
-            if (presenter.getCurrentUser().getImageUri() == null) {
-                LoadImageTask loadImageTask = new LoadImageTask(this);
-                loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
-            }
-            else {
-                LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, MainActivity.this);
-                loadUriImageTask.execute(presenter.getCurrentUser().getImageUri());
-            }
+            //if (presenter.getCurrentUser().getImageUri() == null) {
+            LoadImageTask loadImageTask = new LoadImageTask(this);
+            loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
+//            }
+//            else {
+//                LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, MainActivity.this);
+//                loadUriImageTask.execute(presenter.getCurrentUser().getImageUri());
+//            }
             userName.setText(user.getName());
             userAlias.setText(user.getAlias());
             GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);

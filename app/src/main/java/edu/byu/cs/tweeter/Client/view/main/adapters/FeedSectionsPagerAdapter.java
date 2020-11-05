@@ -72,12 +72,12 @@ public class FeedSectionsPagerAdapter extends FragmentStatePagerAdapter {
         bundle.putString("firstName", user.getFirstName());
         bundle.putString("lastName", user.getLastName());
         bundle.putString("imageURL", user.getImageUrl());
-        if (user.getImageUri() == null) {
-            bundle.putString("imageUri", null);
-        }
-        else {
-            bundle.putString("imageUri", user.getImageUri().toString());
-        }
+//        if (user.getImageUri() == null) {
+//            bundle.putString("imageUri", null);
+//        }
+//        else {
+//            bundle.putString("imageUri", user.getImageUri().toString());
+//        }
         return bundle;
     }
 

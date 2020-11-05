@@ -104,11 +104,11 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
             if (alias == null) {
                 alias = "";
             }
-            if (imageUri == null) {
-                visitingUser = new User(firstName, lastName, alias, imageURL);
-            } else {
-                visitingUser = new User(firstName, lastName, alias, imageUri);
-            }
+//            if (imageUri == null) {
+            visitingUser = new User(firstName, lastName, alias, imageURL);
+//            } else {
+//                visitingUser = new User(firstName, lastName, alias, imageUri);
+//            }
             loadDisplay();
         }
 //        while (!flag) {
@@ -128,14 +128,14 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
         userImageView = findViewById(R.id.userImage);
         userName = findViewById(R.id.userName);
         userAlias = findViewById(R.id.userAlias);
-        if (visitingUser.getImageUri() == null) {
-            LoadImageTask loadImageTask = new LoadImageTask(this);
-            loadImageTask.execute(visitingUser.getImageUrl());
-        }
-        else {
-            LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, VisitorActivity.this);
-            loadUriImageTask.execute(visitingUser.getImageUri());
-        }
+//        if (visitingUser.getImageUri() == null) {
+        LoadImageTask loadImageTask = new LoadImageTask(this);
+        loadImageTask.execute(visitingUser.getImageUrl());
+//        }
+//        else {
+//            LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, VisitorActivity.this);
+//            loadUriImageTask.execute(visitingUser.getImageUri());
+//        }
         userName.setText(visitingUser.getName());
         userAlias.setText(visitingUser.getAlias());
         userFollowerCount = findViewById(R.id.followerCountVisitor);

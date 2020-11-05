@@ -196,12 +196,12 @@ public class SearchActivity extends AppCompatActivity implements SearchPresenter
         intent.putExtra("firstName", visitingUser.getFirstName());
         intent.putExtra("lastName", visitingUser.getLastName());
         intent.putExtra("imageURL", visitingUser.getImageUrl());
-        if (visitingUser.getImageUri() == null) {
-            intent.putExtra("imageUri", visitingUser.getImageUri());
-        }
-        else {
-            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
-        }
+//        if (visitingUser.getImageUri() == null) {
+//            intent.putExtra("imageUri", visitingUser.getImageUri());
+//        }
+//        else {
+//            intent.putExtra("imageUri", visitingUser.getImageUri().toString());
+//        }
         startActivity(intent);
     }
 

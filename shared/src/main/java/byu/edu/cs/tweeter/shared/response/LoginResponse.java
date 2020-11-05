@@ -1,7 +1,5 @@
 package byu.edu.cs.tweeter.shared.response;
 
-import android.net.Uri;
-
 import byu.edu.cs.tweeter.shared.domain.AuthToken;
 
 /**
@@ -14,7 +12,6 @@ public class LoginResponse extends Response {
     String firstName;
     String lastName;
     String imageURL;
-    Uri imageUri;
 
     /**
      * Creates a response indicating that the corresponding request was successful.
@@ -35,16 +32,14 @@ public class LoginResponse extends Response {
         this.firstName = firstName;
         this.lastName = lastName;
         this.imageURL = imageURL;
-        this.imageUri = null;
     }
-    public LoginResponse(String message, String alias, String password, AuthToken authToken, String firstName, String lastName, Uri imageUri) {
+    public LoginResponse(String message, String alias, String password, AuthToken authToken, String firstName, String lastName) {
         super(true, message);
         this.alias = alias;
         this.password = password;
         this.authToken = authToken;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.imageUri = imageUri;
         this.imageURL = null;
     }
 
@@ -71,8 +66,5 @@ public class LoginResponse extends Response {
     public String getLastName() {return lastName;}
     public String getImageURL() {
         return imageURL;
-    }
-    public Uri getImageUri() {
-        return imageUri;
     }
 }
