@@ -1,4 +1,4 @@
-package byu.edu.cs.tweeter.shared.service;
+package byu.edu.cs.tweeter.shared.model.domain.service;
 
 
 import byu.edu.cs.tweeter.shared.request.FeedRequest;

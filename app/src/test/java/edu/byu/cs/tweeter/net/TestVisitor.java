@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import byu.edu.cs.tweeter.shared.domain.Follow;
-import byu.edu.cs.tweeter.shared.domain.Status;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.Follow;
+import byu.edu.cs.tweeter.shared.model.domain.Status;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
 import byu.edu.cs.tweeter.shared.request.GetUserRequest;

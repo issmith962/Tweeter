@@ -1,6 +1,6 @@
 package byu.edu.cs.tweeter.shared.request;
 
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 
 public class LogoutRequest {
     private AuthToken authToken;

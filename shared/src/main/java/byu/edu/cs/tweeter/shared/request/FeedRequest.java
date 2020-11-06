@@ -1,7 +1,7 @@
 package byu.edu.cs.tweeter.shared.request;
 
-import byu.edu.cs.tweeter.shared.domain.Status;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.Status;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 public class FeedRequest {
     private final User user;

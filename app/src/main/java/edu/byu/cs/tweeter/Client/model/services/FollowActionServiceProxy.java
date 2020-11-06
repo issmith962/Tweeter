@@ -1,6 +1,6 @@
 package edu.byu.cs.tweeter.Client.model.services;
 
-import byu.edu.cs.tweeter.shared.service.FollowActionService;
+import byu.edu.cs.tweeter.shared.model.domain.service.FollowActionService;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
 import byu.edu.cs.tweeter.shared.request.UnfollowUserRequest;
 import byu.edu.cs.tweeter.shared.response.FollowUserResponse;

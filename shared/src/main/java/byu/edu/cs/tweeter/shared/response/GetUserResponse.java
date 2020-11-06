@@ -1,6 +1,6 @@
 package byu.edu.cs.tweeter.shared.response;
 
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 public class GetUserResponse {
     private User user;

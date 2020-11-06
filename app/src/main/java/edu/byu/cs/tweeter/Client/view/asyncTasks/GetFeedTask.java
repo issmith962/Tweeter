@@ -39,7 +39,7 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
     }
 
     private void loadImages(FeedResponse response) {
-        for (byu.edu.cs.tweeter.shared.domain.Status status : response.getFeed()) {
+        for (byu.edu.cs.tweeter.shared.model.domain.Status status : response.getFeed()) {
             Drawable drawable;
             try {
                 drawable = ImageUtils.makeDrawable(status.getUser(), context);

@@ -4,7 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.RegisterServiceProxy;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;

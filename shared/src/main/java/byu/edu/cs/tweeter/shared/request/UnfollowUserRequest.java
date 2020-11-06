@@ -1,7 +1,7 @@
 package byu.edu.cs.tweeter.shared.request;
 
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 public class UnfollowUserRequest {
     private User follower;

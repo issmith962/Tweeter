@@ -2,7 +2,7 @@ package byu.edu.cs.tweeter.shared.response;
 
 import java.util.List;
 
-import byu.edu.cs.tweeter.shared.domain.Status;
+import byu.edu.cs.tweeter.shared.model.domain.Status;
 
 public class StoryResponse extends PagedResponse {
     private List<Status> story;

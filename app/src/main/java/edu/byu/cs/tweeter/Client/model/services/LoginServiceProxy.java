@@ -4,10 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import byu.edu.cs.tweeter.shared.service.LoginService;
-import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.service.LoginService;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
 import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;

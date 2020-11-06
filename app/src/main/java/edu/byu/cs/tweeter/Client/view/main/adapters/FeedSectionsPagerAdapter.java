@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import edu.byu.cs.tweeter.Client.view.main.followers.FollowersFragment;
 import edu.byu.cs.tweeter.Client.view.main.following.FollowingFragment;
 import edu.byu.cs.tweeter.R;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.Client.view.main.PlaceholderFragment;
 import edu.byu.cs.tweeter.Client.view.main.feed.FeedFragment;
 import edu.byu.cs.tweeter.Client.view.main.story.StoryFragment;

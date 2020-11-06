@@ -36,7 +36,7 @@ public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
     }
 
     private void loadImages(StoryResponse response) {
-        for (byu.edu.cs.tweeter.shared.domain.Status status : response.getStory()) {
+        for (byu.edu.cs.tweeter.shared.model.domain.Status status : response.getStory()) {
             Drawable drawable;
             try {
                 drawable = ImageUtils.makeDrawable(status.getUser(), context);

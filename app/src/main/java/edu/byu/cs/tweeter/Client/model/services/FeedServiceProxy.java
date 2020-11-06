@@ -4,9 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import byu.edu.cs.tweeter.shared.service.CheckUserFollowingService;
-import byu.edu.cs.tweeter.shared.service.FeedService;
-import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import byu.edu.cs.tweeter.shared.model.domain.service.FeedService;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
 

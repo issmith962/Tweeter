@@ -24,7 +24,7 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.R;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FollowingRequest;
 import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 import edu.byu.cs.tweeter.Client.presenter.FollowingPresenter;

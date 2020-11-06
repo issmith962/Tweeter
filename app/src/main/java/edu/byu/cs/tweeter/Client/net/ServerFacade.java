@@ -4,7 +4,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,10 +16,10 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import edu.byu.cs.tweeter.BuildConfig;
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.domain.Follow;
-import byu.edu.cs.tweeter.shared.domain.Status;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.Follow;
+import byu.edu.cs.tweeter.shared.model.domain.Status;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;

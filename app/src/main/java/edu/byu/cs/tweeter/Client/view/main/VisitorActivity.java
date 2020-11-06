@@ -15,7 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.CheckUserFollowingTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.FollowUserTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowerCountTask;
@@ -23,8 +23,7 @@ import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadUriImageTask;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.main.adapters.VisitingSectionsPagerAdapter;
 import edu.byu.cs.tweeter.R;
-import byu.edu.cs.tweeter.shared.domain.User;
-import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;

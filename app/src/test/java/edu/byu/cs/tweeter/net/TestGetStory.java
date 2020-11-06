@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import byu.edu.cs.tweeter.shared.domain.Follow;
-import byu.edu.cs.tweeter.shared.domain.Status;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.Follow;
+import byu.edu.cs.tweeter.shared.model.domain.Status;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.StoryRequest;
 import byu.edu.cs.tweeter.shared.response.StoryResponse;
 import edu.byu.cs.tweeter.Client.presenter.StoryPresenter;

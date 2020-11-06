@@ -1,4 +1,4 @@
-package byu.edu.cs.tweeter.shared.domain;
+package byu.edu.cs.tweeter.shared.model.domain;
 
 import java.util.Objects;
 

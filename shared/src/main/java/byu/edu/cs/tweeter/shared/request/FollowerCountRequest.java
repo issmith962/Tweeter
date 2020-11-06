@@ -1,6 +1,6 @@
 package byu.edu.cs.tweeter.shared.request;
 
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 public class FollowerCountRequest {
     private final User user;

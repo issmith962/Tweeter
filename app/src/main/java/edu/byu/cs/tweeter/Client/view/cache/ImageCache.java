@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import java.util.HashMap;
 import java.util.Map;
 
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 /**
  * A cache for the user images.

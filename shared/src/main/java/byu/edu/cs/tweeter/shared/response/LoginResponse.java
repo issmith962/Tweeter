@@ -1,6 +1,6 @@
 package byu.edu.cs.tweeter.shared.response;
 
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 
 /**
  * A response for a {@Link LoginRequest}.

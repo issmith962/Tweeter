@@ -1,8 +1,8 @@
 package byu.edu.cs.tweeter.shared.request;
 
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.domain.Status;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.Status;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 public class StoryRequest {
     private final User user;

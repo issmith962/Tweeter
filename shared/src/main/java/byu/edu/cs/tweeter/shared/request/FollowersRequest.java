@@ -1,6 +1,6 @@
 package byu.edu.cs.tweeter.shared.request;
 
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 /**
  * Contains all the information needed to make a request to have the server return the next page of

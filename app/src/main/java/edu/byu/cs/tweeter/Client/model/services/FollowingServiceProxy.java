@@ -1,8 +1,6 @@
 package edu.byu.cs.tweeter.Client.model.services;
 
-import byu.edu.cs.tweeter.shared.service.CheckUserFollowingService;
-import byu.edu.cs.tweeter.shared.service.FollowingService;
-import edu.byu.cs.tweeter.Client.net.ServerFacade;
+import byu.edu.cs.tweeter.shared.model.domain.service.FollowingService;
 import byu.edu.cs.tweeter.shared.request.FollowingRequest;
 import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 

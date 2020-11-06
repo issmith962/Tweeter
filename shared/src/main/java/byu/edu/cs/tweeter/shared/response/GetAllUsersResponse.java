@@ -2,7 +2,7 @@ package byu.edu.cs.tweeter.shared.response;
 
 import java.util.List;
 
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 
 public class GetAllUsersResponse {
     private List<User> allUsers;

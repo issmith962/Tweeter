@@ -10,7 +10,7 @@ import java.io.IOException;
 import edu.byu.cs.tweeter.Client.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.util.ImageUtils;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FollowersRequest;
 import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 

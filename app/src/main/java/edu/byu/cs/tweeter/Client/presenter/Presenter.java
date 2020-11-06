@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
 import edu.byu.cs.tweeter.Client.model.services.LogoutServiceProxy;
-import byu.edu.cs.tweeter.shared.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
 import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
