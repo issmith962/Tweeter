@@ -58,7 +58,7 @@ import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
  * this class.
  */
-public class ServerFacade{
+public class ServerFacadeMilestone2 {
     private static List<User> allUsers;
     private static List<String> allAliases;
     private static Map<User, List<User>> followeesByFollower;
@@ -685,7 +685,7 @@ public class ServerFacade{
         }
 
     }
-    //------------------------------------------------------------------------------------------
+                                                  //------------------------------------------------------------------------------------------
 
     public RegisterResponse registerUser(RegisterRequest request) {
         // upload uri to server get get URL back?
@@ -749,84 +749,84 @@ public class ServerFacade{
         return new GetUserResponse(null);
     }
 
-    public void testInitialize(List<Follow> follows, Map<User, List<Status>> statusesByUser, Map<User, String> passwordsByUser) {
-        ServerFacade.statusesByUser = statusesByUser;
-        ServerFacade.passwordsByUser = passwordsByUser;
-
-        if (allUsers == null) {
-            allUsers = new ArrayList<>();
-        }
-        for (Follow follow : follows) {
-            if (!allUsers.contains(follow.getFollowee())) {
-                allUsers.add(follow.getFollowee());
-            }
-            if (!allUsers.contains(follow.getFollower())) {
-                allUsers.add(follow.getFollower());
-            }
-        }
-        allAliases = new ArrayList<>();
-        for (User user : allUsers) {
-            allAliases.add(user.getAlias());
-        }
-
-        Map<User, List<User>> fByer = new HashMap<>();
-        Map<User, List<User>> fByee = new HashMap<>();
-        for (Follow follow : follows) {
-            List<User> followees = fByer.get(follow.getFollower());
-
-            if (followees == null) {
-                followees = new ArrayList<>();
-                fByer.put(follow.getFollower(), followees);
-            }
-
-            followees.add(follow.getFollowee());
-        }
-        for (Follow follow : follows) {
-            List<User> followers = fByee.get(follow.getFollowee());
-
-            if (followers == null) {
-                followers = new ArrayList<>();
-                fByee.put(follow.getFollowee(), followers);
-            }
-            followers.add(follow.getFollower());
-        }
-        followeesByFollower = fByer;
-        followersByFollowee = fByee;
-    }
-
-    public void testInitialize(List<Follow> follows, Map<User, List<Status>> statusesByUser, Map<User, String> passwordsByUser, List<User> allUsers) {
-        ServerFacade.statusesByUser = statusesByUser;
-        ServerFacade.passwordsByUser = passwordsByUser;
-
-        ServerFacade.allUsers = new ArrayList<>();
-        ServerFacade.allUsers = allUsers;
-        allAliases = new ArrayList<>();
-        for (User user : allUsers) {
-            allAliases.add(user.getAlias());
-        }
-
-        Map<User, List<User>> fByer = new HashMap<>();
-        Map<User, List<User>> fByee = new HashMap<>();
-        for (Follow follow : follows) {
-            List<User> followees = fByer.get(follow.getFollower());
-
-            if (followees == null) {
-                followees = new ArrayList<>();
-                fByer.put(follow.getFollower(), followees);
-            }
-
-            followees.add(follow.getFollowee());
-        }
-        for (Follow follow : follows) {
-            List<User> followers = fByee.get(follow.getFollowee());
-
-            if (followers == null) {
-                followers = new ArrayList<>();
-                fByee.put(follow.getFollowee(), followers);
-            }
-            followers.add(follow.getFollower());
-        }
-        followeesByFollower = fByer;
-        followersByFollowee = fByee;
-    }
+//    public void testInitialize(List<Follow> follows, Map<User, List<Status>> statusesByUser, Map<User, String> passwordsByUser) {
+//        ServerFacade.statusesByUser = statusesByUser;
+//        ServerFacade.passwordsByUser = passwordsByUser;
+//
+//        if (allUsers == null) {
+//            allUsers = new ArrayList<>();
+//        }
+//        for (Follow follow : follows) {
+//            if (!allUsers.contains(follow.getFollowee())) {
+//                allUsers.add(follow.getFollowee());
+//            }
+//            if (!allUsers.contains(follow.getFollower())) {
+//                allUsers.add(follow.getFollower());
+//            }
+//        }
+//        allAliases = new ArrayList<>();
+//        for (User user : allUsers) {
+//            allAliases.add(user.getAlias());
+//        }
+//
+//        Map<User, List<User>> fByer = new HashMap<>();
+//        Map<User, List<User>> fByee = new HashMap<>();
+//        for (Follow follow : follows) {
+//            List<User> followees = fByer.get(follow.getFollower());
+//
+//            if (followees == null) {
+//                followees = new ArrayList<>();
+//                fByer.put(follow.getFollower(), followees);
+//            }
+//
+//            followees.add(follow.getFollowee());
+//        }
+//        for (Follow follow : follows) {
+//            List<User> followers = fByee.get(follow.getFollowee());
+//
+//            if (followers == null) {
+//                followers = new ArrayList<>();
+//                fByee.put(follow.getFollowee(), followers);
+//            }
+//            followers.add(follow.getFollower());
+//        }
+//        followeesByFollower = fByer;
+//        followersByFollowee = fByee;
+//    }
+//
+//    public void testInitialize(List<Follow> follows, Map<User, List<Status>> statusesByUser, Map<User, String> passwordsByUser, List<User> allUsers) {
+//        ServerFacade.statusesByUser = statusesByUser;
+//        ServerFacade.passwordsByUser = passwordsByUser;
+//
+//        ServerFacade.allUsers = new ArrayList<>();
+//        ServerFacade.allUsers = allUsers;
+//        allAliases = new ArrayList<>();
+//        for (User user : allUsers) {
+//            allAliases.add(user.getAlias());
+//        }
+//
+//        Map<User, List<User>> fByer = new HashMap<>();
+//        Map<User, List<User>> fByee = new HashMap<>();
+//        for (Follow follow : follows) {
+//            List<User> followees = fByer.get(follow.getFollower());
+//
+//            if (followees == null) {
+//                followees = new ArrayList<>();
+//                fByer.put(follow.getFollower(), followees);
+//            }
+//
+//            followees.add(follow.getFollowee());
+//        }
+//        for (Follow follow : follows) {
+//            List<User> followers = fByee.get(follow.getFollowee());
+//
+//            if (followers == null) {
+//                followers = new ArrayList<>();
+//                fByee.put(follow.getFollowee(), followers);
+//            }
+//            followers.add(follow.getFollower());
+//        }
+//        followeesByFollower = fByer;
+//        followersByFollowee = fByee;
+//    }
 }

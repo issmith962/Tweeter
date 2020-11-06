@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import com.koushikdutta.ion.Ion;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
@@ -44,6 +45,7 @@ import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoginAttemptTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.RegisterAttemptTask;
 import edu.byu.cs.tweeter.Client.view.main.MainActivity;
+import edu.byu.cs.tweeter.Client.view.util.ByteArrayUtils;
 import edu.byu.cs.tweeter.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -146,11 +148,12 @@ public class RegisterFragment extends Fragment implements LoginPresenter.View, R
                     String imageByteString = "";
                     try {
                         InputStream iStream =  getActivity().getContentResolver().openInputStream(imageUri);
-                        byte[] imageData = getBytes(iStream);
+                        byte[] imageData = ByteArrayUtils.bytesFromInputStream(iStream);
                         imageByteString = Base64.getEncoder().encodeToString(imageData);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                     RegisterRequest registerRequest = new RegisterRequest(mName, mAlias, mPassword, imageByteString);
                     registerAttemptTask.execute(registerRequest);
                 }
@@ -277,17 +280,17 @@ public class RegisterFragment extends Fragment implements LoginPresenter.View, R
         return Math.round((float)dp * density);
     }
 
-    private byte[] getBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
-    }
+//    private byte[] getBytes(InputStream inputStream) throws IOException {
+//        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+//        int bufferSize = 1024;
+//        byte[] buffer = new byte[bufferSize];
+//
+//        int len = 0;
+//        while ((len = inputStream.read(buffer)) != -1) {
+//            byteBuffer.write(buffer, 0, len);
+//        }
+//        return byteBuffer.toByteArray();
+//    }
 
 //    private Bitmap getImageBitmap(String url) {
 //        Bitmap bm = null;
