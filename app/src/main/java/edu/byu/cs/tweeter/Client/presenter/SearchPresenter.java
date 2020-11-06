@@ -1,6 +1,8 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
-import edu.byu.cs.tweeter.Client.model.services.GetAllUsersService;
+import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.domain.User;
+import edu.byu.cs.tweeter.Client.model.services.GetAllUsersServiceProxy;
 import byu.edu.cs.tweeter.shared.request.GetAllUsersRequest;
 import byu.edu.cs.tweeter.shared.response.GetAllUsersResponse;
 
@@ -13,6 +15,9 @@ public class SearchPresenter extends Presenter {
         this.view = view;
     }
     public GetAllUsersResponse getAllUsers(GetAllUsersRequest request) {
-        return GetAllUsersService.getInstance().getAllUsers(request);
+        return (new GetAllUsersServiceProxy()).getAllUsers(request);
+    }
+    public User findCurrentUser() {
+        return getCurrentUser();
     }
 }

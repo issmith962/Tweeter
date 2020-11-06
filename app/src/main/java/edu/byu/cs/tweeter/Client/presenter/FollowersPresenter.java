@@ -1,6 +1,6 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
-import edu.byu.cs.tweeter.Client.model.services.FollowerService;
+import edu.byu.cs.tweeter.Client.model.services.FollowerServiceProxy;
 import byu.edu.cs.tweeter.shared.request.FollowersRequest;
 import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 
@@ -36,6 +36,6 @@ public class FollowersPresenter extends Presenter {
      * @return the followees.
      */
     public FollowersResponse getFollowers(FollowersRequest request) {
-        return FollowerService.getInstance().getFollowers(request);
+        return (new FollowerServiceProxy()).getFollowers(request);
     }
 }

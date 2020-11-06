@@ -1,8 +1,10 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
-import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingService;
-import edu.byu.cs.tweeter.Client.model.services.FollowActionService;
-import edu.byu.cs.tweeter.Client.model.services.GetUserService;
+import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.domain.User;
+import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingServiceProxy;
+import edu.byu.cs.tweeter.Client.model.services.FollowActionServiceProxy;
+import edu.byu.cs.tweeter.Client.model.services.GetUserServiceProxy;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
 import byu.edu.cs.tweeter.shared.request.GetUserRequest;
@@ -19,18 +21,32 @@ public class VisitorPresenter extends Presenter {
         this.view = view;
     }
 
-
     public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) {
-        return CheckUserFollowingService.getInstance().isUserFollowing(request);
+        return (new CheckUserFollowingServiceProxy()).isUserFollowing(request);
     }
     public FollowUserResponse followUser(FollowUserRequest request) {
-        return FollowActionService.getInstance().followUser(request);
+        return (new FollowActionServiceProxy()).followUser(request);
     }
     public UnfollowUserResponse unfollowUser(UnfollowUserRequest request) {
-        return FollowActionService.getInstance().unfollowUser(request);
+        return (new FollowActionServiceProxy()).unfollowUser(request);
     }
     public GetUserResponse getUser(GetUserRequest request) {
-        return GetUserService.getInstance().getUser(request);
+        return (new GetUserServiceProxy()).getUser(request);
+    }
+
+    public void updateCurrentUser(User user) {
+        setCurrentUser(user);
+    }
+    public User findCurrentUser() {
+        return getCurrentUser();
+    }
+
+    public void updateCurrentAuthToken(AuthToken authToken) {
+        setCurrentAuthToken(authToken);
+    }
+
+    public AuthToken findCurrentAuthToken() {
+        return getCurrentAuthToken();
     }
 
 }

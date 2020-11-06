@@ -206,7 +206,7 @@ public class SearchActivity extends AppCompatActivity implements SearchPresenter
     }
 
     private void updateCurrentUser() {
-        currentUser = presenter.getCurrentUser();
+        currentUser = presenter.findCurrentUser();
     }
 
 }

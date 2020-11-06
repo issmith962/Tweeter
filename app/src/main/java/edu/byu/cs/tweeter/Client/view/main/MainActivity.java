@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import edu.byu.cs.tweeter.Client.presenter.Presenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowerCountTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadUriImageTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LogoutTask;
@@ -36,7 +37,7 @@ import edu.byu.cs.tweeter.Client.view.main.adapters.LoginSectionsPagerAdapter;
 import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.domain.User;
-import edu.byu.cs.tweeter.Client.model.services.LoginService;
+import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
 import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
 import byu.edu.cs.tweeter.shared.request.LogoutRequest;
@@ -93,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
         }
     }
     private void clearUser() {
-        LoginService.getInstance().setCurrentUser(null);
-        LoginService.getInstance().setCurrentAuthToken(null);
+        presenter.updateCurrentUser(null);
+        presenter.updateCurrentAuthToken(null);
 
     }
     public void updateUser() {
@@ -103,10 +104,10 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
     }
 
     public User getCurrentUser() {
-        return presenter.getCurrentUser();
+        return presenter.findCurrentUser();
     }
     public AuthToken getCurrentAuthToken() {
-        return presenter.getCurrentAuthToken();
+        return presenter.findCurrentAuthToken();
     }
 
     public void loadUserDisplay() {
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
 
             //if (presenter.getCurrentUser().getImageUri() == null) {
             LoadImageTask loadImageTask = new LoadImageTask(this);
-            loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
+            loadImageTask.execute(getCurrentUser().getImageUrl());
 //            }
 //            else {
 //                LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, MainActivity.this);
@@ -245,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 String date = dtf.format(now).substring(0, 10);
-                User currentUser = presenter.getCurrentUser();
+                User currentUser = getCurrentUser();
                 PostStatusTask postStatusTask = new PostStatusTask(presenter, MainActivity.this);
                 PostStatusRequest request = new PostStatusRequest(currentUser, newStatus, date, authToken);
                 postStatusTask.execute(request);

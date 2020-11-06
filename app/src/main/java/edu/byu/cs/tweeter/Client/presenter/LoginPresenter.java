@@ -4,8 +4,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import edu.byu.cs.tweeter.Client.model.services.LoginService;
-import edu.byu.cs.tweeter.Client.model.services.RegisterService;
+import byu.edu.cs.tweeter.shared.domain.User;
+import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
+import edu.byu.cs.tweeter.Client.model.services.RegisterServiceProxy;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
 import byu.edu.cs.tweeter.shared.request.RegisterRequest;
 import byu.edu.cs.tweeter.shared.request.StartUpRequest;
@@ -43,15 +44,21 @@ public class LoginPresenter extends Presenter {
      * @return the updated current user if the login worked, or the previous one if not.
      */
     public LoginResponse checkLogin(LoginRequest request) {
-        return LoginService.getInstance().checkLogin(request);
+        LoginResponse response = (new LoginServiceProxy()).checkLogin(request);
+        if (!(response.getAuthToken() == null)) {
+            setCurrentAuthToken(response.getAuthToken());
+            setCurrentUser(new User(response.getFirstName(), response.getLastName(),
+                    response.getAlias(), response.getImageURL()));
+        }
+        return response;
     }
 
     public RegisterResponse registerUser(RegisterRequest request) {
-        return RegisterService.getInstance().registerUser(request);
+        return (new RegisterServiceProxy()).registerUser(request);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public StartUpResponse startUp(StartUpRequest request) {
-        return LoginService.getInstance().startUp(request);
+        return (new LoginServiceProxy()).startUp(request);
     }
 }

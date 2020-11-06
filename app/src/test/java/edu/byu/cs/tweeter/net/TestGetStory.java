@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import byu.edu.cs.tweeter.shared.domain.AuthToken;
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
 import byu.edu.cs.tweeter.shared.domain.Follow;
 import byu.edu.cs.tweeter.shared.domain.Status;
@@ -15,6 +16,8 @@ import byu.edu.cs.tweeter.shared.domain.User;
 import byu.edu.cs.tweeter.shared.request.StoryRequest;
 import byu.edu.cs.tweeter.shared.response.StoryResponse;
 import edu.byu.cs.tweeter.Client.presenter.StoryPresenter;
+
+import static junit.framework.Assert.assertTrue;
 
 public class TestGetStory  implements StoryPresenter.View {
     private StoryPresenter presenter;
@@ -48,9 +51,8 @@ public class TestGetStory  implements StoryPresenter.View {
         statusesByUser.put(user1, statuses);
         serverFacade.testInitialize(follows, statusesByUser, passwordsByUser, allUsers);
 
-        StoryRequest request = new StoryRequest(user1, 10, null, );
+        StoryRequest request = new StoryRequest(user1, 10, null, new AuthToken("fake"));
         StoryResponse response = presenter.getStory(request);
-        int a = 2; 
         assertTrue(response.getStory().contains(status1));
         assertTrue(response.getStory().contains(status2));
         assertTrue(response.getStory().contains(status3));
@@ -62,7 +64,7 @@ public class TestGetStory  implements StoryPresenter.View {
         List<User> allUsers = new ArrayList<>();
         allUsers.add(user1);
         serverFacade.testInitialize(follows, statusesByUser, passwordsByUser, allUsers);
-        StoryRequest request = new StoryRequest(user1, 10, null);
+        StoryRequest request = new StoryRequest(user1, 10, null, new AuthToken("fake"));
         StoryResponse response = presenter.getStory(request);
 
         assertTrue(response.getStory().isEmpty());

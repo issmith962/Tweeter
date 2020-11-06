@@ -4,7 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import edu.byu.cs.tweeter.Client.model.services.FeedService;
+import edu.byu.cs.tweeter.Client.model.services.FeedServiceProxy;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
 
@@ -18,6 +18,6 @@ public class FeedPresenter extends Presenter {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public FeedResponse getFeed(FeedRequest request) {
-        return FeedService.getInstance().getFeed(request);
+        return (new FeedServiceProxy()).getFeed(request);
     }
 }

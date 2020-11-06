@@ -1,7 +1,7 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
-import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingService;
-import edu.byu.cs.tweeter.Client.model.services.FollowingService;
+import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingServiceProxy;
+import edu.byu.cs.tweeter.Client.model.services.FollowingServiceProxy;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FollowingRequest;
 import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
@@ -39,10 +39,10 @@ public class FollowingPresenter extends Presenter {
      * @return the followees.
      */
     public FollowingResponse getFollowing(FollowingRequest request) throws AssertionError {
-        return FollowingService.getInstance().getFollowees(request);
+        return (new FollowingServiceProxy()).getFollowees(request);
     }
 
     public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) {
-        return CheckUserFollowingService.getInstance().isUserFollowing(request);
+        return (new CheckUserFollowingServiceProxy()).isUserFollowing(request);
     }
 }

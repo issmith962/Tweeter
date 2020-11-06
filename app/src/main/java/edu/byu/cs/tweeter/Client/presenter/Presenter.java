@@ -1,9 +1,9 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
-import edu.byu.cs.tweeter.Client.model.services.LogoutService;
+import edu.byu.cs.tweeter.Client.model.services.LogoutServiceProxy;
 import byu.edu.cs.tweeter.shared.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.domain.User;
-import edu.byu.cs.tweeter.Client.model.services.LoginService;
+import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
 import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
 import byu.edu.cs.tweeter.shared.request.LogoutRequest;
@@ -15,25 +15,32 @@ import byu.edu.cs.tweeter.shared.response.LogoutResponse;
  * A common base class for all presenters in the application.
  */
 public abstract class Presenter {
+    private static User currentUser;
+    private static AuthToken currentAuthToken;
 
-    /**
-     * Returns the currently logged in user.
-     *
-     * @return the user.
-     */
-    public User getCurrentUser() {
-        return LoginService.getInstance().getCurrentUser();
-    }
-    public AuthToken getCurrentAuthToken() {
-        return LoginService.getInstance().getCurrentAuthToken();
-    }
     public FollowerCountResponse getFollowerCount(FollowerCountRequest request) {
-        return LoginService.getInstance().getFollowerCount(request);
+        return (new LoginServiceProxy()).getFollowerCount(request);
     }
     public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) {
-        return LoginService.getInstance().getFolloweeCount(request);
+        return (new LoginServiceProxy()).getFolloweeCount(request);
     }
     public LogoutResponse logout(LogoutRequest request) {
-        return LogoutService.getInstance().logout(request);
+        return (new LogoutServiceProxy()).logout(request);
+    }
+
+    static void setCurrentUser(User currentUser) {
+        Presenter.currentUser = currentUser;
+    }
+
+    static void setCurrentAuthToken(AuthToken currentAuthToken) {
+        Presenter.currentAuthToken = currentAuthToken;
+    }
+
+    protected static User getCurrentUser() {
+        return currentUser;
+    }
+
+    protected static AuthToken getCurrentAuthToken() {
+        return currentAuthToken;
     }
 }

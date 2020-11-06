@@ -4,7 +4,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import edu.byu.cs.tweeter.Client.model.services.PostStatusService;
+import byu.edu.cs.tweeter.shared.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.domain.User;
+import edu.byu.cs.tweeter.Client.model.services.PostStatusServiceProxy;
 import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
 import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 
@@ -31,9 +33,23 @@ public class MainPresenter extends Presenter {
         this.view = view;
     }
 
+    public void updateCurrentUser(User user) {
+        setCurrentUser(user);
+    }
+    public User findCurrentUser() {
+        return getCurrentUser();
+    }
+
+    public void updateCurrentAuthToken(AuthToken authToken) {
+        setCurrentAuthToken(authToken);
+    }
+
+    public AuthToken findCurrentAuthToken() {
+        return getCurrentAuthToken();
+    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public PostStatusResponse postStatus(PostStatusRequest request) {
-        return PostStatusService.getInstance().postStatus(request);
+        return (new PostStatusServiceProxy()).postStatus(request);
     }
 
 }

@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import byu.edu.cs.tweeter.shared.domain.AuthToken;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.CheckUserFollowingTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.FollowUserTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowerCountTask;
@@ -23,7 +24,7 @@ import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.main.adapters.VisitingSectionsPagerAdapter;
 import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.domain.User;
-import edu.byu.cs.tweeter.Client.model.services.LoginService;
+import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
@@ -201,12 +202,12 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
             public void onClick(View view) {
                 if (userIsFollowing) {
                     UnfollowUserTask unfollowUserTask = new UnfollowUserTask(presenter, VisitorActivity.this);
-                    UnfollowUserRequest request = new UnfollowUserRequest(currentUser, visitingUser, presenter.getCurrentAuthToken());
+                    UnfollowUserRequest request = new UnfollowUserRequest(currentUser, visitingUser, getCurrentAuthToken());
                     unfollowUserTask.execute(request);
                 }
                 else {
                     FollowUserTask followUserTask = new FollowUserTask(presenter, VisitorActivity.this);
-                    FollowUserRequest request = new FollowUserRequest(currentUser, visitingUser, presenter.getCurrentAuthToken());
+                    FollowUserRequest request = new FollowUserRequest(currentUser, visitingUser, getCurrentAuthToken());
                     followUserTask.execute(request);
                 }
             }
@@ -214,13 +215,13 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
     }
 
     private void clearUser() {
-        LoginService.getInstance().setCurrentUser(null);
-        LoginService.getInstance().setCurrentAuthToken(null);
+        presenter.updateCurrentUser(null);
+        presenter.updateCurrentAuthToken(null);
 
     }
 
     public void reset() {
-        LogoutRequest request = new LogoutRequest(presenter.getCurrentAuthToken());
+        LogoutRequest request = new LogoutRequest(getCurrentAuthToken());
         LogoutTask task = new LogoutTask(presenter, this);
         task.execute(request);
         clearUser();
@@ -233,7 +234,7 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
 
     private void checkUserFollowingVisitingUser() {
         CheckUserFollowingTask task = new CheckUserFollowingTask(presenter, this);
-        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser, visitingUser.getAlias(), presenter.getCurrentAuthToken());
+        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser, visitingUser.getAlias(), getCurrentAuthToken());
         task.execute(request);
     }
     @Override
@@ -278,7 +279,7 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
     }
 
     private void updateCurrentUser() {
-        currentUser = presenter.getCurrentUser();
+        currentUser = getCurrentUser();
     }
 
     @Override
@@ -336,6 +337,14 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
     public void logoutAttempted(LogoutResponse response) {
         Toast.makeText(getApplicationContext(), response.getMessage(), Toast. LENGTH_SHORT).show();
     }
+
+    public User getCurrentUser() {
+        return presenter.findCurrentUser();
+    }
+    public AuthToken getCurrentAuthToken() {
+        return presenter.findCurrentAuthToken();
+    }
+
 }
 
 
