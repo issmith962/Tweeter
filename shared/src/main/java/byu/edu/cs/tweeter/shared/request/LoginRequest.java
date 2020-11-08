@@ -4,8 +4,8 @@ package byu.edu.cs.tweeter.shared.request;
  * Contains the alias and password input by the user to attempt login.
  */
 public class LoginRequest {
-    private final String alias;
-    private final String password;
+    private String alias;
+    private String password;
 
     /**
      * Creates an instance.
@@ -32,5 +32,18 @@ public class LoginRequest {
      */
     public String getPassword() {
         return password;
+    }
+
+    public LoginRequest() {
+        alias = null;
+        password = null;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

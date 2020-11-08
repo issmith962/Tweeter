@@ -10,4 +10,12 @@ public class GetUserRequest {
     public String getAlias() {
         return alias;
     }
+
+    public GetUserRequest() {
+        alias = null;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 }

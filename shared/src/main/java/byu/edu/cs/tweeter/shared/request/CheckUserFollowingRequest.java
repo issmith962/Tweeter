@@ -24,4 +24,19 @@ public class CheckUserFollowingRequest {
     public String getFolloweeAlias() {
         return followeeAlias;
     }
+
+    public CheckUserFollowingRequest() {
+    }
+
+    public void setFollower(User follower) {
+        this.follower = follower;
+    }
+
+    public void setFolloweeAlias(String followeeAlias) {
+        this.followeeAlias = followeeAlias;
+    }
+
+    public void setAuthToken(AuthToken authToken) {
+        this.authToken = authToken;
+    }
 }

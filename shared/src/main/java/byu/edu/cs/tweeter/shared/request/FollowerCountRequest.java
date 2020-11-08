@@ -3,7 +3,7 @@ package byu.edu.cs.tweeter.shared.request;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 
 public class FollowerCountRequest {
-    private final User user;
+    private User user;
 
     public FollowerCountRequest(User user) {
         this.user = user;
@@ -11,5 +11,12 @@ public class FollowerCountRequest {
 
     public User getUser() {
         return user;
+    }
+
+    public FollowerCountRequest() {
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -12,4 +12,12 @@ public class LogoutRequest {
     public AuthToken getAuthToken() {
         return authToken;
     }
+
+    public LogoutRequest() {
+        authToken = null;
+    }
+
+    public void setAuthToken(AuthToken authToken) {
+        this.authToken = authToken;
+    }
 }

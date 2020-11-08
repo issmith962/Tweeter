@@ -30,4 +30,27 @@ public class PostStatusRequest {
     public String getDate() {
         return date;
     }
+
+    public PostStatusRequest() {
+        user = null;
+        newStatus = null;
+        date = null;
+        authToken = null;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setNewStatus(String newStatus) {
+        this.newStatus = newStatus;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setAuthToken(AuthToken authToken) {
+        this.authToken = authToken;
+    }
 }

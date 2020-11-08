@@ -15,7 +15,7 @@ import byu.edu.cs.tweeter.shared.response.StartUpResponse;
  */
 public interface LoginService {
     public LoginResponse checkLogin(LoginRequest request);
-    public StartUpResponse startUp(StartUpRequest request);
+    //public StartUpResponse startUp(StartUpRequest request);
     public FollowerCountResponse getFollowerCount(FollowerCountRequest request);
     public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request);
 }

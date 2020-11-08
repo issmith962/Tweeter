@@ -7,9 +7,9 @@ import byu.edu.cs.tweeter.shared.model.domain.User;
  * followers for a specified followee.
  */
 public class FollowersRequest {
-    private final User followee;
-    private final int limit;
-    private final User lastFollower;
+    private User followee;
+    private int limit;
+    private User lastFollower;
 
     /**
      * Creates an instance.
@@ -52,6 +52,25 @@ public class FollowersRequest {
      */
     public User getLastFollower() {
         return lastFollower;
+    }
+
+    public FollowersRequest() {
+        this.followee = null;
+        this.limit = 0;
+        this.lastFollower = null;
+
+    }
+
+    public void setFollowee(User followee) {
+        this.followee = followee;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public void setLastFollower(User lastFollower) {
+        this.lastFollower = lastFollower;
     }
 }
 

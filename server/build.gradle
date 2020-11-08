@@ -4,6 +4,8 @@ apply plugin: 'com.github.johnrengelman.shadow'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':shared')
+    implementation group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
+
 }
 
 sourceCompatibility = "8"

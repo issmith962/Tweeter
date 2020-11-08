@@ -28,5 +28,28 @@ public class RegisterRequest {
     public String getImageData() {
         return imageData;
     }
+
+    public RegisterRequest() {
+        name = null;
+        alias = null;
+        password = null;
+        imageData = null;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setImageData(String imageData) {
+        this.imageData = imageData;
+    }
 }
 

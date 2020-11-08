@@ -25,4 +25,22 @@ public class FollowUserRequest {
     public User getFollowee() {
         return followee;
     }
+
+    public FollowUserRequest() {
+        followee = null;
+        follower = null;
+        authToken = null;
+    }
+
+    public void setFollower(User follower) {
+        this.follower = follower;
+    }
+
+    public void setFollowee(User followee) {
+        this.followee = followee;
+    }
+
+    public void setAuthToken(AuthToken authToken) {
+        this.authToken = authToken;
+    }
 }
