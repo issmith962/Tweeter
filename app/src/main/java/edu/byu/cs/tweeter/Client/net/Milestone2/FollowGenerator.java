@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.Client.net;
+package edu.byu.cs.tweeter.Client.net.Milestone2;
 
 import org.jetbrains.annotations.NotNull;
 

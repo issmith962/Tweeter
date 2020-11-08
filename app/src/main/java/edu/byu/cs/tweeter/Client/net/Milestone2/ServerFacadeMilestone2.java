@@ -1,9 +1,4 @@
-package edu.byu.cs.tweeter.Client.net;
-
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
+package edu.byu.cs.tweeter.Client.net.Milestone2;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -482,7 +477,6 @@ public class ServerFacadeMilestone2 {
 
     //---------------------------------------------------------------------------------------
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void initializeFeed() {
         feed_initialized = true;
         User user = new User("Test", "User", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
@@ -523,7 +517,6 @@ public class ServerFacadeMilestone2 {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public FeedResponse getFeed(FeedRequest request) {
         // Used in place of assert statements because Android does not support them
         if (BuildConfig.DEBUG) {
@@ -588,7 +581,6 @@ public class ServerFacadeMilestone2 {
 
     // -----------------------------------------------------------------------------------------
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public PostStatusResponse postStatus(PostStatusRequest request) {
         if (!request.getNewStatus().equals("") && allUsers.contains(request.getUser())) {
             User user = request.getUser();
@@ -600,9 +592,9 @@ public class ServerFacadeMilestone2 {
             Collections.sort(statusesByUser.get(request.getUser()));
             Collections.reverse(statusesByUser.get(request.getUser()));
 
-            return new PostStatusResponse("Status successfully posted!");
+            return new PostStatusResponse(true,"Status successfully posted!");
         } else {
-            return new PostStatusResponse("Status posting failed...");
+            return new PostStatusResponse(false,"Status posting failed...");
         }
     }
 
@@ -618,14 +610,14 @@ public class ServerFacadeMilestone2 {
                 followeesByFollower.put(request.getFollower(), new ArrayList<>());
             }
             if (!followersByFollowee.get(request.getFollowee()).contains(request.getFollower())) {
-                return new UnfollowUserResponse("Already not following!");
+                return new UnfollowUserResponse(true,"Already not following!");
             }
             followeesByFollower.get(request.getFollower()).remove(request.getFollowee());
             followersByFollowee.get(request.getFollowee()).remove(request.getFollower());
         } catch (Exception e) {
-            return new UnfollowUserResponse("Unfollow Failed!");
+            return new UnfollowUserResponse(false,"Unfollow Failed!");
         }
-        return new UnfollowUserResponse(request.getFollowee().getName() + " unfollowed!");
+        return new UnfollowUserResponse(true,request.getFollowee().getName() + " unfollowed!");
     }
 
     public FollowUserResponse followUser(FollowUserRequest request) {
@@ -637,14 +629,14 @@ public class ServerFacadeMilestone2 {
                 followeesByFollower.put(request.getFollower(), new ArrayList<>());
             }
             if (followersByFollowee.get(request.getFollowee()).contains(request.getFollower())) {
-                return new FollowUserResponse("Already Following!");
+                return new FollowUserResponse(true,"Already Following!");
             }
             followeesByFollower.get(request.getFollower()).add(request.getFollowee());
             followersByFollowee.get(request.getFollowee()).add(request.getFollower());
         } catch (Exception e) {
-            return new FollowUserResponse("Follow Failed!");
+            return new FollowUserResponse(false,"Follow Failed!");
         }
-        return new FollowUserResponse(request.getFollowee().getName() + " followed!");
+        return new FollowUserResponse(true,request.getFollowee().getName() + " followed!");
     }
 
     public GetAllUsersResponse getAllUsers(GetAllUsersRequest request) {
@@ -709,7 +701,6 @@ public class ServerFacadeMilestone2 {
         return new RegisterResponse(newUser, request.getPassword());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public StartUpResponse startUp(StartUpRequest request) {
         try {
             if (!follows_initialized) {
@@ -745,7 +736,7 @@ public class ServerFacadeMilestone2 {
                 return new GetUserResponse(user);
             }
         }
-        return new GetUserResponse(null);
+        return new GetUserResponse((User) null);
     }
 
 //    public void testInitialize(List<Follow> follows, Map<User, List<Status>> statusesByUser, Map<User, String> passwordsByUser) {

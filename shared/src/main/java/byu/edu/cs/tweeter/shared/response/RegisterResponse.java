@@ -2,13 +2,17 @@ package byu.edu.cs.tweeter.shared.response;
 
 import byu.edu.cs.tweeter.shared.model.domain.User;
 
-public class RegisterResponse {
+public class RegisterResponse extends Response{
     private User newUser;
     private String password;
 
     public RegisterResponse(User newUser, String password) {
+        super(true);
         this.newUser = newUser;
         this.password = password;
+    }
+    public RegisterResponse(String message) {
+        super(false, message);
     }
 
     public User getNewUser() {

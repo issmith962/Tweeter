@@ -1,13 +1,12 @@
 package byu.edu.cs.tweeter.shared.response;
 
-public class PostStatusResponse {
-    String message;
+public class PostStatusResponse extends Response {
 
-    public PostStatusResponse(String message) {
-        this.message = message;
+    public PostStatusResponse(boolean success) {
+        super(success);
     }
 
-    public String getMessage() {
-        return message;
+    public PostStatusResponse(boolean success, String message) {
+        super(success, message);
     }
 }

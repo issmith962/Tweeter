@@ -6,12 +6,12 @@ import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
  * A response for a {@Link LoginRequest}.
  */
 public class LoginResponse extends Response {
-    String alias;
-    String password;
-    AuthToken authToken;
-    String firstName;
-    String lastName;
-    String imageURL;
+    private String alias;
+    private String password;
+    private AuthToken authToken;
+    private String firstName;
+    private String lastName;
+    private String imageURL;
 
     /**
      * Creates a response indicating that the corresponding request was successful.

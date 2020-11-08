@@ -1,14 +1,11 @@
 package byu.edu.cs.tweeter.shared.response;
 
-public class UnfollowUserResponse {
-    private String message;
-
-    public UnfollowUserResponse(String message) {
-        this.message = message;
+public class UnfollowUserResponse extends Response {
+    public UnfollowUserResponse(boolean success) {
+        super(success);
     }
 
-    public String getMessage() {
-        return message;
+    public UnfollowUserResponse(boolean success, String message) {
+        super(success, message);
     }
 }
-

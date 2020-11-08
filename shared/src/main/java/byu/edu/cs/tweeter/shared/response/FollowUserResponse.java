@@ -1,13 +1,11 @@
 package byu.edu.cs.tweeter.shared.response;
 
-public class FollowUserResponse {
-    private String message;
-
-    public FollowUserResponse(String message) {
-        this.message = message;
+public class FollowUserResponse extends Response {
+    public FollowUserResponse(boolean success) {
+        super(success);
     }
 
-    public String getMessage() {
-        return message;
+    public FollowUserResponse(boolean success, String message) {
+        super(success, message);
     }
 }
