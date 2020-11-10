@@ -4,14 +4,17 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
+
 import byu.edu.cs.tweeter.shared.model.domain.service.FeedService;
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
 
 public class FeedServiceProxy extends Service implements FeedService {
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public FeedResponse getFeed(FeedRequest request) {
-        return getServerFacade().getFeed(request);
+    private static final String URL_PATH = "/getfeed";
+    public FeedResponse getFeed(FeedRequest request) throws IOException, TweeterRemoteException {
+        return getServerFacade().getFeed(request, URL_PATH);
     }
 
 
