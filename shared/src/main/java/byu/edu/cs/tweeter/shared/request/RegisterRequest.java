@@ -13,6 +13,12 @@ public class RegisterRequest {
         this.imageData = imageData;
     }
 
+    public RegisterRequest(String name, String alias, String password) {
+        this.name = name;
+        this.alias = alias;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }

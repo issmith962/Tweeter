@@ -53,7 +53,7 @@ import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 
 public class ServerFacade{
     // This is Dr. Wilkerson's url.
-    private static final String SERVER_URL = "https://60w68eax7h.execute-api.us-east-1.amazonaws.com/dev";
+    private static final String SERVER_URL = "https://60w68eax7h.execute-api.us-east-1.amazonaws.com/dev"
     // copy line of code ^^ but with my API url
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);

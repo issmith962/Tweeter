@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
@@ -145,17 +146,22 @@ public class RegisterFragment extends Fragment implements LoginPresenter.View, R
             public void onClick(View view) {
                 if (mName != null && mAlias != null && mPassword != null && imageUri != null) {
                     RegisterAttemptTask registerAttemptTask = new RegisterAttemptTask(presenter, RegisterFragment.this);
-                    String imageByteString = "";
-                    try {
-                        InputStream iStream =  getActivity().getContentResolver().openInputStream(imageUri);
-                        byte[] imageData = ByteArrayUtils.bytesFromInputStream(iStream);
-                        imageByteString = Base64.getEncoder().encodeToString(imageData);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    String imageByteString = null;
+                    if (imageUri != null) {
+                        try {
+                            InputStream iStream = getActivity().getContentResolver().openInputStream(imageUri);
+                            byte[] imageData = ByteArrayUtils.bytesFromInputStream(iStream);
+                            imageByteString = Base64.getEncoder().encodeToString(imageData);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        RegisterRequest registerRequest = new RegisterRequest(mName, mAlias, mPassword, imageByteString);
+                        registerAttemptTask.execute(registerRequest);
                     }
-
-                    RegisterRequest registerRequest = new RegisterRequest(mName, mAlias, mPassword, imageByteString);
-                    registerAttemptTask.execute(registerRequest);
+                    else {
+                        RegisterRequest registerRequest = new RegisterRequest(mName, mAlias, mPassword);
+                        registerAttemptTask.execute(registerRequest);
+                    }
                 }
             }
         });

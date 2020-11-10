@@ -47,8 +47,7 @@ public class LoginPresenter extends Presenter {
         LoginResponse response = (new LoginServiceProxy()).checkLogin(request);
         if (!(response.getAuthToken() == null)) {
             setCurrentAuthToken(response.getAuthToken());
-            setCurrentUser(new User(response.getFirstName(), response.getLastName(),
-                    response.getAlias(), response.getImageURL()));
+            setCurrentUser(response.getUser());
         }
         return response;
     }

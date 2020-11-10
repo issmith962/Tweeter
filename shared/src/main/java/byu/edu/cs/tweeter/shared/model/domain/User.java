@@ -1,12 +1,13 @@
 package byu.edu.cs.tweeter.shared.model.domain;
 
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Represents a user in the system.
  */
-public class User implements Comparable<User> {
+public class User implements Comparable<User>, Serializable {
     private final String firstName;
     private final String lastName;
     private final String alias;

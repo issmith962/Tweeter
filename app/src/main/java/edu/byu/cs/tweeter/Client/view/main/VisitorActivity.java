@@ -233,7 +233,7 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
 
     private void checkUserFollowingVisitingUser() {
         CheckUserFollowingTask task = new CheckUserFollowingTask(presenter, this);
-        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser, visitingUser.getAlias(), getCurrentAuthToken());
+        CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser.getAlias(), visitingUser.getAlias());
         task.execute(request);
     }
     @Override

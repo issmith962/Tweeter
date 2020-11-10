@@ -1,8 +1,9 @@
 package byu.edu.cs.tweeter.shared.model.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Status implements Comparable<Status> {
+public class Status implements Comparable<Status>, Serializable {
     private User user;
     private String date_posted;
     private String status_text;

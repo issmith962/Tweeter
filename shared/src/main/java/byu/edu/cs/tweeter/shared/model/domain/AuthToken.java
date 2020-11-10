@@ -1,8 +1,9 @@
 package byu.edu.cs.tweeter.shared.model.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class AuthToken implements Comparable<AuthToken> {
+public class AuthToken implements Comparable<AuthToken>, Serializable {
     private String authToken;
 
     public AuthToken() {
