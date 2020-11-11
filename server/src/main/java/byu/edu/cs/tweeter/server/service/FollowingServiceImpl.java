@@ -18,7 +18,7 @@ public class FollowingServiceImpl implements FollowingService {
     }
 
     @Override
-    public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) throws IOException, TweeterRemoteException {
+    public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) {
         Integer followeeCount = getFollowDAO().getFolloweeCount(request);
         return new FolloweeCountResponse(followeeCount);
     }
