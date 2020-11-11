@@ -14,18 +14,16 @@ import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 public class FollowingServiceImpl implements FollowingService {
     @Override
     public FollowingResponse getFollowees(FollowingRequest request) throws AssertionError {
-        return getFolloweesDAO().getFollowees(request);
+        return getFollowDAO().getFollowees(request);
     }
 
     @Override
     public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) throws IOException, TweeterRemoteException {
-        // check Authtoken first
-        // if authtoken is okay, then continue, otherwise return error
-        Integer followeeCount = getFolloweesDAO().getFolloweeCount(request);
+        Integer followeeCount = getFollowDAO().getFolloweeCount(request);
         return new FolloweeCountResponse(followeeCount);
     }
 
-    public FollowDAO getFolloweesDAO() {
+    FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
 

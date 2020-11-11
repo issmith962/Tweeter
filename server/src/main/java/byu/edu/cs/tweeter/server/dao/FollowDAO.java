@@ -54,7 +54,7 @@ public class FollowDAO {
     private final User user27 = new User("Izzy", "Berg",FEMALE_IMAGE_URL);
     private final User user28 = new User("Rayan", "Mercado", MALE_IMAGE_URL);
     private final User user29 = new User("Glyn", "Lara",FEMALE_IMAGE_URL);
-    private final User user30= new User("Rueben", "Kidd", MALE_IMAGE_URL);
+    private final User user30 = new User("Rueben", "Kidd", MALE_IMAGE_URL);
     private final User user31 = new User("Giselle", "Harrison",FEMALE_IMAGE_URL);
     private final User user32 = new User("Felix", "Begum", MALE_IMAGE_URL);
     private final User user33 = new User("Avni", "Beattie",FEMALE_IMAGE_URL);
@@ -211,4 +211,12 @@ public class FollowDAO {
     }
 
 
+//--------------------------------------------------------------------------------------------------
+//                                      HELPER FUNCTIONS
+//--------------------------------------------------------------------------------------------------
+    // Helper for FeedService
+    public List<User> getAllFollowees(User follower) {
+        // TODO: return ALL followees of one user in a list
+        return getDummyFollowees();
+    }
 }

@@ -1,19 +1,37 @@
 package byu.edu.cs.tweeter.server.service;
 
+import java.util.UUID;
+
+import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
+import byu.edu.cs.tweeter.server.dao.UserDAO;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.model.domain.service.LoginService;
-import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
-import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
-import byu.edu.cs.tweeter.shared.request.StartUpRequest;
-import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
-import byu.edu.cs.tweeter.shared.response.FollowerCountResponse;
 import byu.edu.cs.tweeter.shared.response.LoginResponse;
-import byu.edu.cs.tweeter.shared.response.StartUpResponse;
 
 public class LoginServiceImpl implements LoginService {
     @Override
     public LoginResponse checkLogin(LoginRequest request) {
-        return null;
+        // TODO: create an authtoken and add it to the table if credentials are correct
+
+
+        boolean correctAliasPassword = getUserDAO().validateLogin(request.getAlias(), request.getPassword());
+        if (!correctAliasPassword) {
+            return new LoginResponse("Failure! Incorrect login credentials..");
+        }
+        String newAuthToken = UUID.randomUUID().toString();
+        getAuthTokenDAO().createAuthToken(new AuthToken(newAuthToken), request.getAlias());
+
+        // The following line only works without a hardcoded TestUser
+        // User user = getUserDAO().findUserByAlias(request.getAlias());
+        // We use the following line for now:
+        User user = new User("Test", "User",
+                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+
+        return new LoginResponse("Success! Logged in..", user, new AuthToken(newAuthToken));
     }
 
+    UserDAO getUserDAO() {return new UserDAO();}
+    AuthTokenDAO getAuthTokenDAO() {return new AuthTokenDAO();}
 }
