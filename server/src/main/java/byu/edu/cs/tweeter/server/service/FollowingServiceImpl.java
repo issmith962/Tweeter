@@ -2,7 +2,8 @@ package byu.edu.cs.tweeter.server.service;
 
 import java.io.IOException;
 
-import byu.edu.cs.tweeter.server.dao.FolloweesDAO;
+import byu.edu.cs.tweeter.server.dao.FollowDAO;
+import byu.edu.cs.tweeter.shared.model.domain.Follow;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowingService;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
@@ -18,11 +19,14 @@ public class FollowingServiceImpl implements FollowingService {
 
     @Override
     public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) throws IOException, TweeterRemoteException {
-        return null;
+        // check Authtoken first
+        // if authtoken is okay, then continue, otherwise return error
+        Integer followeeCount = getFolloweesDAO().getFolloweeCount(request);
+        return new FolloweeCountResponse(followeeCount);
     }
 
-    FolloweesDAO getFolloweesDAO() {
-        return new FolloweesDAO();
+    public FollowDAO getFolloweesDAO() {
+        return new FollowDAO();
     }
 
 }
