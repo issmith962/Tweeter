@@ -16,18 +16,4 @@ public class LoginServiceImpl implements LoginService {
         return null;
     }
 
-//    @Override
-//    public StartUpResponse startUp(StartUpRequest request) {
-//        return null;
-//    }
-
-    @Override
-    public FollowerCountResponse getFollowerCount(FollowerCountRequest request) {
-        return null;
-    }
-
-    @Override
-    public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) {
-        return null;
-    }
 }
