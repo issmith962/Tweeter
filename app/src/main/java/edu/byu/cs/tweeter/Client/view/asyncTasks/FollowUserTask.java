@@ -2,6 +2,9 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
 import byu.edu.cs.tweeter.shared.response.FollowUserResponse;
 import edu.byu.cs.tweeter.Client.presenter.VisitorPresenter;
@@ -21,7 +24,14 @@ public class FollowUserTask extends AsyncTask<FollowUserRequest, Void, FollowUse
 
     @Override
     protected FollowUserResponse doInBackground(FollowUserRequest... followUserRequests) {
-        FollowUserResponse response = presenter.followUser(followUserRequests[0]);
+        FollowUserResponse response = null;
+        try {
+            response = presenter.followUser(followUserRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         return response;
     }
 

@@ -4,7 +4,10 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
+
 import byu.edu.cs.tweeter.shared.model.domain.User;
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.RegisterServiceProxy;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
@@ -43,7 +46,7 @@ public class LoginPresenter extends Presenter {
      * @param request the login request containing alias and password.
      * @return the updated current user if the login worked, or the previous one if not.
      */
-    public LoginResponse checkLogin(LoginRequest request) {
+    public LoginResponse checkLogin(LoginRequest request) throws IOException, TweeterRemoteException {
         LoginResponse response = (new LoginServiceProxy()).checkLogin(request);
         if (!(response.getAuthToken() == null)) {
             setCurrentAuthToken(response.getAuthToken());
@@ -52,12 +55,12 @@ public class LoginPresenter extends Presenter {
         return response;
     }
 
-    public RegisterResponse registerUser(RegisterRequest request) {
+    public RegisterResponse registerUser(RegisterRequest request) throws IOException, TweeterRemoteException {
         return (new RegisterServiceProxy()).registerUser(request);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public StartUpResponse startUp(StartUpRequest request) {
-        return (new LoginServiceProxy()).startUp(request);
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public StartUpResponse startUp(StartUpRequest request) {
+//        return (new LoginServiceProxy()).startUp(request);
+//    }
 }

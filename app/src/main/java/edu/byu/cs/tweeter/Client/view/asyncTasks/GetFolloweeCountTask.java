@@ -2,6 +2,9 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.presenter.Presenter;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
 import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
@@ -21,7 +24,14 @@ public class GetFolloweeCountTask extends AsyncTask<FolloweeCountRequest, Void, 
 
     @Override
     protected FolloweeCountResponse doInBackground(FolloweeCountRequest... followeeCountRequests) {
-        FolloweeCountResponse response = presenter.getFolloweeCount(followeeCountRequests[0]);
+        FolloweeCountResponse response = null;
+        try {
+            response = presenter.getFolloweeCount(followeeCountRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         return response;
     }
 

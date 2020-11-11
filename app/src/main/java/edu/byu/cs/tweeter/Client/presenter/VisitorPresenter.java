@@ -1,7 +1,10 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
+import java.io.IOException;
+
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.FollowActionServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.GetUserServiceProxy;
@@ -21,16 +24,16 @@ public class VisitorPresenter extends Presenter {
         this.view = view;
     }
 
-    public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) {
+    public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) throws IOException, TweeterRemoteException {
         return (new CheckUserFollowingServiceProxy()).isUserFollowing(request);
     }
-    public FollowUserResponse followUser(FollowUserRequest request) {
+    public FollowUserResponse followUser(FollowUserRequest request) throws IOException, TweeterRemoteException {
         return (new FollowActionServiceProxy()).followUser(request);
     }
-    public UnfollowUserResponse unfollowUser(UnfollowUserRequest request) {
+    public UnfollowUserResponse unfollowUser(UnfollowUserRequest request) throws IOException, TweeterRemoteException {
         return (new FollowActionServiceProxy()).unfollowUser(request);
     }
-    public GetUserResponse getUser(GetUserRequest request) {
+    public GetUserResponse getUser(GetUserRequest request) throws IOException, TweeterRemoteException {
         return (new GetUserServiceProxy()).getUser(request);
     }
 

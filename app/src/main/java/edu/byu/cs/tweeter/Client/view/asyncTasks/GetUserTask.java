@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.presenter.VisitorPresenter;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.util.ImageUtils;
@@ -30,7 +31,14 @@ public class GetUserTask extends AsyncTask<GetUserRequest, Void, GetUserResponse
 
     @Override
     protected GetUserResponse doInBackground(GetUserRequest... getUserRequests) {
-        GetUserResponse response = presenter.getUser(getUserRequests[0]);
+        GetUserResponse response = null;
+        try {
+            response = presenter.getUser(getUserRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         loadImages(response);
         return response;
     }

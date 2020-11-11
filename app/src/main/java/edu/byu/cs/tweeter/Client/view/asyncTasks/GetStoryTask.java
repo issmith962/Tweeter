@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.util.ImageUtils;
@@ -30,7 +31,14 @@ public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
 
     @Override
     protected StoryResponse doInBackground(StoryRequest... storyRequests) {
-        StoryResponse response = presenter.getStory(storyRequests[0]);
+        StoryResponse response = null;
+        try {
+            response = presenter.getStory(storyRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         loadImages(response);
         return response;
     }

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.presenter.FollowingPresenter;
 import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.util.ImageUtils;
@@ -51,7 +52,14 @@ public class GetFollowingTask extends AsyncTask<FollowingRequest, Void, Followin
      */
     @Override
     protected FollowingResponse doInBackground(FollowingRequest... followingRequests) {
-        FollowingResponse response = presenter.getFollowing(followingRequests[0]);
+        FollowingResponse response = null;
+        try {
+            response = presenter.getFollowing(followingRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         loadImages(response);
         return response;
     }

@@ -5,6 +5,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
+
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
 import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 import edu.byu.cs.tweeter.Client.presenter.MainPresenter;
@@ -25,7 +28,14 @@ public class PostStatusTask extends AsyncTask<PostStatusRequest, Void, PostStatu
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected PostStatusResponse doInBackground(PostStatusRequest... postStatusRequests) {
-        PostStatusResponse response = presenter.postStatus(postStatusRequests[0]);
+        PostStatusResponse response = null;
+        try {
+            response = presenter.postStatus(postStatusRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         return response;
     }
 

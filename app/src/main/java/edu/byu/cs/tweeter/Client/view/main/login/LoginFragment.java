@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
-import edu.byu.cs.tweeter.Client.view.asyncTasks.StartUpTask;
 import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
 import byu.edu.cs.tweeter.shared.request.StartUpRequest;
@@ -27,7 +26,7 @@ import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoginAttemptTask;
 import edu.byu.cs.tweeter.Client.view.main.MainActivity;
 
-public class LoginFragment extends Fragment implements LoginPresenter.View, LoginAttemptTask.LoginAttemptObserver, StartUpTask.StartUpTaskObserver {
+public class LoginFragment extends Fragment implements LoginPresenter.View, LoginAttemptTask.LoginAttemptObserver {
 
     private LoginPresenter presenter;
     private EditText mAliasField;
@@ -52,8 +51,8 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false); {
             presenter = new LoginPresenter(this);
-            StartUpTask task = new StartUpTask(presenter, this);
-            task.execute(new StartUpRequest());
+//            StartUpTask task = new StartUpTask(presenter, this);
+//            task.execute(new StartUpRequest());
             mAliasField = view.findViewById(R.id.alias);
             mAliasField.addTextChangedListener(new TextWatcher() {
 
@@ -119,8 +118,8 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
         view.clearFocus();
     }
 
-    @Override
-    public void startUpCompleted(StartUpResponse response) {
-
-    }
+//    @Override
+//    public void startUpCompleted(StartUpResponse response) {
+//
+//    }
 }

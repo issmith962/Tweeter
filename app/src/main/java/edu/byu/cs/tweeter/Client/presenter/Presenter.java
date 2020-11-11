@@ -1,5 +1,8 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
+import java.io.IOException;
+
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.model.services.LogoutServiceProxy;
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
@@ -18,13 +21,13 @@ public abstract class Presenter {
     private static User currentUser;
     private static AuthToken currentAuthToken;
 
-    public FollowerCountResponse getFollowerCount(FollowerCountRequest request) {
+    public FollowerCountResponse getFollowerCount(FollowerCountRequest request) throws IOException, TweeterRemoteException {
         return (new LoginServiceProxy()).getFollowerCount(request);
     }
-    public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) {
+    public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) throws IOException, TweeterRemoteException {
         return (new LoginServiceProxy()).getFolloweeCount(request);
     }
-    public LogoutResponse logout(LogoutRequest request) {
+    public LogoutResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
         return (new LogoutServiceProxy()).logout(request);
     }
 

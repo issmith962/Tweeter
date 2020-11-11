@@ -2,6 +2,9 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
 import edu.byu.cs.tweeter.Client.presenter.FollowingPresenter;
@@ -29,14 +32,27 @@ public class CheckUserFollowingTask extends AsyncTask<CheckUserFollowingRequest,
     @Override
     protected CheckUserFollowingResponse doInBackground(CheckUserFollowingRequest... requests) {
         if (presenter instanceof FollowingPresenter) {
-            return ((FollowingPresenter) presenter).isUserFollowing(requests[0]);
+            try {
+                return ((FollowingPresenter) presenter).isUserFollowing(requests[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TweeterRemoteException e) {
+                e.printStackTrace();
+            }
         }
         else if (presenter instanceof VisitorPresenter) {
-            return ((VisitorPresenter) presenter).isUserFollowing(requests[0]);
+            try {
+                return ((VisitorPresenter) presenter).isUserFollowing(requests[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TweeterRemoteException e) {
+                e.printStackTrace();
+            }
         }
         else {
             return null;
         }
+        return null;
     }
 
     @Override

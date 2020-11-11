@@ -2,6 +2,9 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
 import byu.edu.cs.tweeter.shared.response.LoginResponse;
@@ -34,7 +37,14 @@ public class LoginAttemptTask extends AsyncTask<LoginRequest, Void, LoginRespons
 
     @Override
     protected LoginResponse doInBackground(LoginRequest... loginRequests) {
-        LoginResponse response = presenter.checkLogin(loginRequests[0]);
+        LoginResponse response = null;
+        try {
+            response = presenter.checkLogin(loginRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         // loadImages(response) is not necessary because the user image is
         // already asynchronously loaded in the MainActivity directly.
         return response;

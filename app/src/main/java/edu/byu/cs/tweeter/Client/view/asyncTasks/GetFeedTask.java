@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
 import edu.byu.cs.tweeter.Client.presenter.FeedPresenter;
@@ -33,7 +34,14 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected FeedResponse doInBackground(FeedRequest... feedRequests) {
-        FeedResponse response = presenter.getFeed(feedRequests[0]);
+        FeedResponse response = null;
+        try {
+            response = presenter.getFeed(feedRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         loadImages(response);
         return response;
     }

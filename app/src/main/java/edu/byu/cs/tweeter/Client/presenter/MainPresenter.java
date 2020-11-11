@@ -4,8 +4,11 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
+
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.model.services.PostStatusServiceProxy;
 import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
 import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
@@ -48,7 +51,7 @@ public class MainPresenter extends Presenter {
         return getCurrentAuthToken();
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public PostStatusResponse postStatus(PostStatusRequest request) {
+    public PostStatusResponse postStatus(PostStatusRequest request) throws IOException, TweeterRemoteException {
         return (new PostStatusServiceProxy()).postStatus(request);
     }
 

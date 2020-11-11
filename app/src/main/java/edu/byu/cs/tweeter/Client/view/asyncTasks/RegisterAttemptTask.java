@@ -2,6 +2,9 @@ package edu.byu.cs.tweeter.Client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
+import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import byu.edu.cs.tweeter.shared.request.RegisterRequest;
 import byu.edu.cs.tweeter.shared.response.RegisterResponse;
@@ -21,7 +24,14 @@ public class RegisterAttemptTask extends AsyncTask<RegisterRequest, Void, Regist
 
     @Override
     protected RegisterResponse doInBackground(RegisterRequest... registerRequests) {
-        RegisterResponse response = presenter.registerUser(registerRequests[0]);
+        RegisterResponse response = null;
+        try {
+            response = presenter.registerUser(registerRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
         return response;
     }
 
