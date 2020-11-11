@@ -192,7 +192,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             addLoadingFooter();
 
             GetFeedTask getFeedTask = new GetFeedTask(presenter, this, getContext());
-            FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus);
+            FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus, presenter.findCurrentAuthToken());
             getFeedTask.execute(request);
         }
 

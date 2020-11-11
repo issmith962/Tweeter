@@ -22,8 +22,4 @@ public class StoryPresenter extends Presenter {
         return (new StoryServiceProxy()).getStory(request);
     }
 
-    public AuthToken findCurrentAuthToken() {
-        return getCurrentAuthToken();
-    }
-
 }

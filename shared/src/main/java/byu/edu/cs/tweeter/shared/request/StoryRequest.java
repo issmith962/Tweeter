@@ -8,18 +8,14 @@ public class StoryRequest {
     private User user;
     private int limit;
     private Status lastStatus;
-    private AuthToken authToken;
 
-    public StoryRequest(User user, int limit, Status lastStatus, AuthToken authToken) {
+
+    public StoryRequest(User user, int limit, Status lastStatus) {
         this.user = user;
         this.limit = limit;
         this.lastStatus = lastStatus;
-        this.authToken = authToken;
     }
 
-    public AuthToken getAuthToken() {
-        return authToken;
-    }
     public User getUser() {
         return user;
     }
@@ -36,7 +32,6 @@ public class StoryRequest {
         user = null;
         limit = 0;
         lastStatus = null;
-        authToken = null;
     }
 
     public void setUser(User user) {
@@ -51,7 +46,4 @@ public class StoryRequest {
         this.lastStatus = lastStatus;
     }
 
-    public void setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
-    }
 }
