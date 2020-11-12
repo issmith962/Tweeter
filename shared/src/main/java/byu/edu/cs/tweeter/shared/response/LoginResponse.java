@@ -9,6 +9,7 @@ public class LoginResponse extends Response {
 
     public LoginResponse(String message, User user, AuthToken authToken) {
         super(true, message);
+        this.user = user;
         this.authToken = authToken;
     }
 
