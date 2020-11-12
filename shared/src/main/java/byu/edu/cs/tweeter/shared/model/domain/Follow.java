@@ -7,8 +7,8 @@ import java.util.Objects;
  */
 public class Follow {
 
-    private final User follower;
-    private final User followee;
+    private User follower;
+    private User followee;
 
     public Follow(User follower, User followee) {
         this.follower = follower;
@@ -21,6 +21,16 @@ public class Follow {
 
     public User getFollowee() {
         return followee;
+    }
+
+    public Follow() {}
+
+    public void setFollower(User follower) {
+        this.follower = follower;
+    }
+
+    public void setFollowee(User followee) {
+        this.followee = followee;
     }
 
     @Override

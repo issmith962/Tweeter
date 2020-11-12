@@ -48,6 +48,7 @@ public class Status implements Comparable<Status>, Serializable {
                 Objects.equals(status_text, status.status_text);
     }
 
+    public Status() {}
     @Override
     public int hashCode() {
         return Objects.hash(user, date_posted, status_text);

@@ -6,9 +6,7 @@ import java.util.Objects;
 public class AuthToken implements Comparable<AuthToken>, Serializable {
     private String authToken;
 
-    public AuthToken() {
-        this.authToken = null;
-    }
+    public AuthToken() {}
     public AuthToken(String authToken) {
         this.authToken = authToken;
     }
