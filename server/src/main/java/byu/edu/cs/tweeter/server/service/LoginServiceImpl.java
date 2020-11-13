@@ -14,8 +14,6 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public LoginResponse checkLogin(LoginRequest request) {
         // TODO: create an authtoken and add it to the table if credentials are correct
-
-
         boolean correctAliasPassword = getUserDAO().validateLogin(request.getAlias(), request.getPassword());
         if (!correctAliasPassword) {
             return new LoginResponse("Failure! Incorrect login credentials..");
@@ -26,8 +24,14 @@ public class LoginServiceImpl implements LoginService {
         // The following line only works without a hardcoded TestUser
         // User user = getUserDAO().findUserByAlias(request.getAlias());
         // We use the following line for now:
-        User user = new User("Test", "User",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        User user;
+        if (request.getAlias().equals("@TestUser")) {
+            user = new User("Test", "User",
+                    "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        }
+        else {
+            user = new User("Registered", "User", request.getAlias(), "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        }
 
         return new LoginResponse("Success! Logged in..", user, new AuthToken(newAuthToken));
     }
