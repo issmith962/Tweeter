@@ -45,7 +45,8 @@ import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LogoutTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.UnfollowUserTask;
 
-public class VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver,
+public class
+VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver,
         LoadUriImageTask.LoadUriImageObserver, VisitorPresenter.View,
         CheckUserFollowingTask.CheckUserFollowingObserver, FollowUserTask.FollowUserObserver,
         UnfollowUserTask.UnfollowUserObserver, GetUserTask.GetUserObserver,
@@ -89,12 +90,12 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
             String firstName = intent.getStringExtra("firstName");
             String lastName = intent.getStringExtra("lastName");
             String imageURL = intent.getStringExtra("imageURL");
-            Uri imageUri;
-            if (intent.getStringExtra("imageUri") == null) {
-                imageUri = null;
-            } else {
-                imageUri = Uri.parse(intent.getStringExtra("imageUri"));
-            }
+//            Uri imageUri;
+//            if (intent.getStringExtra("imageUri") == null) {
+//                imageUri = null;
+//            } else {
+//                imageUri = Uri.parse(intent.getStringExtra("imageUri"));
+//            }
             if (firstName == null) {
                 firstName = "";
             }
@@ -284,7 +285,7 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
     @Override
     public void followUserAttempted(FollowUserResponse response) {
         Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
-        checkUserFollowingVisitingUser();
+        userIsFollowing = response.isSuccess();
         Button followButton = findViewById(R.id.follow_button);
         if (!checkFollowingTaskCompleted) {
             followButton.setText("...");
@@ -300,7 +301,7 @@ public class VisitorActivity extends AppCompatActivity implements LoadImageTask.
     @Override
     public void unfollowUserAttempted(UnfollowUserResponse response) {
         Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
-        checkUserFollowingVisitingUser();
+        userIsFollowing = !response.isSuccess();
         Button followButton = findViewById(R.id.follow_button);
         if (!checkFollowingTaskCompleted) {
             followButton.setText("...");
