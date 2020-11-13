@@ -16,6 +16,7 @@ import byu.edu.cs.tweeter.shared.request.StartUpRequest;
 import byu.edu.cs.tweeter.shared.response.LoginResponse;
 import byu.edu.cs.tweeter.shared.response.RegisterResponse;
 import byu.edu.cs.tweeter.shared.response.StartUpResponse;
+import edu.byu.cs.tweeter.Client.view.util.ByteArrayUtils;
 
 /**
  * The presenter for the "login" functionality of the application.
@@ -59,6 +60,10 @@ public class LoginPresenter extends Presenter {
         return (new RegisterServiceProxy()).registerUser(request);
     }
 
+//    private void loadImage(User user) throws IOException {
+//        byte [] bytes = ByteArrayUtils.bytesFromUrl(user.getImageUrl());
+//        user.setImageBytes(bytes);
+//    }
 //    @RequiresApi(api = Build.VERSION_CODES.O)
 //    public StartUpResponse startUp(StartUpRequest request) {
 //        return (new LoginServiceProxy()).startUp(request);
