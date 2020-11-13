@@ -12,8 +12,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import byu.edu.cs.tweeter.shared.model.domain.Status;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
+import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
 import byu.edu.cs.tweeter.shared.request.StoryRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
+import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 import byu.edu.cs.tweeter.shared.response.StoryResponse;
 
 public class StatusDAO {
@@ -56,7 +58,14 @@ public class StatusDAO {
         List<Status> testUserStatuses;
         testUserStatuses = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            testUserStatuses.add(new Status(testUser, generateRandomDate(), "Status # " + i));
+            String day;
+            if (i + 1< 10) {
+                day = "0" + (i + 1);
+            }
+            else {
+                day = Integer.toString(i + 1);
+            }
+            testUserStatuses.add(new Status(testUser, "01/" + day + "/1111", "Status # " + i));
         }
         return testUserStatuses;
     }
@@ -65,8 +74,16 @@ public class StatusDAO {
     private List<Status> generateTestUserFolloweeStatuses() {
         List<Status> followeeStatuses;
         followeeStatuses = new ArrayList<>();
+        int i = 0;
         for (User followee : getDummyFollowees()) {
-            followeeStatuses.add(new Status(followee, generateRandomDate(), "status #1"));
+            String day;
+            if (i + 1 < 10) {
+                day = "0" + (i + 1);
+            } else {
+                day = Integer.toString(i + 1);
+            }
+            followeeStatuses.add(new Status(followee, "01/" + day + "/1111", "status #1"));
+            i++;
         }
         return followeeStatuses;
     }
@@ -106,8 +123,8 @@ public class StatusDAO {
 
     public FeedResponse getFeed(FeedRequest request, List<User> allFollowees) {
         // TODO: Replace with proper search for all followeeStatuses in db
-        assert(request.getLimit() < 0);
-        assert(request.getUser() == null);
+        assert(request.getLimit() > 0);
+        assert(request.getUser() != null);
 
         // TODO: The following line must be replaced with a proper implementation
         //  param "allFollowees" will be used to find all the statuses
@@ -126,12 +143,13 @@ public class StatusDAO {
             }
             hasMorePages = statusIndex < allFolloweeStatuses.size();
         }
+        System.out.println("hasMorePages: " + hasMorePages);
         return new FeedResponse(responseStatuses, hasMorePages);
     }
 
     public StoryResponse getStory(StoryRequest request) {
-        assert(request.getLimit() < 0);
-        assert(request.getUser() == null);
+        assert(request.getLimit() > 0);
+        assert(request.getUser() != null);
 
         // TODO: The following line must be replaced with a proper implementation
         //  of finding all statuses of given user in table
@@ -154,4 +172,16 @@ public class StatusDAO {
         return new StoryResponse(responseStatuses, hasMorePages);
     }
 
+    public PostStatusResponse postStatus(PostStatusRequest request) {
+        // TODO: Add new Status created here to database
+        if (!request.getNewStatus().equals("")) {
+            User user = request.getUser();
+            Status newStatus = new Status(request.getUser(), request.getDate(), request.getNewStatus());
+            //Collections.sort(postedStatuses);
+            //Collections.reverse(postedStatuses);
+            return new PostStatusResponse(true,"Status successfully posted!");
+        } else {
+            return new PostStatusResponse(false,"Status posting failed...");
+        }
+    }
 }

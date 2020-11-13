@@ -2,7 +2,10 @@ package byu.edu.cs.tweeter.server.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
@@ -88,6 +91,9 @@ public class FollowDAO {
 
         if(request.getLimit() > 0) {
             if (allFollowees != null) {
+                allFollowees = allFollowees.stream().sorted((u1, u2) -> u1.getName().compareToIgnoreCase(u2.getName())).collect(Collectors.toList());
+
+
                 int followeesIndex = getFolloweesStartingIndex(request.getLastFollowee(), allFollowees);
 
                 for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
@@ -121,7 +127,7 @@ public class FollowDAO {
         return followeesIndex;
     }
 
-    List<User> getDummyFollowees() {
+    public List<User> getDummyFollowees() {
         return Arrays.asList(user1, user2, user3, user4, user5, user6, user7,
                 user8, user9, user10, user11, user12, user13, user14, user15, user16, user17, user18,
                 user19, user20);
@@ -148,6 +154,14 @@ public class FollowDAO {
 
         if(request.getLimit() > 0) {
             if (allFollowers != null) {
+//                Collections.sort(allFollowers, new Comparator<User>() {
+//                    @Override
+//                    public int compare(User user1, User user2) {
+//                        return user1.getName().compareToIgnoreCase(user2.getName());
+//                    }
+//                });
+                allFollowers = allFollowers.stream().sorted((u1, u2) -> u1.getName().compareToIgnoreCase(u2.getName())).collect(Collectors.toList());
+
                 int followeesIndex = getFollowersStartingIndex(request.getLastFollower(), allFollowers);
 
                 for(int limitCounter = 0; followeesIndex < allFollowers.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
@@ -192,7 +206,7 @@ public class FollowDAO {
 //--------------------------------------------------------------------------------------------------
 
     public FollowUserResponse followUser(FollowUserRequest request) {
-        // TODO: create relationship between request.getFollower() and request.getFollowee() in table
+        // TODO: create relationship between request.getFollower() and request.getFollowee() in tablez
         return new FollowUserResponse(true, "Success: " +
                 request.getFollower().getAlias() + " successfully followed " +
                 request.getFollowee().getAlias());

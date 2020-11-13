@@ -12,6 +12,8 @@ public class FeedHandler implements RequestHandler<FeedRequest, FeedResponse> {
     @Override
     public FeedResponse handleRequest(FeedRequest input, Context context) {
         FeedServiceImpl service = new FeedServiceImpl();
-        return service.getFeed(input);
+        FeedResponse feed = service.getFeed(input);
+        System.out.println(feed.hasMorePages());
+        return feed;
     }
 }

@@ -23,7 +23,7 @@ public class FollowingServiceImpl implements FollowingService {
         return new FolloweeCountResponse(followeeCount);
     }
 
-    FollowDAO getFollowDAO() {
+    public FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
 

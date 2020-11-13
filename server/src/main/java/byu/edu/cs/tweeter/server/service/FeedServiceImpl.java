@@ -24,9 +24,11 @@ public class FeedServiceImpl implements FeedService {
     AuthTokenDAO getAuthTokenDAO() {
         return new AuthTokenDAO();
     }
+
     FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
+
     StatusDAO getStatusDAO() {
         return new StatusDAO();
     }
