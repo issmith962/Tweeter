@@ -262,6 +262,10 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
     @Override
     public void postStatusAttempted(PostStatusResponse response) {
         Toast.makeText(getApplicationContext(),response.getMessage(), Toast. LENGTH_SHORT).show();
+        // TODO: reload story to make status post immediately..
+        // lets try the following code in a bit...
+        // state = 1;
+        // loadCurrentState()
     }
 
     @Override
