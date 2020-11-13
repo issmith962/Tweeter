@@ -74,4 +74,9 @@ public class ImageUtils {
             return context.getResources().getDrawable( R.drawable.question );
         }
     }
+
+    public static Drawable drawableFromByteArray(byte [] bytes) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return new BitmapDrawable(Resources.getSystem(), bitmap);
+    }
 }
