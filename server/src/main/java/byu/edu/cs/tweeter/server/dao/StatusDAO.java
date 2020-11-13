@@ -82,7 +82,7 @@ public class StatusDAO {
             } else {
                 day = Integer.toString(i + 1);
             }
-            followeeStatuses.add(new Status(followee, "01/" + day + "/1111", "status #1"));
+            followeeStatuses.add(new Status(followee, "01/" + day + "/1111", "status #1 @AllenAnderson"));
             i++;
         }
         return followeeStatuses;
