@@ -1,6 +1,7 @@
 package byu.edu.cs.tweeter.shared.response;
 
 import java.util.List;
+import java.util.Objects;
 
 import byu.edu.cs.tweeter.shared.model.domain.Status;
 
@@ -24,4 +25,18 @@ public class FeedResponse extends PagedResponse {
     }
 
     public FeedResponse() {}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FeedResponse that = (FeedResponse) o;
+        return Objects.equals(feed, that.feed);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), feed);
+    }
 }

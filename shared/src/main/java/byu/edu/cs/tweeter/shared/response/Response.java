@@ -1,5 +1,7 @@
 package byu.edu.cs.tweeter.shared.response;
 
+import java.util.Objects;
+
 /**
  * A base class for server responses.
  */
@@ -56,4 +58,17 @@ class Response {
 
     public Response() {}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Response response = (Response) o;
+        return success == response.success &&
+                Objects.equals(message, response.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(success, message);
+    }
 }

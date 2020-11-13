@@ -1,6 +1,7 @@
 package byu.edu.cs.tweeter.shared.response;
 
 import java.util.List;
+import java.util.Objects;
 
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FollowingRequest;
@@ -47,4 +48,18 @@ public class FollowingResponse extends PagedResponse {
     }
 
     public FollowingResponse() {}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FollowingResponse response = (FollowingResponse) o;
+        return Objects.equals(followees, response.followees);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), followees);
+    }
 }

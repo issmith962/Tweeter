@@ -1,5 +1,7 @@
 package byu.edu.cs.tweeter.shared.response;
 
+import java.util.Objects;
+
 /**
  * A response that can indicate whether there is more data available from the server.
  */
@@ -36,4 +38,18 @@ public class PagedResponse extends Response {
     }
 
     public PagedResponse() {}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PagedResponse that = (PagedResponse) o;
+        return hasMorePages == that.hasMorePages;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), hasMorePages);
+    }
 }
