@@ -10,19 +10,19 @@ import byu.edu.cs.tweeter.shared.response.FollowUserResponse;
 import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 
 public class FollowActionServiceProxy extends Service implements FollowActionService {
-    private static final String URL_PATH = "/follow";
-
+    private static final String FOLLOW_URL_PATH = "/follow";
+    private static final String UNFOLLOW_URL_PATH = "/unfollow";
     public FollowUserResponse followUser(FollowUserRequest request) throws IOException, TweeterRemoteException {
         String param_alias1 = "/" + request.getFollower().getAlias();
         String param_alias2 = "/" + request.getFollowee().getAlias();
-        String newUrlPath = param_alias1 + URL_PATH + param_alias2;
+        String newUrlPath = param_alias1 + FOLLOW_URL_PATH + param_alias2;
         return getServerFacade().followUser(request, newUrlPath);
     }
 
     public UnfollowUserResponse unfollowUser(UnfollowUserRequest request) throws IOException, TweeterRemoteException {
         String param_alias1 = "/" + request.getFollower().getAlias();
         String param_alias2 = "/" + request.getFollowee().getAlias();
-        String newUrlPath = param_alias1 + URL_PATH + param_alias2;
+        String newUrlPath = param_alias1 + UNFOLLOW_URL_PATH + param_alias2;
         return getServerFacade().unfollowUser(request, newUrlPath);
     }
 }
