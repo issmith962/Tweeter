@@ -10,8 +10,8 @@ import byu.edu.cs.tweeter.shared.response.FollowUserResponse;
 import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 
 public class FollowActionServiceProxy extends Service implements FollowActionService {
-    private static final String FOLLOW_URL_PATH = "/follow";
-    private static final String UNFOLLOW_URL_PATH = "/unfollow";
+    public static final String FOLLOW_URL_PATH = "/follow";
+    public static final String UNFOLLOW_URL_PATH = "/unfollow";
     public FollowUserResponse followUser(FollowUserRequest request) throws IOException, TweeterRemoteException {
         String param_alias1 = "/" + request.getFollower().getAlias();
         String param_alias2 = "/" + request.getFollowee().getAlias();

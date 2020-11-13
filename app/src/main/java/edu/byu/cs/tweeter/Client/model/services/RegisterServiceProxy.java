@@ -8,7 +8,7 @@ import byu.edu.cs.tweeter.shared.request.RegisterRequest;
 import byu.edu.cs.tweeter.shared.response.RegisterResponse;
 
 public class RegisterServiceProxy extends Service implements RegisterService {
-    private static final String URL_PATH = "/register";
+    public static final String URL_PATH = "/register";
 
     public RegisterResponse registerUser(RegisterRequest request) throws IOException, TweeterRemoteException {
         return getServerFacade().registerUser(request, URL_PATH);

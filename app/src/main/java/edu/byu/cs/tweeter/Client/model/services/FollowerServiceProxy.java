@@ -13,8 +13,8 @@ import byu.edu.cs.tweeter.shared.response.FollowersResponse;
  * Contains the business logic for getting the users a user has as followers.
  */
 public class FollowerServiceProxy extends Service implements FollowerService {
-    private static final String GETFOLLOWERS_URL_PATH = "/getfollowers";
-    private static final String FOLLOWER_COUNT_URL_PATH = "/followercount";
+    public static final String GETFOLLOWERS_URL_PATH = "/getfollowers";
+    public static final String FOLLOWER_COUNT_URL_PATH = "/followercount";
     public FollowersResponse getFollowers(FollowersRequest request) throws IOException, TweeterRemoteException {
         return getServerFacade().getFollowers(request, GETFOLLOWERS_URL_PATH);
     }

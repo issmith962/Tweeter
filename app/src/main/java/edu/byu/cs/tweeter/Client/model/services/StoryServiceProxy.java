@@ -8,7 +8,7 @@ import byu.edu.cs.tweeter.shared.request.StoryRequest;
 import byu.edu.cs.tweeter.shared.response.StoryResponse;
 
 public class StoryServiceProxy extends Service implements StoryService {
-    private static final String URL_PATH = "/getstory";
+    public static final String URL_PATH = "/getstory";
     public StoryResponse getStory(StoryRequest request) throws IOException, TweeterRemoteException {
         String param_alias = "/" + request.getUser().getAlias();
         String newUrlPath = URL_PATH + param_alias;

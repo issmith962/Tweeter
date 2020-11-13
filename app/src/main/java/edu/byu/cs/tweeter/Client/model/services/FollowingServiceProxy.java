@@ -13,8 +13,8 @@ import byu.edu.cs.tweeter.shared.response.FollowingResponse;
  * Contains the business logic for getting the users a user is following.
  */
 public class FollowingServiceProxy extends Service implements FollowingService {
-    private static final String GETFOLLOWEES_URL_PATH = "/getfollowees";
-    private static final String FOLLOWEE_COUNT_URL_PATH = "/followeecount";
+    public static final String GETFOLLOWEES_URL_PATH = "/getfollowees";
+    public static final String FOLLOWEE_COUNT_URL_PATH = "/followeecount";
 
     public FollowingResponse getFollowees(FollowingRequest request) throws AssertionError, IOException, TweeterRemoteException {
         return getServerFacade().getFollowees(request, GETFOLLOWEES_URL_PATH);

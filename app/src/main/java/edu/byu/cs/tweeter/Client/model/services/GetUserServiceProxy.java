@@ -8,7 +8,7 @@ import byu.edu.cs.tweeter.shared.request.GetUserRequest;
 import byu.edu.cs.tweeter.shared.response.GetUserResponse;
 
 public class GetUserServiceProxy extends Service implements GetUserService {
-    private static final String URL_PATH = "/user";
+    public static final String URL_PATH = "/user";
     public GetUserResponse getUser(GetUserRequest request) throws IOException, TweeterRemoteException {
         String param_alias = "/" + request.getAlias();
         String newUrlPath = URL_PATH + param_alias;

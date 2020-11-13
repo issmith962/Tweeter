@@ -8,7 +8,7 @@ import byu.edu.cs.tweeter.shared.request.LogoutRequest;
 import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 
 public class LogoutServiceProxy extends Service implements LogoutService {
-    private static final String URL_PATH = "/logout";
+    public static final String URL_PATH = "/logout";
 
     public LogoutResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
         return getServerFacade().logout(request, URL_PATH);

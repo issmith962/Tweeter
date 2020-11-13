@@ -21,7 +21,7 @@ import byu.edu.cs.tweeter.shared.response.StartUpResponse;
  * Contains the business logic for login and sign up.
  */
 public class LoginServiceProxy extends Service implements LoginService {
-    private static final String LOGIN_URL_PATH = "/login";
+    public static final String LOGIN_URL_PATH = "/login";
 
     public LoginResponse checkLogin(LoginRequest request) throws IOException, TweeterRemoteException {
         return getServerFacade().checkLogin(request, LOGIN_URL_PATH);

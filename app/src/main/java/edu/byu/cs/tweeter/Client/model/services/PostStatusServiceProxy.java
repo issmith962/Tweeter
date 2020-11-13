@@ -12,7 +12,7 @@ import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
 import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 
 public class PostStatusServiceProxy extends Service implements PostStatusService {
-    private static final String URL_PATH = "/poststatus";
+    public static final String URL_PATH = "/poststatus";
 
     public PostStatusResponse postStatus(PostStatusRequest request) throws IOException, TweeterRemoteException {
         String param_alias = "/" + request.getUser().getAlias();

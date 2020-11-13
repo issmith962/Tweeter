@@ -9,7 +9,7 @@ import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
 
 public class CheckUserFollowingServiceProxy extends Service implements CheckUserFollowingService {
-    private static final String URL_PATH = "/checkfollows";
+    public static final String URL_PATH = "/checkfollows";
     public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) throws IOException, TweeterRemoteException {
         String param_alias1 = "/" + request.getFollowerAlias();
         String param_alias2 = "/" + request.getFolloweeAlias();

@@ -12,7 +12,7 @@ import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
 
 public class FeedServiceProxy extends Service implements FeedService {
-    static final String URL_PATH = "/getfeed";
+    public static final String URL_PATH = "/getfeed";
     public FeedResponse getFeed(FeedRequest request) throws IOException, TweeterRemoteException {
         return getServerFacade().getFeed(request, URL_PATH);
     }
