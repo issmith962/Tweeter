@@ -8,6 +8,10 @@ public class FolloweeCountResponse extends Response {
         this.followeeCount = followeeCount;
     }
 
+    public void setFolloweeCount(int followeeCount) {
+        this.followeeCount = followeeCount;
+    }
+
     public FolloweeCountResponse(String message) {
         super(false, message);
     }

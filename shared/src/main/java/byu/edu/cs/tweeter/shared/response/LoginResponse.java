@@ -13,7 +13,6 @@ public class LoginResponse extends Response {
         this.authToken = authToken;
     }
 
-
     public LoginResponse(String message) {
         super(false, message);
     }
@@ -22,4 +21,12 @@ public class LoginResponse extends Response {
         return authToken;
     }
     public User getUser() {return user;}
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setAuthToken(AuthToken authToken) {
+        this.authToken = authToken;
+    }
 }

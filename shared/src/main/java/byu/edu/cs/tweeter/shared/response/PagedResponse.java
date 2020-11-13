@@ -4,8 +4,7 @@ package byu.edu.cs.tweeter.shared.response;
  * A response that can indicate whether there is more data available from the server.
  */
 public class PagedResponse extends Response {
-
-    private final boolean hasMorePages;
+    private boolean hasMorePages;
 
     PagedResponse(boolean success, boolean hasMorePages) {
         super(success);
@@ -26,5 +25,13 @@ public class PagedResponse extends Response {
      */
     public boolean hasMorePages() {
         return hasMorePages;
+    }
+
+    public boolean isHasMorePages() {
+        return hasMorePages;
+    }
+
+    public void setHasMorePages(boolean hasMorePages) {
+        this.hasMorePages = hasMorePages;
     }
 }

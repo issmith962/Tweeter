@@ -18,4 +18,8 @@ public class GetAllUsersResponse extends Response{
     public List<User> getAllUsers() {
         return allUsers;
     }
+
+    public void setAllUsers(List<User> allUsers) {
+        this.allUsers = allUsers;
+    }
 }

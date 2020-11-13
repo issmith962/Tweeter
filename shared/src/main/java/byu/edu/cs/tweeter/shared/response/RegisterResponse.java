@@ -21,4 +21,12 @@ public class RegisterResponse extends Response{
     public String getPassword() {
         return password;
     }
+
+    public void setNewUser(User newUser) {
+        this.newUser = newUser;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
