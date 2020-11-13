@@ -10,4 +10,5 @@ public class StartUpResponse {
     public String getMessage() {
         return message;
     }
+
 }

@@ -45,4 +45,6 @@ public class FollowingResponse extends PagedResponse {
     public void setFollowees(List<User> followees) {
         this.followees = followees;
     }
+
+    public FollowingResponse() {}
 }

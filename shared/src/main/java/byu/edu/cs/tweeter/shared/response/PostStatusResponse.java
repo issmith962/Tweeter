@@ -9,4 +9,6 @@ public class PostStatusResponse extends Response {
     public PostStatusResponse(boolean success, String message) {
         super(success, message);
     }
+
+    public PostStatusResponse() {}
 }

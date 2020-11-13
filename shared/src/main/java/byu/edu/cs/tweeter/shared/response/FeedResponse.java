@@ -22,4 +22,6 @@ public class FeedResponse extends PagedResponse {
     public void setFeed(List<Status> feed) {
         this.feed = feed;
     }
+
+    public FeedResponse() {}
 }

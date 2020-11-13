@@ -29,4 +29,6 @@ public class RegisterResponse extends Response{
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public RegisterResponse() {}
 }

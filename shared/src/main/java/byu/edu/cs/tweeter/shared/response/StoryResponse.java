@@ -22,4 +22,6 @@ public class StoryResponse extends PagedResponse {
     public void setStory(List<Status> story) {
         this.story = story;
     }
+
+    public StoryResponse() {}
 }

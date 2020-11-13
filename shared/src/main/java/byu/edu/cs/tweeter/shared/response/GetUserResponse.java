@@ -21,4 +21,6 @@ public class GetUserResponse extends Response {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public GetUserResponse() {}
 }

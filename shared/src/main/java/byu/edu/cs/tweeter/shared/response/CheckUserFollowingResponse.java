@@ -17,4 +17,5 @@ public class CheckUserFollowingResponse extends Response {
     public void setUserFollowing(boolean userFollowing) {
         this.userFollowing = userFollowing;
     }
+    public CheckUserFollowingResponse() {}
 }

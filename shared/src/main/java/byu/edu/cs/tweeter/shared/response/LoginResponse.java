@@ -29,4 +29,6 @@ public class LoginResponse extends Response {
     public void setAuthToken(AuthToken authToken) {
         this.authToken = authToken;
     }
+
+    public LoginResponse() {}
 }

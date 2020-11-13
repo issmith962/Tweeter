@@ -20,4 +20,6 @@ public class FollowerCountResponse extends Response{
         return followerCount;
     }
 
+    public FollowerCountResponse() {}
+
 }
