@@ -44,10 +44,10 @@ public class FeedServiceProxyTest {
         invalidRequest = new FeedRequest(null, 10, null, null);
 
         successResponse = new FeedResponse(Arrays.asList(user1Status, user2Status, user3Status), false);
+        failureResponse = new FeedResponse("An exception occurred");
+        
         ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
         Mockito.when(mockServerFacade.getFeed(validRequest, FeedServiceProxy.URL_PATH)).thenReturn(successResponse);
-
-        failureResponse = new FeedResponse("An exception occurred");
         Mockito.when(mockServerFacade.getFeed(invalidRequest, FeedServiceProxy.URL_PATH)).thenReturn(failureResponse);
 
         feedServiceProxySpy = Mockito.spy(new FeedServiceProxy());
