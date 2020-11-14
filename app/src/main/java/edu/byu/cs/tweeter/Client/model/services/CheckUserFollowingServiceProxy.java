@@ -11,6 +11,9 @@ import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
 public class CheckUserFollowingServiceProxy extends Service implements CheckUserFollowingService {
     public static final String URL_PATH = "/checkfollows";
     public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) throws IOException, TweeterRemoteException {
+        if ((request.getFollowerAlias() == null) || (request.getFolloweeAlias() == null)) {
+            return new CheckUserFollowingResponse("Follower or followee missing..");
+        }
         String param_alias1 = "/" + request.getFollowerAlias();
         String param_alias2 = "/" + request.getFolloweeAlias();
         String newUrlPath = param_alias1 + URL_PATH + param_alias2;
