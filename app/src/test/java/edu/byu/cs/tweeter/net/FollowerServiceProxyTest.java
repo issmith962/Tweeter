@@ -23,7 +23,7 @@ public class FollowerServiceProxyTest {
     private FollowersResponse successResponse;
     private FollowersResponse failureResponse;
 
-    private FollowerServiceProxy followingServiceProxySpy;
+    private FollowerServiceProxy followerServiceProxySpy;
 
     @BeforeEach
     public void setup() throws IOException, TweeterRemoteException {
@@ -45,19 +45,19 @@ public class FollowerServiceProxyTest {
         failureResponse = new FollowersResponse("An exception occurred");
         Mockito.when(mockServerFacade.getFollowers(invalidRequest, FollowerServiceProxy.GETFOLLOWERS_URL_PATH)).thenReturn(failureResponse);
 
-        followingServiceProxySpy = Mockito.spy(new FollowerServiceProxy());
-        Mockito.when(followingServiceProxySpy.getServerFacade()).thenReturn(mockServerFacade);
+        followerServiceProxySpy = Mockito.spy(new FollowerServiceProxy());
+        Mockito.when(followerServiceProxySpy.getServerFacade()).thenReturn(mockServerFacade);
     }
 
     @Test
     public void testGetFollowers_validRequest_correctResponse() throws IOException, TweeterRemoteException {
-        FollowersResponse response = followingServiceProxySpy.getFollowers(validRequest);
+        FollowersResponse response = followerServiceProxySpy.getFollowers(validRequest);
         Assertions.assertEquals(successResponse, response);
     }
 
     @Test
     public void testGetFollowers_validRequest_loadsProfileImages() throws IOException, TweeterRemoteException {
-        FollowersResponse response = followingServiceProxySpy.getFollowers(validRequest);
+        FollowersResponse response = followerServiceProxySpy.getFollowers(validRequest);
 
         for (User user : response.getFollowers()) {
             Assertions.assertNotNull(user.getImageUrl());
@@ -67,7 +67,7 @@ public class FollowerServiceProxyTest {
 
     @Test
     public void testGetFollowers_invalidRequest_returnsNoFollowers() throws IOException, TweeterRemoteException {
-        FollowersResponse response = followingServiceProxySpy.getFollowers(invalidRequest);
+        FollowersResponse response = followerServiceProxySpy.getFollowers(invalidRequest);
         Assertions.assertEquals(failureResponse, response);
     }
 
