@@ -13,6 +13,9 @@ public class FollowActionServiceProxy extends Service implements FollowActionSer
     public static final String FOLLOW_URL_PATH = "/follow";
     public static final String UNFOLLOW_URL_PATH = "/unfollow";
     public FollowUserResponse followUser(FollowUserRequest request) throws IOException, TweeterRemoteException {
+        if ((request.getFollower() == null) || (request.getFollowee() == null)) {
+            return new FollowUserResponse(false, "Potential follower or followee missing..");
+        }
         String param_alias1 = "/" + request.getFollower().getAlias();
         String param_alias2 = "/" + request.getFollowee().getAlias();
         String newUrlPath = param_alias1 + FOLLOW_URL_PATH + param_alias2;
@@ -20,6 +23,9 @@ public class FollowActionServiceProxy extends Service implements FollowActionSer
     }
 
     public UnfollowUserResponse unfollowUser(UnfollowUserRequest request) throws IOException, TweeterRemoteException {
+        if ((request.getFollower() == null) || (request.getFollowee() == null)) {
+            return new UnfollowUserResponse(false, "Follower or followee missing..");
+        }
         String param_alias1 = "/" + request.getFollower().getAlias();
         String param_alias2 = "/" + request.getFollowee().getAlias();
         String newUrlPath = param_alias1 + UNFOLLOW_URL_PATH + param_alias2;
