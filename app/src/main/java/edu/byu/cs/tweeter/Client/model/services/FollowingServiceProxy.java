@@ -20,6 +20,9 @@ public class FollowingServiceProxy extends Service implements FollowingService {
         return getServerFacade().getFollowees(request, GETFOLLOWEES_URL_PATH);
     }
     public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) throws IOException, TweeterRemoteException {
+        if (request.getUser() == null) {
+            return new FolloweeCountResponse("No user identified..");
+        }
         String param_alias = "/" + request.getUser().getAlias();
         String newUrlPath = FOLLOWEE_COUNT_URL_PATH + param_alias;
         return getServerFacade().getFolloweeCount(request, newUrlPath);
