@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.service.PostStatusService;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.model.services.PostStatusServiceProxy;
 import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
@@ -19,6 +20,10 @@ import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 public class MainPresenter extends Presenter {
 
     private final View view;
+
+    public PostStatusService getPostStatusService() {
+        return new PostStatusServiceProxy();
+    }
 
     /**
      * The interface by which this presenter sends notifications to it's view.
@@ -52,7 +57,7 @@ public class MainPresenter extends Presenter {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public PostStatusResponse postStatus(PostStatusRequest request) throws IOException, TweeterRemoteException {
-        return (new PostStatusServiceProxy()).postStatus(request);
+        return getPostStatusService().postStatus(request);
     }
 
 }

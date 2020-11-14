@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.Client.presenter;
 
 import java.io.IOException;
 
+import byu.edu.cs.tweeter.shared.model.domain.service.FollowingService;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.FollowingServiceProxy;
@@ -16,6 +17,10 @@ import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 public class FollowingPresenter extends Presenter {
 
     private final View view;
+
+    public FollowingService getFollowingService() {
+        return new FollowingServiceProxy();
+    }
 
     /**
      * The interface by which this presenter communicates with it's view.
@@ -42,10 +47,8 @@ public class FollowingPresenter extends Presenter {
      * @return the followees.
      */
     public FollowingResponse getFollowing(FollowingRequest request) throws AssertionError, IOException, TweeterRemoteException {
-        return (new FollowingServiceProxy()).getFollowees(request);
+        return getFollowingService().getFollowees(request);
     }
 
-    public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) throws IOException, TweeterRemoteException {
-        return (new CheckUserFollowingServiceProxy()).isUserFollowing(request);
-    }
+
 }

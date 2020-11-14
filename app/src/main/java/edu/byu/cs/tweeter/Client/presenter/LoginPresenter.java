@@ -7,6 +7,8 @@ import androidx.annotation.RequiresApi;
 import java.io.IOException;
 
 import byu.edu.cs.tweeter.shared.model.domain.User;
+import byu.edu.cs.tweeter.shared.model.domain.service.LoginService;
+import byu.edu.cs.tweeter.shared.model.domain.service.RegisterService;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.RegisterServiceProxy;
@@ -23,6 +25,14 @@ import edu.byu.cs.tweeter.Client.view.util.ByteArrayUtils;
  */
 public class LoginPresenter extends Presenter {
     private final View view;
+
+    public LoginService getLoginService() {
+        return new LoginServiceProxy();
+    }
+
+    public RegisterService getRegisterService() {
+        return new RegisterServiceProxy();
+    }
 
     /**
      * The interface by which this presenter communicates with its view.
@@ -48,7 +58,7 @@ public class LoginPresenter extends Presenter {
      * @return the updated current user if the login worked, or the previous one if not.
      */
     public LoginResponse checkLogin(LoginRequest request) throws IOException, TweeterRemoteException {
-        LoginResponse response = (new LoginServiceProxy()).checkLogin(request);
+        LoginResponse response = getLoginService().checkLogin(request);
         if (!(response.getAuthToken() == null)) {
             setCurrentAuthToken(response.getAuthToken());
             setCurrentUser(response.getUser());
@@ -57,7 +67,7 @@ public class LoginPresenter extends Presenter {
     }
 
     public RegisterResponse registerUser(RegisterRequest request) throws IOException, TweeterRemoteException {
-        return (new RegisterServiceProxy()).registerUser(request);
+        return getRegisterService().registerUser(request);
     }
 
 //    private void loadImage(User user) throws IOException {
