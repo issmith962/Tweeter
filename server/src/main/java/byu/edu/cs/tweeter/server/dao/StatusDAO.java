@@ -181,7 +181,7 @@ public class StatusDAO {
             //Collections.reverse(postedStatuses);
             return new PostStatusResponse(true,"Status successfully posted!");
         } else {
-            return new PostStatusResponse(false,"Status posting failed...");
+            return new PostStatusResponse(false,"Status must have content...");
         }
     }
 }
