@@ -16,7 +16,6 @@ import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
 import edu.byu.cs.tweeter.Client.model.services.FeedServiceProxy;
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Client.view.util.ByteArrayUtils;
 
 public class FeedServiceProxyTest {
     private FeedRequest validRequest;
@@ -45,7 +44,7 @@ public class FeedServiceProxyTest {
 
         successResponse = new FeedResponse(Arrays.asList(user1Status, user2Status, user3Status), false);
         failureResponse = new FeedResponse("An exception occurred");
-        
+
         ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
         Mockito.when(mockServerFacade.getFeed(validRequest, FeedServiceProxy.URL_PATH)).thenReturn(successResponse);
         Mockito.when(mockServerFacade.getFeed(invalidRequest, FeedServiceProxy.URL_PATH)).thenReturn(failureResponse);
