@@ -29,15 +29,6 @@ public class LoginServiceProxyTest {
     @BeforeEach
     public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
-        User resultUser1 = new User("FirstName1", "LastName1",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        User resultUser2 = new User("FirstName2", "LastName2",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
-        User resultUser3 = new User("FirstName3", "LastName3",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
-        Status user1Status = new Status(resultUser1, "01/01/2001", "status text");
-        Status user2Status = new Status(resultUser2, "02/02/2002", "status text");
-        Status user3Status = new Status(resultUser3, "03/03/2003", "status text");
 
         validRequest = new LoginRequest("alias", "password");
         invalidRequest = new LoginRequest("alias", null);
