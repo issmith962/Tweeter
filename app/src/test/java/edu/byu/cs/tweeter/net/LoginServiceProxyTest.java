@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.model.domain.Status;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
