@@ -10,6 +10,9 @@ import byu.edu.cs.tweeter.shared.response.GetUserResponse;
 public class GetUserServiceProxy extends Service implements GetUserService {
     public static final String URL_PATH = "/user";
     public GetUserResponse getUser(GetUserRequest request) throws IOException, TweeterRemoteException {
+        if (request.getAlias() == null) {
+            return new GetUserResponse("No alias given to find..");
+        }
         String param_alias = "/" + request.getAlias();
         String newUrlPath = URL_PATH + param_alias;
         return getServerFacade().getUser(request, newUrlPath);
