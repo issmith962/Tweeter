@@ -11,22 +11,31 @@ import java.util.Arrays;
 import byu.edu.cs.tweeter.server.dao.FollowDAO;
 import byu.edu.cs.tweeter.server.service.FollowingServiceImpl;
 import byu.edu.cs.tweeter.shared.model.domain.User;
+import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
 import byu.edu.cs.tweeter.shared.request.FollowingRequest;
+import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
 import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 
 
 public class FollowingServiceImplTest {
+    private FollowingRequest validFollowingRequest;
+    private FollowingRequest invalidFollowingRequest;
 
-    private FollowingRequest request;
-    private FollowingResponse expectedResponse;
-    private FollowDAO mockFollowDAO;
+    private FollowingResponse successFollowingResponse;
+    private FollowingResponse failureFollowingResponse;
+
+    private FolloweeCountRequest validFolloweeCountRequest;
+    private FolloweeCountRequest invalidFolloweeCountRequest;
+
+    private FolloweeCountResponse successFolloweeCountResponse;
+    private FolloweeCountResponse failureFolloweeCountResponse;
+
     private FollowingServiceImpl followingServiceImplSpy;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
-
         User resultUser1 = new User("FirstName1", "LastName1",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         User resultUser2 = new User("FirstName2", "LastName2",
@@ -34,25 +43,52 @@ public class FollowingServiceImplTest {
         User resultUser3 = new User("FirstName3", "LastName3",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
 
-        // Setup a request object to use in the tests
-        request = new FollowingRequest(currentUser, 3, null);
+        validFollowingRequest = new FollowingRequest(currentUser, 3, null);
+        invalidFollowingRequest = new FollowingRequest(null, 0, null);
 
-        // Setup a mock FollowDAO that will return known responses
-        expectedResponse = new FollowingResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false);
-        mockFollowDAO = Mockito.mock(FollowDAO.class);
-        Mockito.when(mockFollowDAO.getFollowees(request)).thenReturn(expectedResponse);
+        successFollowingResponse = new FollowingResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false);
+        failureFollowingResponse = new FollowingResponse("Bad Request: no user given..");
 
-        followingServiceImplSpy = Mockito.spy(FollowingServiceImpl.class);
+        validFolloweeCountRequest = new FolloweeCountRequest(currentUser);
+        invalidFolloweeCountRequest = new FolloweeCountRequest(null);
+
+        successFolloweeCountResponse = new FolloweeCountResponse(10);
+        failureFolloweeCountResponse = new FolloweeCountResponse("Bad Request: no user given..");
+
+        FollowDAO mockFollowDAO = Mockito.mock(FollowDAO.class);
+
+        Mockito.when(mockFollowDAO.getFollowees(validFollowingRequest)).thenReturn(successFollowingResponse);
+        Mockito.when(mockFollowDAO.getFolloweeCount(validFolloweeCountRequest)).thenReturn(10);
+
+        followingServiceImplSpy = Mockito.spy(new FollowingServiceImpl());
         Mockito.when(followingServiceImplSpy.getFollowDAO()).thenReturn(mockFollowDAO);
     }
 
-    /**
-     * Verify that the {@link FollowingServiceImpl#getFollowees(FollowingRequest)}
-     * method returns the same result as the {@link FollowDAO} class.
-     */
     @Test
     public void testGetFollowees_validRequest_correctResponse() throws IOException, TweeterRemoteException {
-        FollowingResponse response = followingServiceImplSpy.getFollowees(request);
-        Assertions.assertEquals(expectedResponse, response);
+        FollowingResponse response = followingServiceImplSpy.getFollowees(validFollowingRequest);
+        Assertions.assertEquals(successFollowingResponse, response);
     }
+
+    @Test
+    public void testGetFollowees_invalidRequest_returnsNoFollowees() throws IOException, TweeterRemoteException {
+        FollowingResponse response = followingServiceImplSpy.getFollowees(invalidFollowingRequest);
+        Assertions.assertEquals(failureFollowingResponse, response);
+    }
+
+
+    @Test
+    public void testFolloweeCount_validRequest() throws IOException, TweeterRemoteException {
+        FolloweeCountResponse response = followingServiceImplSpy.getFolloweeCount(validFolloweeCountRequest);
+        Assertions.assertEquals(successFolloweeCountResponse.getMessage(), response.getMessage());
+    }
+
+    @Test
+    public void testFolloweeCount_invalidRequest() throws IOException, TweeterRemoteException {
+        FolloweeCountResponse response = followingServiceImplSpy.getFolloweeCount(invalidFolloweeCountRequest);
+        Assertions.assertEquals(failureFolloweeCountResponse, response);
+    }
+
+
+
 }
