@@ -13,6 +13,19 @@ import byu.edu.cs.tweeter.shared.response.LoginResponse;
 public class LoginServiceImpl implements LoginService {
     @Override
     public LoginResponse checkLogin(LoginRequest request) {
+        if (request.getAlias() == null) {
+            return new LoginResponse("Bad Request: no username given..");
+        }
+        if (request.getAlias().equals("")) {
+            return new LoginResponse("Bad Request: username cannot be empty..");
+        }
+        if (request.getPassword() == null) {
+            return new LoginResponse("Bad Request: no password given..");
+        }
+        if (request.getPassword().equals("")) {
+            return new LoginResponse("Bad Request: password cannot be empty..");
+        }
+
         // TODO: create an authtoken and add it to the table if credentials are correct
         boolean correctAliasPassword = getUserDAO().validateLogin(request.getAlias(), request.getPassword());
         if (!correctAliasPassword) {
@@ -36,6 +49,6 @@ public class LoginServiceImpl implements LoginService {
         return new LoginResponse("Success! Logged in..", user, new AuthToken(newAuthToken));
     }
 
-    UserDAO getUserDAO() {return new UserDAO();}
-    AuthTokenDAO getAuthTokenDAO() {return new AuthTokenDAO();}
+    public UserDAO getUserDAO() {return new UserDAO();}
+    public AuthTokenDAO getAuthTokenDAO() {return new AuthTokenDAO();}
 }

@@ -10,16 +10,26 @@ import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 public class FollowerServiceImpl implements FollowerService {
     @Override
     public FollowersResponse getFollowers(FollowersRequest request) {
+        if (request.getFollowee() == null) {
+            return new FollowersResponse("Bad Request: no user given..");
+        }
+        if (request.getLimit() == 0) {
+            return new FollowersResponse("Bad Request: no followers requested..");
+        }
         return getFollowDAO().getFollowers(request);
     }
 
     @Override
     public FollowerCountResponse getFollowerCount(FollowerCountRequest request) {
+        if (request.getUser() == null) {
+            return new FollowerCountResponse("Bad Request: no user given..");
+        }
+
         Integer followerCount = getFollowDAO().getFollowerCount(request);
         return new FollowerCountResponse(followerCount);
     }
 
-    FollowDAO getFollowDAO() {
+    public FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
 }

@@ -12,6 +12,12 @@ public class FollowActionServiceImpl implements FollowActionService
 {
     @Override
     public FollowUserResponse followUser(FollowUserRequest request) {
+        if ((request.getFollowee() == null) || (request.getFollower() == null)) {
+            return new FollowUserResponse(false, "Bad Request: missing follower or followee alias..");
+        }
+        if (request.getAuthToken() == null) {
+            return new FollowUserResponse(false, "Bad Request: no authentication..");
+        }
         // TODO: validate the authtoken first, then allow the follow
         boolean correctToken = getAuthTokenDAO().validateAuthToken(request.getAuthToken(), request.getFollower().getAlias());
         if (!correctToken) {
@@ -22,6 +28,12 @@ public class FollowActionServiceImpl implements FollowActionService
 
     @Override
     public UnfollowUserResponse unfollowUser(UnfollowUserRequest request) {
+        if ((request.getFollowee() == null) || (request.getFollower() == null)) {
+            return new UnfollowUserResponse(false, "Bad Request: missing follower or followee alias..");
+        }
+        if (request.getAuthToken() == null) {
+            return new UnfollowUserResponse(false, "Bad Request: no authentication..");
+        }
         // TODO: validate the authtoken first, then allow the unfollow
         boolean correctToken = getAuthTokenDAO().validateAuthToken(request.getAuthToken(), request.getFollower().getAlias());
         if (!correctToken) {
@@ -30,8 +42,8 @@ public class FollowActionServiceImpl implements FollowActionService
         return getFollowDAO().unfollowUser(request);
     }
 
-    FollowDAO getFollowDAO() {
+    public FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
-    AuthTokenDAO getAuthTokenDAO() {return new AuthTokenDAO();}
+    public AuthTokenDAO getAuthTokenDAO() {return new AuthTokenDAO();}
 }

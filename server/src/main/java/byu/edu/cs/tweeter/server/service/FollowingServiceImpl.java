@@ -14,11 +14,22 @@ import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 public class FollowingServiceImpl implements FollowingService {
     @Override
     public FollowingResponse getFollowees(FollowingRequest request) throws AssertionError {
+        if (request.getFollower() == null) {
+            return new FollowingResponse("Bad Request: no user given..");
+        }
+        if (request.getLimit() == 0) {
+            return new FollowingResponse("Bad Request: no followers requested..");
+        }
+
         return getFollowDAO().getFollowees(request);
     }
 
     @Override
     public FolloweeCountResponse getFolloweeCount(FolloweeCountRequest request) {
+        if (request.getUser() == null) {
+            return new FolloweeCountResponse("Bad Request: no user given..");
+        }
+
         Integer followeeCount = getFollowDAO().getFolloweeCount(request);
         return new FolloweeCountResponse(followeeCount);
     }

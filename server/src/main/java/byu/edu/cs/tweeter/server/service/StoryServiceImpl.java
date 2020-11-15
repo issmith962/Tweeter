@@ -8,10 +8,17 @@ import byu.edu.cs.tweeter.shared.response.StoryResponse;
 public class StoryServiceImpl implements StoryService {
     @Override
     public StoryResponse getStory(StoryRequest request) {
+        if (request.getUser() == null) {
+            return new StoryResponse("Bad Request: no user given..");
+        }
+        if (request.getLimit() == 0) {
+            return new StoryResponse("Bad Request: no statuses requested..");
+        }
+
         return getStatusDAO().getStory(request);
     }
 
-    StatusDAO getStatusDAO() {
+    public StatusDAO getStatusDAO() {
         return new StatusDAO();
     }
 

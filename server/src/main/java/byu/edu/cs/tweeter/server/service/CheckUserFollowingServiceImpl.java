@@ -8,10 +8,18 @@ import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
 public class CheckUserFollowingServiceImpl implements CheckUserFollowingService {
     @Override
     public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) {
+        if ((request.getFolloweeAlias() == null) != (request.getFollowerAlias() == null)) {
+            return new CheckUserFollowingResponse("Bad Request: Missing follower or followee alias..");
+        }
+        if ((request.getFolloweeAlias().equals("")) != (request.getFollowerAlias().equals(""))) {
+            return new CheckUserFollowingResponse("Bad Request: follower and followee aliases cannot be empty..");
+        }
+
+
         return getFollowDAO().isUserFollowing(request);
     }
 
-    FollowDAO getFollowDAO() {
+    public FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
 }

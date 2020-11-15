@@ -8,6 +8,13 @@ import byu.edu.cs.tweeter.shared.response.RegisterResponse;
 public class RegisterServiceImpl implements RegisterService {
     @Override
     public RegisterResponse registerUser(RegisterRequest request) {
+        if ((request.getAlias() == null) || (request.getName() == null) || (request.getPassword() == null)) {
+            return new RegisterResponse("Bad Request: one or more registration fields missing");
+        }
+        if ((request.getAlias().equals("")) || (request.getName().equals("")) || (request.getPassword().equals(""))) {
+            return new RegisterResponse("Bad Request: registration fields cannot be empty");
+        }
+
         String[] names = request.getName().split(" ");
         if (names.length != 2) {
             return new RegisterResponse("Failure: Need first and last name to register.");
@@ -17,5 +24,5 @@ public class RegisterServiceImpl implements RegisterService {
         }
     }
 
-    UserDAO getUserDAO() {return new UserDAO();}
+    public UserDAO getUserDAO() {return new UserDAO();}
 }

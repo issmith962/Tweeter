@@ -13,6 +13,16 @@ import byu.edu.cs.tweeter.shared.response.FeedResponse;
 public class FeedServiceImpl implements FeedService {
     @Override
     public FeedResponse getFeed(FeedRequest request) {
+        if (request.getAuthToken() == null) {
+            return new FeedResponse("Bad Request: No authentication..");
+        }
+        if (request.getUser() == null) {
+            return new FeedResponse("Bad Request: No user given..");
+        }
+        if (request.getLimit() == 0) {
+            return new FeedResponse("Bad Request: No statuses requested..");
+        }
+
         boolean correctAuthToken = getAuthTokenDAO().validateAuthToken(request.getAuthToken(), request.getUser().getAlias());
         if (!correctAuthToken) {
             return new FeedResponse("Failure: Login expired! Please log in again..");
@@ -21,15 +31,15 @@ public class FeedServiceImpl implements FeedService {
         return getStatusDAO().getFeed(request, followees);
     }
 
-    AuthTokenDAO getAuthTokenDAO() {
+    public AuthTokenDAO getAuthTokenDAO() {
         return new AuthTokenDAO();
     }
 
-    FollowDAO getFollowDAO() {
+    public FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
 
-    StatusDAO getStatusDAO() {
+    public StatusDAO getStatusDAO() {
         return new StatusDAO();
     }
 }
