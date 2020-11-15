@@ -15,7 +15,7 @@ import byu.edu.cs.tweeter.shared.response.GetUserResponse;
 import edu.byu.cs.tweeter.Client.model.services.GetUserServiceProxy;
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
 
-public class GetUserProxyTest {
+public class GetUserServiceProxyTest {
     private GetUserRequest validRequest;
     private GetUserRequest invalidRequest;
 
