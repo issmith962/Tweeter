@@ -602,7 +602,7 @@ public class ServerNoDBTests {
     public void getUser_invalidRequest() {
         GetUserResponse failureResponse = new GetUserResponse("No alias given to find..");
 
-        GetUserRequest request = new GetUserRequest("");
+        GetUserRequest request = new GetUserRequest(null);
         GetUserServiceProxy proxy = new GetUserServiceProxy();
 
         GetUserResponse response;
