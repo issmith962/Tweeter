@@ -264,8 +264,9 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
         Toast.makeText(getApplicationContext(),response.getMessage(), Toast. LENGTH_SHORT).show();
         // TODO: reload story to make status post immediately..
         // lets try the following code in a bit...
-        // state = 1;
-        // loadCurrentState()
+        state = 1;
+        loadCurrentState();
+        // update: these two lines seem to work with dummy data, so I'll leave them for now..
     }
 
     @Override
