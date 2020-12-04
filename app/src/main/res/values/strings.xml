@@ -24,7 +24,7 @@
     <string name="statusImageContentDescription">The image for the user the status belongs to.</string>
     <string name="name">name</string>
     <string name="alias">name</string>
-    <string name="date">date</string>
+    <string name="postingTimestamp">postingTimestamp</string>
     <string name="search_title">Search</string>
     <string name="settings_title">Settings</string>
     <string name="visiting_activity_title">VISITING STORY</string>

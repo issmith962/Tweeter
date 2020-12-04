@@ -6,15 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,17 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
-import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowerCountTask;
-import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadUriImageTask;
-import edu.byu.cs.tweeter.Client.view.asyncTasks.LogoutTask;
-import edu.byu.cs.tweeter.Client.view.asyncTasks.PostStatusTask;
-import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
-import edu.byu.cs.tweeter.Client.view.main.adapters.FeedSectionsPagerAdapter;
-import edu.byu.cs.tweeter.Client.view.main.adapters.LoginSectionsPagerAdapter;
-import edu.byu.cs.tweeter.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
@@ -46,7 +34,15 @@ import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 import edu.byu.cs.tweeter.Client.presenter.MainPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFolloweeCountTask;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowerCountTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadImageTask;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadUriImageTask;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.LogoutTask;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.PostStatusTask;
+import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
+import edu.byu.cs.tweeter.Client.view.main.adapters.FeedSectionsPagerAdapter;
+import edu.byu.cs.tweeter.Client.view.main.adapters.LoginSectionsPagerAdapter;
+import edu.byu.cs.tweeter.R;
 
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
@@ -241,12 +237,13 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
             public void onClick(DialogInterface dialog, int which) {
                 String newStatus = input.getText().toString();
                 // send async to add newStatus to statuses in database
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                String date = dtf.format(now).substring(0, 10);
+//                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+//                LocalDateTime now = LocalDateTime.now();
+//                String date = dtf.format(now).substring(0, 10);
+                long postingTimestamp = System.currentTimeMillis()/1000;
                 User currentUser = getCurrentUser();
                 PostStatusTask postStatusTask = new PostStatusTask(presenter, MainActivity.this);
-                PostStatusRequest request = new PostStatusRequest(currentUser, newStatus, date, authToken);
+                PostStatusRequest request = new PostStatusRequest(currentUser, newStatus, postingTimestamp, authToken);
                 postStatusTask.execute(request);
             }
         });

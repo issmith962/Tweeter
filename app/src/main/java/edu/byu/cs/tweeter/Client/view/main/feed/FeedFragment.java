@@ -1,14 +1,9 @@
 package edu.byu.cs.tweeter.Client.view.main.feed;
 
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +11,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFeedTask;
-import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
-import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.model.domain.Status;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
 import edu.byu.cs.tweeter.Client.presenter.FeedPresenter;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFeedTask;
+import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.main.VisitorActivity;
+import edu.byu.cs.tweeter.R;
 
 public class FeedFragment extends Fragment implements FeedPresenter.View {
     private User user;
@@ -114,7 +114,9 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             statusImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(user));
             statusAlias.setText(user.getAlias());
             statusName.setText(user.getName());
-            statusDate.setText(status.getDate_posted());
+
+            String date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (status.getTimestamp()*1000));
+            statusDate.setText(date.substring(0, 10));
             statusText.setText(status.getStatus_text());
             // Attempt at linkify
             Pattern userMatcher = Pattern.compile("@[(\\w)]*(\\b|$)");
@@ -210,7 +212,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
         }
 
         private void addLoadingFooter() {
-            addItem(new Status(new User("Dummy", "User", ""), "1/1/1111", "Sample Text..."));
+            addItem(new Status(new User("Dummy", "User", ""), 1607074976, "Sample Text..."));
         }
 
         private void removeLoadingFooter() {
