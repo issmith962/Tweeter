@@ -1,7 +1,6 @@
 package byu.edu.cs.tweeter.server.service;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
-import byu.edu.cs.tweeter.server.dao.FollowDAO;
 import byu.edu.cs.tweeter.server.dao.StatusDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.PostStatusService;
 import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
@@ -16,8 +15,8 @@ public class PostStatusServiceImpl implements PostStatusService {
         if (request.getAuthToken() == null) {
             return new PostStatusResponse(false, "Bad Request: no authentication");
         }
-        if (request.getDate() == null) {
-            return new PostStatusResponse(false, "Bad Request: date missing");
+        if (request.getPostingTimestamp() == 0) {
+            return new PostStatusResponse(false, "Bad Request: timestamp is zero");
         }
         if (request.getNewStatus() == null) {
             return new PostStatusResponse(false, "Bad Request: new post cannot be empty");

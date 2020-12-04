@@ -6,13 +6,13 @@ import byu.edu.cs.tweeter.shared.model.domain.User;
 public class PostStatusRequest {
     private User user;
     private String newStatus;
-    private String date;
+    private long postingTimestamp;
     private AuthToken authToken;
 
-    public PostStatusRequest(User user, String newStatus, String date, AuthToken authToken) {
+    public PostStatusRequest(User user, String newStatus, long postingTimestamp, AuthToken authToken) {
         this.user = user;
         this.newStatus = newStatus;
-        this.date = date;
+        this.postingTimestamp = postingTimestamp;
         this.authToken = authToken;
     }
 
@@ -27,14 +27,14 @@ public class PostStatusRequest {
         return newStatus;
     }
 
-    public String getDate() {
-        return date;
+    public long getPostingTimestamp() {
+        return postingTimestamp;
     }
 
     public PostStatusRequest() {
         user = null;
         newStatus = null;
-        date = null;
+        postingTimestamp = 0;
         authToken = null;
     }
 
@@ -46,8 +46,8 @@ public class PostStatusRequest {
         this.newStatus = newStatus;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setPostingTimestamp(long postingTimestamp) {
+        this.postingTimestamp = postingTimestamp;
     }
 
     public void setAuthToken(AuthToken authToken) {

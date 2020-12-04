@@ -1,6 +1,5 @@
 package byu.edu.cs.tweeter.server.dao;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class StatusDAO {
             else {
                 day = Integer.toString(i + 1);
             }
-            testUserStatuses.add(new Status(testUser, "01/" + day + "/1111", "Status # " + i));
+            testUserStatuses.add(new Status(testUser, System.currentTimeMillis()/1000, "Status # " + i));
         }
         return testUserStatuses;
     }
@@ -82,7 +81,7 @@ public class StatusDAO {
             } else {
                 day = Integer.toString(i + 1);
             }
-            followeeStatuses.add(new Status(followee, "01/" + day + "/1111", "status #1 @AllenAnderson"));
+            followeeStatuses.add(new Status(followee, System.currentTimeMillis()/1000, "status #1 @AllenAnderson"));
             i++;
         }
         return followeeStatuses;
@@ -176,7 +175,7 @@ public class StatusDAO {
         // TODO: Add new Status created here to database
         if (!request.getNewStatus().equals("")) {
             User user = request.getUser();
-            Status newStatus = new Status(request.getUser(), request.getDate(), request.getNewStatus());
+            Status newStatus = new Status(request.getUser(), request.getPostingTimestamp(), request.getNewStatus());
             //Collections.sort(postedStatuses);
             //Collections.reverse(postedStatuses);
             return new PostStatusResponse(true,"Status successfully posted!");
