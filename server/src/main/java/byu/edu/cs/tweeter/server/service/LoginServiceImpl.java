@@ -7,6 +7,7 @@ import byu.edu.cs.tweeter.server.dao.UserDAO;
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.model.domain.service.LoginService;
+import byu.edu.cs.tweeter.shared.net.DataAccessException;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
 import byu.edu.cs.tweeter.shared.response.LoginResponse;
 
@@ -32,7 +33,14 @@ public class LoginServiceImpl implements LoginService {
             return new LoginResponse("Failure! Incorrect login credentials..");
         }
         String newAuthToken = UUID.randomUUID().toString();
-        getAuthTokenDAO().createAuthToken(new AuthToken(newAuthToken), request.getAlias());
+
+        try {
+            long twoHoursInSeconds = 7200;
+            long exptime = System.currentTimeMillis()/1000 + twoHoursInSeconds;
+            getAuthTokenDAO().createAuthToken(new AuthToken(newAuthToken), exptime, request.getAlias());
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
 
         // The following line only works without a hardcoded TestUser
         // User user = getUserDAO().findUserByAlias(request.getAlias());
