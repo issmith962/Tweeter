@@ -20,7 +20,9 @@ Usage:
  */
 
 public class SaltedSHAHashing {
-    private static String getSecurePassword(String password, String salt) {
+    public SaltedSHAHashing() {}
+
+    public static String getSecurePassword(String password, String salt) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(salt.getBytes());
@@ -36,7 +38,7 @@ public class SaltedSHAHashing {
         return "FAILED TO HASH PASSWORD";
     }
 
-    private static String getSalt() {
+    public static String getSalt() {
         try {
             SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
             byte[] salt = new byte[16];
