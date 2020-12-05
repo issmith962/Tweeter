@@ -165,6 +165,17 @@ public class UserDAO {
         }
     }
 
+    public void decrementFollowerCount(String alias) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
+                .withUpdateExpression("set followerCount = followerCount - .val")
+                .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
+        try {
+            UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /*
     Returns the followee count of a given user, -1 if user doesn't exist.
      */
@@ -184,6 +195,17 @@ public class UserDAO {
     public void incrementFolloweeCount(String alias) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
                 .withUpdateExpression("set followeeCount = followeeCount + .val")
+                .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
+        try {
+            UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void decrementFolloweeCount(String alias) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
+                .withUpdateExpression("set followeeCount = followeeCount - .val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);

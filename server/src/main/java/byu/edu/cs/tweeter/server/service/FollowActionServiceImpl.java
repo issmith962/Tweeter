@@ -2,6 +2,7 @@ package byu.edu.cs.tweeter.server.service;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
 import byu.edu.cs.tweeter.server.dao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.UserDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowActionService;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
 import byu.edu.cs.tweeter.shared.request.UnfollowUserRequest;
@@ -23,6 +24,9 @@ public class FollowActionServiceImpl implements FollowActionService
         if (!correctToken) {
             return new FollowUserResponse(false, "Failure: Login Expired! Please log in again..");
         }
+        // increment the follower and followee counts
+        getUserDAO().incrementFolloweeCount(request.getFollower().getAlias());
+        getUserDAO().incrementFollowerCount(request.getFollowee().getAlias());
         return getFollowDAO().followUser(request);
     }
 
@@ -39,6 +43,9 @@ public class FollowActionServiceImpl implements FollowActionService
         if (!correctToken) {
             return new UnfollowUserResponse(false, "Failure: Login Expired! Please log in again..");
         }
+        // decrement the follower and followee counts
+        getUserDAO().decrementFolloweeCount(request.getFollower().getAlias());
+        getUserDAO().decrementFollowerCount(request.getFollowee().getAlias());
         return getFollowDAO().unfollowUser(request);
     }
 
@@ -46,4 +53,5 @@ public class FollowActionServiceImpl implements FollowActionService
         return new FollowDAO();
     }
     public AuthTokenDAO getAuthTokenDAO() {return new AuthTokenDAO();}
+    public UserDAO getUserDAO() {return new UserDAO();}
 }

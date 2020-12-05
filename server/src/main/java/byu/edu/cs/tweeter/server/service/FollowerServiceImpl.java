@@ -1,6 +1,7 @@
 package byu.edu.cs.tweeter.server.service;
 
 import byu.edu.cs.tweeter.server.dao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.UserDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowerService;
 import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
 import byu.edu.cs.tweeter.shared.request.FollowersRequest;
@@ -25,12 +26,13 @@ public class FollowerServiceImpl implements FollowerService {
             return new FollowerCountResponse("Bad Request: no user given..");
         }
 
-        Integer followerCount = getFollowDAO().getFollowerCount(request);
+        int followerCount = getUserDAO().getFollowerCount(request.getUser().getAlias());
         return new FollowerCountResponse(followerCount);
     }
 
     public FollowDAO getFollowDAO() {
         return new FollowDAO();
     }
+    public UserDAO getUserDAO() {return new UserDAO();}
 }
 
