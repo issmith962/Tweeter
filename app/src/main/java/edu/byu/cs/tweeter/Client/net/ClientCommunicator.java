@@ -17,7 +17,7 @@ import edu.byu.cs.tweeter.Client.net.Exception.TweeterServerException;
 
 class ClientCommunicator {
 
-    private static final int TIMEOUT_MILLIS = 10000;
+    private static final int TIMEOUT_MILLIS = 120000;
 
     private final String baseURL;
 
