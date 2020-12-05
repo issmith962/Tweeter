@@ -34,7 +34,6 @@ public class PostStatusRequest {
     public PostStatusRequest() {
         user = null;
         newStatus = null;
-        postingTimestamp = 0;
         authToken = null;
     }
 
