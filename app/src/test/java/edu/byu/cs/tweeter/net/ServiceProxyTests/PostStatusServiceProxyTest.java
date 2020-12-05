@@ -28,8 +28,8 @@ public class PostStatusServiceProxyTest {
     public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
-        validRequest = new PostStatusRequest(currentUser, "first status", "01/01/2001", new AuthToken("example token"));
-        invalidRequest = new PostStatusRequest(null, "first status", "01/01/2001", new AuthToken("example token"));
+        validRequest = new PostStatusRequest(currentUser, "first status", 1607100123, new AuthToken("example token"));
+        invalidRequest = new PostStatusRequest(null, "first status", 1607100456, new AuthToken("example token"));
 
         successResponse = new PostStatusResponse(true);
         failureResponse = new PostStatusResponse(false, "No user to post for..");

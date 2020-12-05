@@ -32,9 +32,9 @@ public class FeedPresenterTest {
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
         User resultUser3 = new User("FirstName3", "LastName3",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
-        Status user1Status = new Status(resultUser1, "01/01/2001", "status text");
-        Status user2Status = new Status(resultUser2, "02/02/2002", "status text");
-        Status user3Status = new Status(resultUser3, "03/03/2003", "status text");
+        Status user1Status = new Status(resultUser1, 1607100123, "status text");
+        Status user2Status = new Status(resultUser2, 1607100345, "status text");
+        Status user3Status = new Status(resultUser3, 1607100456, "status text");
 
         request = new FeedRequest(currentUser, 10, null, new AuthToken("example token"));
         response = new FeedResponse(Arrays.asList(user1Status, user2Status, user3Status), false);

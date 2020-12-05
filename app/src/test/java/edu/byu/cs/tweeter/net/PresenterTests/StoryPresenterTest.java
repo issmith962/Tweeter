@@ -8,7 +8,6 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.Arrays;
 
-import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.Status;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.model.domain.service.StoryService;
@@ -27,9 +26,10 @@ public class StoryPresenterTest {
     @BeforeEach
     public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
-        Status currentUserStatus1 = new Status(currentUser, "01/01/2001", "status text");
-        Status currentUserStatus2 = new Status(currentUser, "02/02/2002", "status text");
-        Status currentUserStatus3 = new Status(currentUser, "03/03/2003", "status text");
+        Status currentUserStatus1 = new Status(currentUser, 1607100123, "status text");
+        Status currentUserStatus2 = new Status(currentUser, 1607100345, "status text");
+        Status currentUserStatus3 = new Status(currentUser, 1607100456, "status text");
+
 
         request = new StoryRequest(currentUser, 10, null);
         response = new StoryResponse(Arrays.asList(currentUserStatus1, currentUserStatus2, currentUserStatus3), false);

@@ -54,7 +54,6 @@ import edu.byu.cs.tweeter.Client.model.services.LogoutServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.PostStatusServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.RegisterServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.StoryServiceProxy;
-import edu.byu.cs.tweeter.Client.net.ServerFacade;
 
 public class ServerNoDBTests {
     private String MALE_IMAGE_URL;
@@ -187,7 +186,7 @@ public class ServerNoDBTests {
             else {
                 day = Integer.toString(i + 1);
             }
-            testUserStatuses.add(new Status(testUser, "01/" + day + "/1111", "Status # " + i));
+            testUserStatuses.add(new Status(testUser, 1607100054, "Status # " + i));
         }
         return testUserStatuses;
     }
@@ -204,7 +203,7 @@ public class ServerNoDBTests {
             } else {
                 day = Integer.toString(i + 1);
             }
-            followeeStatuses.add(new Status(followee, "01/" + day + "/1111", "status #1 @AllenAnderson"));
+            followeeStatuses.add(new Status(followee, 1607100054, "status #1 @AllenAnderson"));
             i++;
         }
         return followeeStatuses;
@@ -542,7 +541,7 @@ public class ServerNoDBTests {
     public void postStatus_validRequest() {
         PostStatusResponse successResponse = new PostStatusResponse(true, "Status successfully posted!");
 
-        PostStatusRequest request = new PostStatusRequest(testUser,"status text", "01/01/2001", testAuthToken);
+        PostStatusRequest request = new PostStatusRequest(testUser,"status text", 1607100054, testAuthToken);
         PostStatusServiceProxy proxy = new PostStatusServiceProxy();
 
         PostStatusResponse response;
@@ -561,7 +560,7 @@ public class ServerNoDBTests {
     public void postStatus_invalidRequest() {
         PostStatusResponse failureResponse = new PostStatusResponse(false,"Bad Request: date missing");
 
-        PostStatusRequest request = new PostStatusRequest(testUser, "status text", null, testAuthToken);
+        PostStatusRequest request = new PostStatusRequest(testUser, "status text", 1607100054, testAuthToken);
         PostStatusServiceProxy proxy = new PostStatusServiceProxy();
 
         PostStatusResponse response;

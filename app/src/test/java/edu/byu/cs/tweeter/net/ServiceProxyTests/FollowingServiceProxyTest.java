@@ -8,7 +8,6 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.Arrays;
 
-import byu.edu.cs.tweeter.shared.model.domain.Follow;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
@@ -17,7 +16,7 @@ import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
 import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 import edu.byu.cs.tweeter.Client.model.services.FollowingServiceProxy;
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import edu.byu.cs.tweeter.Client.view.util.ByteArrayUtils;
+import byu.edu.cs.tweeter.shared.ByteArrayUtils;
 
 public class FollowingServiceProxyTest {
 

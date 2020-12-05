@@ -29,9 +29,9 @@ public class StoryServiceProxyTest {
     @BeforeEach
     public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
-        Status currentUserStatus1 = new Status(currentUser, "01/01/2001", "status text");
-        Status currentUserStatus2 = new Status(currentUser, "02/02/2002", "status text");
-        Status currentUserStatus3 = new Status(currentUser, "03/03/2003", "status text");
+        Status currentUserStatus1 = new Status(currentUser, 1607100054, "status text");
+        Status currentUserStatus2 = new Status(currentUser, 1607100344, "status text");
+        Status currentUserStatus3 = new Status(currentUser, 1607100367, "status text");
 
         validRequest = new StoryRequest(currentUser, 10, null);
         invalidRequest = new StoryRequest(null, 10, null);

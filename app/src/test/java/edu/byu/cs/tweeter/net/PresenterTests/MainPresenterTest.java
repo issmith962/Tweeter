@@ -1,6 +1,5 @@
 package edu.byu.cs.tweeter.net.PresenterTests;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +60,7 @@ public class MainPresenterTest {
         User followee = new User("FirstName2", "LastName2", null);
 
         //poststatus
-        postStatusRequest = new PostStatusRequest(currentUser, "first status", "01/01/2001", new AuthToken("example token"));
+        postStatusRequest = new PostStatusRequest(currentUser, "first status", 1607100054, new AuthToken("example token"));
         postStatusResponse = new PostStatusResponse(true);
         mockPostStatusService = Mockito.mock(PostStatusService.class);
         Mockito.when(mockPostStatusService.postStatus(postStatusRequest)).thenReturn(postStatusResponse);
