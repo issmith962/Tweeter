@@ -6,7 +6,11 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
+import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -36,6 +40,9 @@ public class UserDAO {
     private static final String imageUrlAttr = "imageUrl";
     private static final String securePasswordAttr = "securePassword";
     private static final String saltAttr = "salt";
+    private static final String followeeCountAttr = "followeeCount";
+    private static final String followerCountAttr = "followerCount";
+
 
     private static AmazonDynamoDB amazonDynamoDB = AmazonDynamoDBClientBuilder
             .standard()
@@ -92,7 +99,9 @@ public class UserDAO {
                             .withString(lastNameAttr, lastName)
                             .withString(securePasswordAttr, securePassword)
                             .withString(saltAttr, salt)
-                            .withString(imageUrlAttr, imageUrl));
+                            .withString(imageUrlAttr, imageUrl)
+                            .withInt(followerCountAttr, 0)
+                            .withInt(followeeCountAttr, 0));
         } catch (Exception e) {
             throw new DataAccessException("Error when adding new user to table");
         }
@@ -126,6 +135,60 @@ public class UserDAO {
         else {
             String hashedPassword = SaltedSHAHashing.getSecurePassword(password, outcome.getString(saltAttr));
             return hashedPassword.equals(outcome.getString(securePasswordAttr));
+        }
+    }
+
+    /*
+    Returns the follower count of a given user, -1 if user doesn't exist.
+     */
+    public int getFollowerCount(String alias) {
+        GetItemSpec getItemSpec  = new GetItemSpec()
+                .withPrimaryKey(aliasAttr, alias)
+                .withConsistentRead(true);
+        Item outcome = table.getItem(getItemSpec);
+        if (outcome == null) {
+            return -1;
+        }
+        else {
+            return outcome.getInt(followerCountAttr);
+        }
+    }
+
+    public void incrementFollowerCount(String alias) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
+                .withUpdateExpression("set followerCount = followerCount + .val")
+                .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
+        try {
+            UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    Returns the followee count of a given user, -1 if user doesn't exist.
+     */
+    public int getFolloweeCount(String alias) {
+        GetItemSpec getItemSpec  = new GetItemSpec()
+                .withPrimaryKey(aliasAttr, alias)
+                .withConsistentRead(true);
+        Item outcome = table.getItem(getItemSpec);
+        if (outcome == null) {
+            return -1;
+        }
+        else {
+            return outcome.getInt(followeeCountAttr);
+        }
+    }
+
+    public void incrementFolloweeCount(String alias) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
+                .withUpdateExpression("set followeeCount = followeeCount + .val")
+                .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
+        try {
+            UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
