@@ -42,19 +42,13 @@ public class LoginServiceImpl implements LoginService {
             e.printStackTrace();
         }
 
-        // The following line only works without a hardcoded TestUser
-        // User user = getUserDAO().findUserByAlias(request.getAlias());
-        // We use the following line for now:
-        User user;
-        if (request.getAlias().equals("@TestUser")) {
-            user = new User("Test", "User",
-                    "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        User user = getUserDAO().findUserByAlias(request.getAlias());
+        if (user == null) {
+            return new LoginResponse("Credentials checked out but user data is incomplete");
         }
         else {
-            user = new User("Registered", "User", request.getAlias(), "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+            return new LoginResponse("Success! Logged in..", user, new AuthToken(newAuthToken));
         }
-
-        return new LoginResponse("Success! Logged in..", user, new AuthToken(newAuthToken));
     }
 
     public UserDAO getUserDAO() {return new UserDAO();}
