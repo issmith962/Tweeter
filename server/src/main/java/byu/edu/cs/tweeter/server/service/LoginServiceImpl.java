@@ -17,14 +17,21 @@ public class LoginServiceImpl implements LoginService {
         if (request.getAlias() == null) {
             return new LoginResponse("Bad Request: no username given..");
         }
-        if (request.getAlias().equals("")) {
+        else if (request.getAlias().equals("")) {
             return new LoginResponse("Bad Request: username cannot be empty..");
         }
-        if (request.getPassword() == null) {
+        else if (request.getPassword() == null) {
             return new LoginResponse("Bad Request: no password given..");
         }
-        if (request.getPassword().equals("")) {
+        else if (request.getPassword().equals("")) {
             return new LoginResponse("Bad Request: password cannot be empty..");
+        }
+        else if (request.getAlias().charAt(0) == '@') {
+            request.setAlias(request.getAlias().substring(1));
+        }
+
+        if (request.getAlias().contains("@")) {
+            return new LoginResponse("Bad Request: cannot have a '@' in alias..");
         }
 
         // TODO: create an authtoken and add it to the table if credentials are correct
