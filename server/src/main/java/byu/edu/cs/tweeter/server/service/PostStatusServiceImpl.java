@@ -1,8 +1,10 @@
 package byu.edu.cs.tweeter.server.service;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
-import byu.edu.cs.tweeter.server.dao.StatusDAO;
+import byu.edu.cs.tweeter.server.dao.DAOHelperFunctions;
+import byu.edu.cs.tweeter.server.dao.StoryDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.PostStatusService;
+import byu.edu.cs.tweeter.shared.net.DataAccessException;
 import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
 import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 
@@ -29,14 +31,22 @@ public class PostStatusServiceImpl implements PostStatusService {
         if (!correctAuthToken) {
             return new PostStatusResponse(false,"Failure: Login expired! Please log in again..");
         }
-        return getStatusDAO().postStatus(request);
+
+        try {
+            getStoryDAO().postStatusToStory(request.getUser().getAlias(),
+                        DAOHelperFunctions.createDatePlusPostedBy(request.getUser().getAlias(), request.getPostingTimestamp()),
+                        request.getNewStatus());
+            return new PostStatusResponse(true);
+        } catch (DataAccessException e) {
+            return new PostStatusResponse(false, "Error in posting status to story..");
+        }
     }
 
     public AuthTokenDAO getAuthTokenDAO() {
         return new AuthTokenDAO();
     }
 
-    public StatusDAO getStatusDAO() {
-        return new StatusDAO();
+    private StoryDAO getStoryDAO() {
+        return new StoryDAO();
     }
 }
