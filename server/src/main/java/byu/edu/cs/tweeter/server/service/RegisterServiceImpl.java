@@ -18,6 +18,14 @@ public class RegisterServiceImpl implements RegisterService {
             return new RegisterResponse("Bad Request: registration fields cannot be empty");
         }
 
+        if (request.getAlias().charAt(0) == '@') {
+            request.setAlias(request.getAlias().substring(1));
+        }
+
+        if (request.getAlias().contains("@")) {
+            return new RegisterResponse("Bad Request: cannot have a '@' in alias..");
+        }
+
         String[] names = request.getName().split(" ");
         if (names.length != 2) {
             return new RegisterResponse("Failure: Need first and last name to register.");
