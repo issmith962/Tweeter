@@ -1,6 +1,7 @@
 package byu.edu.cs.tweeter.server.service;
 
-import byu.edu.cs.tweeter.server.dao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.FolloweesDAO;
+import byu.edu.cs.tweeter.server.dao.FollowersDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.CheckUserFollowingService;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
@@ -18,10 +19,17 @@ public class CheckUserFollowingServiceImpl implements CheckUserFollowingService 
             return new CheckUserFollowingResponse("User cannot be following self..");
         }
 
-        return getFollowDAO().isUserFollowing(request);
+        if ((getFolloweesDAO().checkFollow(request.getFollowerAlias(), request.getFolloweeAlias()))
+            && (getFollowersDAO().checkFollow(request.getFolloweeAlias(), request.getFollowerAlias()))) {
+            return new CheckUserFollowingResponse(true);
+        }
+        else {
+            return new CheckUserFollowingResponse(false);
+        }
     }
 
-    public FollowDAO getFollowDAO() {
-        return new FollowDAO();
+    public FollowersDAO getFollowersDAO() {
+        return new FollowersDAO();
     }
+    public FolloweesDAO getFolloweesDAO() {return new FolloweesDAO(); }
 }
