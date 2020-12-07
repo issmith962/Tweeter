@@ -3,12 +3,6 @@ package edu.byu.cs.tweeter.Client.view.main.followers;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,19 +12,24 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
-import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FollowersRequest;
 import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 import edu.byu.cs.tweeter.Client.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowersTask;
+import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
 import edu.byu.cs.tweeter.Client.view.main.VisitorActivity;
+import edu.byu.cs.tweeter.R;
 
 /**
  * The fragment that displays on the 'Followers' tab.
@@ -128,7 +127,12 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
                             switch (item.getItemId()) {
                                 case R.id.story_menu_item:
                                     //Toast.makeText(getContext(), "You selected go to story", Toast.LENGTH_SHORT).show();
-                                    startVisitorActivity(holderUser);
+                                    if (holderUser.getAlias().equals(user.getAlias())) {
+                                        Toast.makeText(getContext(), "Cannot go to own page as a visitor!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        startVisitorActivity(holderUser);
+                                    }
                                     return true;
                                 default:
                                     return false;
