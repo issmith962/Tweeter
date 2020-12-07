@@ -115,7 +115,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             statusAlias.setText(user.getAlias());
             statusName.setText(user.getName());
 
-            String date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (status.getTimestamp()*1000));
+            String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new java.util.Date (status.getTimestamp()*1000));
             statusDate.setText(date.substring(0, 10));
             statusText.setText(status.getStatus_text());
             // Attempt at linkify
