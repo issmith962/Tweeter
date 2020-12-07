@@ -130,23 +130,10 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
 //            }
             userName.setText(user.getName());
             userAlias.setText(user.getAlias());
-            GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
-            FollowerCountRequest followerCountRequest = new FollowerCountRequest(user);
-            followerCountTask.execute(followerCountRequest);
-
-            GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
-            FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(user);
-            followeeCountTask.execute(followeeCountRequest);
+            updateCounts();
         }
+
     }
-// OLD RESET
-//    public void reset() {
-//        clearUser();
-//        presenter = new MainPresenter(this);
-//        loadUserDisplay();
-//        state = 0;
-//        loadCurrentState();
-//    }
 
     public void reset() {
         LogoutRequest request = new LogoutRequest(authToken);
@@ -158,6 +145,16 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getContextOfApplication().startActivity(intent);
+    }
+
+    private void updateCounts() {
+        GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
+        FollowerCountRequest followerCountRequest = new FollowerCountRequest(user);
+        followerCountTask.execute(followerCountRequest);
+
+        GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
+        FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(user);
+        followeeCountTask.execute(followeeCountRequest);
     }
 
     public void startLoginState() {
@@ -273,6 +270,9 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
             updateUser();
             loadUserDisplay();
             loadCurrentState();
+            if (user != null) {
+                updateCounts();
+            }
         }
     }
 

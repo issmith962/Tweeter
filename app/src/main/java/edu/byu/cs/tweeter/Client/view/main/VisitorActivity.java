@@ -16,13 +16,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
-import edu.byu.cs.tweeter.Client.view.asyncTasks.CheckUserFollowingTask;
-import edu.byu.cs.tweeter.Client.view.asyncTasks.FollowUserTask;
-import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowerCountTask;
-import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadUriImageTask;
-import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
-import edu.byu.cs.tweeter.Client.view.main.adapters.VisitingSectionsPagerAdapter;
-import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
@@ -39,11 +32,18 @@ import byu.edu.cs.tweeter.shared.response.GetUserResponse;
 import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 import edu.byu.cs.tweeter.Client.presenter.VisitorPresenter;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.CheckUserFollowingTask;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.FollowUserTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFolloweeCountTask;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.GetFollowerCountTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetUserTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadImageTask;
+import edu.byu.cs.tweeter.Client.view.asyncTasks.LoadUriImageTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LogoutTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.UnfollowUserTask;
+import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
+import edu.byu.cs.tweeter.Client.view.main.adapters.VisitingSectionsPagerAdapter;
+import edu.byu.cs.tweeter.R;
 
 public class
 VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver,
@@ -142,13 +142,7 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
         userFollowerCount = findViewById(R.id.followerCountVisitor);
         userFolloweeCount = findViewById(R.id.followeeCountVisitor);
 
-        GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
-        FollowerCountRequest followerCountRequest = new FollowerCountRequest(visitingUser);
-        followerCountTask.execute(followerCountRequest);
-
-        GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
-        FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(visitingUser);
-        followeeCountTask.execute(followeeCountRequest);
+        updateCounts();
 
         VisitingSectionsPagerAdapter visitingSectionsPagerAdapter = new VisitingSectionsPagerAdapter(this, getSupportFragmentManager(), visitingUser);
         viewPager = findViewById(R.id.visitor_view_pager);
@@ -214,6 +208,15 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
         });
     }
 
+    private void updateCounts() {
+        GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
+        FollowerCountRequest followerCountRequest = new FollowerCountRequest(visitingUser);
+        followerCountTask.execute(followerCountRequest);
+
+        GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
+        FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(visitingUser);
+        followeeCountTask.execute(followeeCountRequest);
+    }
     private void clearUser() {
         presenter.updateCurrentUser(null);
         presenter.updateCurrentAuthToken(null);
@@ -296,6 +299,7 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
         else {
             followButton.setText(R.string.follow);
         }
+        updateCounts();
     }
 
     @Override
@@ -312,6 +316,7 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
         else {
             followButton.setText(R.string.follow);
         }
+        updateCounts();
     }
 
     @Override
