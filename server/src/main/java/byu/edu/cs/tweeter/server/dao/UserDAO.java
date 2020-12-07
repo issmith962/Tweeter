@@ -13,6 +13,7 @@ import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
@@ -58,6 +59,9 @@ public class UserDAO {
     private static String profPicBucket = "cs340-tweeter-profile-pic-storage";
     private static String imageUrlStem = "https://" + profPicBucket + ".s3.amazonaws.com/";
 
+    private void getUserTable() {
+        table = dynamoDB.getTable(userTableName);
+    }
 
     //  ----------------------------- DAO ACCESS METHODS ---------------------------------------
 
@@ -87,7 +91,8 @@ public class UserDAO {
         metadata.setContentType("image/png");
         String imageFileNameEnding = "ProfPic.png";
         s3.putObject(new PutObjectRequest(profPicBucket,
-                alias + imageFileNameEnding, stream, metadata));
+                alias + imageFileNameEnding, stream, metadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
         return imageUrlStem + alias + imageFileNameEnding;
     }
 
@@ -156,7 +161,7 @@ public class UserDAO {
 
     public void incrementFollowerCount(String alias) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
-                .withUpdateExpression("set followerCount = followerCount + .val")
+                .withUpdateExpression("set followerCount = followerCount + :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
@@ -167,7 +172,7 @@ public class UserDAO {
 
     public void decrementFollowerCount(String alias) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
-                .withUpdateExpression("set followerCount = followerCount - .val")
+                .withUpdateExpression("set followerCount = followerCount - :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
@@ -194,7 +199,7 @@ public class UserDAO {
 
     public void incrementFolloweeCount(String alias) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
-                .withUpdateExpression("set followeeCount = followeeCount + .val")
+                .withUpdateExpression("set followeeCount = followeeCount + :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
@@ -205,7 +210,7 @@ public class UserDAO {
 
     public void decrementFolloweeCount(String alias) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
-                .withUpdateExpression("set followeeCount = followeeCount - .val")
+                .withUpdateExpression("set followeeCount = followeeCount - :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
@@ -214,9 +219,7 @@ public class UserDAO {
         }
     }
 
-    private void getUserTable() {
-        table = dynamoDB.getTable(userTableName);
-    }
+
 
 
 
