@@ -1,14 +1,15 @@
 package byu.edu.cs.tweeter.server.service;
 
-import java.util.List;
-
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
+import byu.edu.cs.tweeter.server.dao.DAOHelperFunctions;
+import byu.edu.cs.tweeter.server.dao.FeedDAO;
 import byu.edu.cs.tweeter.server.dao.FollowDAO;
-import byu.edu.cs.tweeter.server.dao.StatusDAO;
-import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.model.domain.service.FeedService;
+import byu.edu.cs.tweeter.shared.net.DataAccessException;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
+import byu.edu.cs.tweeter.shared.request.UpdateFeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
+import byu.edu.cs.tweeter.shared.response.UpdateFeedResponse;
 
 public class FeedServiceImpl implements FeedService {
     @Override
@@ -27,8 +28,28 @@ public class FeedServiceImpl implements FeedService {
         if (!correctAuthToken) {
             return new FeedResponse("Failure: Login expired! Please log in again..");
         }
-        List<User> followees = getFollowDAO().getAllFollowees(request.getUser());
-        return getStatusDAO().getFeed(request, followees);
+
+        // DynamoDB implementation with FeedDAO
+
+        String last_datePlusPostedBy;
+        if (request.getLastStatus() != null) {
+            last_datePlusPostedBy = DAOHelperFunctions.createDatePlusPostedBy(
+                    request.getLastStatus().getUser().getAlias(), request.getLastStatus().getTimestamp());
+        } else {
+            last_datePlusPostedBy = null;
+        }
+        try {
+            return getFeedDAO().getFeed(request.getUser(), request.getLimit(), last_datePlusPostedBy);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return new FeedResponse("Error in retrieving feed from database");
+        }
+    }
+
+    public UpdateFeedResponse updateFeed(UpdateFeedRequest request) {
+        String datePlusPostedBy = DAOHelperFunctions.createDatePlusPostedBy(
+                request.getStatus().getUser().getAlias(), request.getStatus().getTimestamp());
+        return getFeedDAO().updateFeed(request.getFollowees(), request.getStatus(), datePlusPostedBy);
     }
 
     public AuthTokenDAO getAuthTokenDAO() {
@@ -39,7 +60,8 @@ public class FeedServiceImpl implements FeedService {
         return new FollowDAO();
     }
 
-    public StatusDAO getStatusDAO() {
-        return new StatusDAO();
+    public FeedDAO getFeedDAO() {
+        return new FeedDAO();
     }
+
 }
