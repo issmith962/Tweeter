@@ -36,10 +36,17 @@ public class PostStatusServiceImpl implements PostStatusService {
             getStoryDAO().postStatusToStory(request.getUser().getAlias(),
                         DAOHelperFunctions.createDatePlusPostedBy(request.getUser().getAlias(), request.getPostingTimestamp()),
                         request.getNewStatus());
-            return new PostStatusResponse(true);
         } catch (DataAccessException e) {
             return new PostStatusResponse(false, "Error in posting status to story..");
         }
+
+
+        // TODO: Get list of followees
+        // TODO: Create UpdateFeedRequest
+        // TODO: Send UpdateFeedRequest to SQS queue for lambda:UpdateFeed processing
+
+
+        return new PostStatusResponse(true);
     }
 
     public AuthTokenDAO getAuthTokenDAO() {
