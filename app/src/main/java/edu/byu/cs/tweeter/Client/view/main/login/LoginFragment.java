@@ -17,14 +17,12 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
-import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
-import byu.edu.cs.tweeter.shared.request.StartUpRequest;
 import byu.edu.cs.tweeter.shared.response.LoginResponse;
-import byu.edu.cs.tweeter.shared.response.StartUpResponse;
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoginAttemptTask;
 import edu.byu.cs.tweeter.Client.view.main.MainActivity;
+import edu.byu.cs.tweeter.R;
 
 public class LoginFragment extends Fragment implements LoginPresenter.View, LoginAttemptTask.LoginAttemptObserver {
 
@@ -42,7 +40,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
         mPassword = "";
 
         // THE FOLLOWING ARE JUST FOR TEST PURPOSES!!!
-        mAlias = "@TestUser";
+        mAlias = "TestUser";
         mPassword = "test_password";
     }
 
@@ -95,10 +93,10 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
 
     private void signInButtonClicked() {
         LoginAttemptTask task = new LoginAttemptTask(presenter, this);
-        LoginRequest request = new LoginRequest(mAlias, mPassword);
-        hideKeyboardFrom(Objects.requireNonNull(getContext()), Objects.requireNonNull(getView()));
+    LoginRequest request = new LoginRequest(mAlias, mPassword);
+    hideKeyboardFrom(Objects.requireNonNull(getContext()), Objects.requireNonNull(getView()));
         task.execute(request);
-    }
+}
 
     @Override
     public void loginAttempted(LoginResponse loginResponse) {
