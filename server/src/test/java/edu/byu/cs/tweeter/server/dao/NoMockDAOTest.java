@@ -1,14 +1,8 @@
 package edu.byu.cs.tweeter.server.dao;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testng.asserts.Assertion;
 
-import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
-import byu.edu.cs.tweeter.server.dao.FollowDAO;
-import byu.edu.cs.tweeter.server.dao.StatusDAO;
-import byu.edu.cs.tweeter.server.dao.UserDAO;
 import byu.edu.cs.tweeter.server.service.FeedServiceImpl;
 import byu.edu.cs.tweeter.server.service.FollowActionServiceImpl;
 import byu.edu.cs.tweeter.server.service.PostStatusServiceImpl;
@@ -59,7 +53,7 @@ public class NoMockDAOTest {
 
     @Test
     public void postStatus() {
-        PostStatusRequest request = new PostStatusRequest(testUser, "hello", "11/13/2020", new AuthToken("asdfjk;"));
+        PostStatusRequest request = new PostStatusRequest(testUser, "hello", 1607147654, new AuthToken("asdfjk;"));
         PostStatusResponse response = new PostStatusServiceImpl().postStatus(request);
         // breakpoint line to look at response
         int a = 5;
@@ -67,7 +61,7 @@ public class NoMockDAOTest {
 
     @Test
     public void postStatus_plusGetStory() {
-        PostStatusRequest request = new PostStatusRequest(testUser, "hello", "11/13/2020", new AuthToken("asdfjk;"));
+        PostStatusRequest request = new PostStatusRequest(testUser, "hello", 1607147654, new AuthToken("asdfjk;"));
         PostStatusResponse response = new PostStatusServiceImpl().postStatus(request);
         // breakpoint line to look at response
         int a = 5;
