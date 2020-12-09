@@ -45,14 +45,13 @@ public class StoryDAO {
 
     //  ----------------------------- DAO ACCESS METHODS ---------------------------------------
 
-
     public void postStatusToStory(String alias, String datePlusPostedBy, String statusText) throws DataAccessException {
         try {
             PutItemOutcome outcome = table.putItem(
                     new Item().withPrimaryKey(aliasAttr, alias, datePlusPostedByAttr, datePlusPostedBy)
                     .withString(statusTextAttr, statusText));
         } catch (Exception e) {
-            throw new DataAccessException("Error when adding posting new status to story");
+            throw new DataAccessException("Error when adding new status to story");
         }
     }
 
@@ -70,7 +69,8 @@ public class StoryDAO {
                 .withKeyConditionExpression("#al = :alias")
                 .withExpressionAttributeNames(attrNames)
                 .withExpressionAttributeValues(attrValues)
-                .withLimit(limit);
+                .withLimit(limit)
+                .withScanIndexForward(false);
 
         if (DAOHelperFunctions.isNonEmptyString(last_datePlusPostedBy)) {
             Map<String, AttributeValue> startKey = new HashMap<>();
