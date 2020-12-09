@@ -4,8 +4,14 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class InactivityManager extends AppCompatActivity {
+public abstract class InactivityManagerActivity extends AppCompatActivity {
     public static final long DISCONNECT_TIMEOUT = 1800000; // 30 m * 60 s * 1000 ms
+
+    /*
+    FOR TEST PURPOSES! (the timeout above is the proper implementation...
+    public static final long DISCONNECT_TIMEOUT = 90000; // 1.5 m * 60 s * 1000 ms
+     */
+
 
     private static Handler disconnectHandler = new Handler(message -> {
         // todo

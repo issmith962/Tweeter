@@ -46,7 +46,7 @@ import edu.byu.cs.tweeter.Client.view.main.adapters.VisitingSectionsPagerAdapter
 import edu.byu.cs.tweeter.R;
 
 public class
-VisitorActivity extends InactivityManager implements LoadImageTask.LoadImageObserver,
+VisitorActivity extends InactivityManagerActivity implements LoadImageTask.LoadImageObserver,
         LoadUriImageTask.LoadUriImageObserver, VisitorPresenter.View,
         CheckUserFollowingTask.CheckUserFollowingObserver, FollowUserTask.FollowUserObserver,
         UnfollowUserTask.UnfollowUserObserver, GetUserTask.GetUserObserver,

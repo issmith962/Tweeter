@@ -47,7 +47,7 @@ import edu.byu.cs.tweeter.R;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends InactivityManager implements LogoutTask.LogoutObserver, GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver, LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
+public class MainActivity extends InactivityManagerActivity implements LogoutTask.LogoutObserver, GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver, LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
     private static final String[] STATES = new String[]{"Login", "Feed", "Reset", "Register"};
     private int state;
     private MainPresenter presenter;
