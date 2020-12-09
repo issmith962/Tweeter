@@ -14,14 +14,14 @@ public class FollowersRequest {
     /**
      * Creates an instance.
      *
-     * @param follower the {@link User} whose followers are to be returned.
+     * @param followee the {@link User} whose followers are to be returned.
      * @param limit the maximum number of followers to return.
      * @param lastFollower the last followee that was returned in the previous request (null if
      *                     there was no previous request or if no followers were returned in the
      *                     previous request).
      */
-    public FollowersRequest(User follower, int limit, User lastFollower) {
-        this.followee = follower;
+    public FollowersRequest(User followee, int limit, User lastFollower) {
+        this.followee = followee;
         this.limit = limit;
         this.lastFollower = lastFollower;
     }
