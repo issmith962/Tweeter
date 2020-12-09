@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.Client.view.main.feed;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -195,7 +196,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
 
             GetFeedTask getFeedTask = new GetFeedTask(presenter, this, getContext());
             FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus, presenter.findCurrentAuthToken());
-            getFeedTask.execute(request);
+            getFeedTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         }
 
         @Override

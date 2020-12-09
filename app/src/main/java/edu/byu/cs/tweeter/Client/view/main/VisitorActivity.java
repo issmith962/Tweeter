@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.Client.view.main;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -81,7 +82,7 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
             String uri = data.toString();
             username = uri.substring(uri.indexOf("@"));
             GetUserTask task = new GetUserTask(presenter, this,this);
-            task.execute(new GetUserRequest(username));
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new GetUserRequest(username));
         }
         else {
             Intent intent = getIntent();
@@ -131,11 +132,11 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
         userAlias = findViewById(R.id.userAlias);
 //        if (visitingUser.getImageUri() == null) {
         LoadImageTask loadImageTask = new LoadImageTask(this);
-        loadImageTask.execute(visitingUser.getImageUrl());
+        loadImageTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, visitingUser.getImageUrl());
 //        }
 //        else {
 //            LoadUriImageTask loadUriImageTask = new LoadUriImageTask(this, VisitorActivity.this);
-//            loadUriImageTask.execute(visitingUser.getImageUri());
+//            loadUriImageTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, visitingUser.getImageUri());
 //        }
         userName.setText(visitingUser.getName());
         userAlias.setText(visitingUser.getAlias());
@@ -197,12 +198,12 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
                 if (userIsFollowing) {
                     UnfollowUserTask unfollowUserTask = new UnfollowUserTask(presenter, VisitorActivity.this);
                     UnfollowUserRequest request = new UnfollowUserRequest(currentUser, visitingUser, getCurrentAuthToken());
-                    unfollowUserTask.execute(request);
+                    unfollowUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
                 }
                 else {
                     FollowUserTask followUserTask = new FollowUserTask(presenter, VisitorActivity.this);
                     FollowUserRequest request = new FollowUserRequest(currentUser, visitingUser, getCurrentAuthToken());
-                    followUserTask.execute(request);
+                    followUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
                 }
             }
         });
@@ -211,11 +212,11 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
     private void updateCounts() {
         GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
         FollowerCountRequest followerCountRequest = new FollowerCountRequest(visitingUser);
-        followerCountTask.execute(followerCountRequest);
+        followerCountTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, followerCountRequest);
 
         GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
         FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(visitingUser);
-        followeeCountTask.execute(followeeCountRequest);
+        followeeCountTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, followeeCountRequest);
     }
     private void clearUser() {
         presenter.updateCurrentUser(null);
@@ -226,7 +227,7 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
     public void reset() {
         LogoutRequest request = new LogoutRequest(getCurrentAuthToken());
         LogoutTask task = new LogoutTask(presenter, this);
-        task.execute(request);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         clearUser();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -238,7 +239,7 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
     private void checkUserFollowingVisitingUser() {
         CheckUserFollowingTask task = new CheckUserFollowingTask(presenter, this);
         CheckUserFollowingRequest request = new CheckUserFollowingRequest(currentUser.getAlias(), visitingUser.getAlias());
-        task.execute(request);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
     }
     @Override
     public void imageLoadProgressUpdated(Integer progress) {

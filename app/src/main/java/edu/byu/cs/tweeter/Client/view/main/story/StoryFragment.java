@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.Client.view.main.story;
 
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -183,7 +184,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
 
             GetStoryTask getStoryTask = new GetStoryTask(presenter, this, getContext());
             StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus);
-            getStoryTask.execute(request);
+            getStoryTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         }
 
         @Override

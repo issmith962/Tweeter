@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.Client.view.main.followers;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -276,7 +277,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
 
             GetFollowersTask getFollowersTask = new GetFollowersTask(presenter, this, getContext());
             FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower);
-            getFollowersTask.execute(request);
+            getFollowersTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         }
 
         /**

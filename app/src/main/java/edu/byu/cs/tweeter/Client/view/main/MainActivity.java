@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -150,11 +151,11 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
     private void updateCounts() {
         GetFollowerCountTask followerCountTask = new GetFollowerCountTask(presenter,this);
         FollowerCountRequest followerCountRequest = new FollowerCountRequest(user);
-        followerCountTask.execute(followerCountRequest);
+        followerCountTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, followerCountRequest);
 
         GetFolloweeCountTask followeeCountTask = new GetFolloweeCountTask(presenter,this);
         FolloweeCountRequest followeeCountRequest = new FolloweeCountRequest(user);
-        followeeCountTask.execute(followeeCountRequest);
+        followeeCountTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, followeeCountRequest);
     }
 
     public void startLoginState() {
@@ -241,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
                 User currentUser = getCurrentUser();
                 PostStatusTask postStatusTask = new PostStatusTask(presenter, MainActivity.this);
                 PostStatusRequest request = new PostStatusRequest(currentUser, newStatus, postingTimestamp, authToken);
-                postStatusTask.execute(request);
+                postStatusTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

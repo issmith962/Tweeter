@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.Client.view.main.login;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -50,7 +51,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
         View view = inflater.inflate(R.layout.fragment_login, container, false); {
             presenter = new LoginPresenter(this);
 //            StartUpTask task = new StartUpTask(presenter, this);
-//            task.execute(new StartUpRequest());
+//            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new StartUpRequest());
             mAliasField = view.findViewById(R.id.alias);
             mAliasField.addTextChangedListener(new TextWatcher() {
 
@@ -95,7 +96,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
         LoginAttemptTask task = new LoginAttemptTask(presenter, this);
     LoginRequest request = new LoginRequest(mAlias, mPassword);
     hideKeyboardFrom(Objects.requireNonNull(getContext()), Objects.requireNonNull(getView()));
-        task.execute(request);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
 }
 
     @Override

@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.Client.view.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
-import edu.byu.cs.tweeter.R;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.GetAllUsersRequest;
 import byu.edu.cs.tweeter.shared.response.GetAllUsersResponse;
 import edu.byu.cs.tweeter.Client.presenter.SearchPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.GetAllUsersTask;
+import edu.byu.cs.tweeter.Client.view.cache.ImageCache;
+import edu.byu.cs.tweeter.R;
 
 public class SearchActivity extends AppCompatActivity implements SearchPresenter.View, GetAllUsersTask.GetAllUsersObserver {
     private User currentUser;
@@ -56,7 +57,7 @@ public class SearchActivity extends AppCompatActivity implements SearchPresenter
             @Override
             public boolean onQueryTextChange(String s) {
                 GetAllUsersTask getAllUsersTask = new GetAllUsersTask(presenter, SearchActivity.this, SearchActivity.this);
-                getAllUsersTask.execute(new GetAllUsersRequest());
+                getAllUsersTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new GetAllUsersRequest());
                 // TODO: Check if this finishes in time to actually update the feed
                 // Perform the final search
                 query = s.toLowerCase();

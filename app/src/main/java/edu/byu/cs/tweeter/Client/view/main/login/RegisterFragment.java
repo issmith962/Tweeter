@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,14 +25,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.koushikdutta.ion.Ion;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
@@ -42,11 +40,11 @@ import byu.edu.cs.tweeter.shared.request.LoginRequest;
 import byu.edu.cs.tweeter.shared.request.RegisterRequest;
 import byu.edu.cs.tweeter.shared.response.LoginResponse;
 import byu.edu.cs.tweeter.shared.response.RegisterResponse;
+import byu.edu.cs.tweeter.shared.utils.ByteArrayUtils;
 import edu.byu.cs.tweeter.Client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.LoginAttemptTask;
 import edu.byu.cs.tweeter.Client.view.asyncTasks.RegisterAttemptTask;
 import edu.byu.cs.tweeter.Client.view.main.MainActivity;
-import edu.byu.cs.tweeter.Client.view.util.ByteArrayUtils;
 import edu.byu.cs.tweeter.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -156,11 +154,11 @@ public class RegisterFragment extends Fragment implements LoginPresenter.View, R
                             e.printStackTrace();
                         }
                         RegisterRequest registerRequest = new RegisterRequest(mName, mAlias, mPassword, imageByteString);
-                        registerAttemptTask.execute(registerRequest);
+                        registerAttemptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, registerRequest);
                     }
                     else {
                         RegisterRequest registerRequest = new RegisterRequest(mName, mAlias, mPassword);
-                        registerAttemptTask.execute(registerRequest);
+                        registerAttemptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, registerRequest);
                     }
                 }
             }
@@ -193,7 +191,7 @@ public class RegisterFragment extends Fragment implements LoginPresenter.View, R
             LoginAttemptTask task = new LoginAttemptTask(presenter, this);
             LoginRequest request = new LoginRequest(registerResponse.getNewUser().getAlias(), registerResponse.getPassword());
             hideKeyboardFrom(Objects.requireNonNull(getContext()), Objects.requireNonNull(getView()));
-            task.execute(request);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         }
         // after user has registered..
     }
