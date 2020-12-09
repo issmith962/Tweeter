@@ -79,7 +79,7 @@ VisitorActivity extends InactivityManagerActivity implements LoadImageTask.LoadI
 
         if(data != null) {
             String uri = data.toString();
-            username = uri.substring(uri.indexOf("@"));
+            username = uri.substring(uri.indexOf("@") + 1);
             GetUserTask task = new GetUserTask(presenter, this,this);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new GetUserRequest(username));
         }
