@@ -1,8 +1,10 @@
 package byu.edu.cs.tweeter.server.service;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
+import byu.edu.cs.tweeter.server.dao.FeedDAO;
 import byu.edu.cs.tweeter.server.dao.FolloweesDAO;
 import byu.edu.cs.tweeter.server.dao.FollowersDAO;
+import byu.edu.cs.tweeter.server.dao.StoryDAO;
 import byu.edu.cs.tweeter.server.dao.UserDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowActionService;
 import byu.edu.cs.tweeter.shared.net.DataAccessException;
@@ -36,6 +38,8 @@ public class FollowActionServiceImpl implements FollowActionService
         // increment the follower and followee counts
         getUserDAO().incrementFolloweeCount(request.getFollower().getAlias());
         getUserDAO().incrementFollowerCount(request.getFollowee().getAlias());
+
+
         return new FollowUserResponse(true);
     }
 
@@ -70,6 +74,8 @@ public class FollowActionServiceImpl implements FollowActionService
     public UserDAO getUserDAO() {return new UserDAO();}
     public FollowersDAO getFollowersDAO() {return new FollowersDAO();}
     public FolloweesDAO getFolloweesDAO() {return new FolloweesDAO();}
+    public FeedDAO getFeedDAO() {return new FeedDAO();}
+    public StoryDAO getStoryDAO() {return new StoryDAO();}
 }
 
 

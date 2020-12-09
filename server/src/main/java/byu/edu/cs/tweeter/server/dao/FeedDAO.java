@@ -21,7 +21,6 @@ import byu.edu.cs.tweeter.shared.model.domain.Status;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.net.DataAccessException;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
-import byu.edu.cs.tweeter.shared.response.UpdateFeedResponse;
 
 public class FeedDAO {
     private Table table;
@@ -42,6 +41,7 @@ public class FeedDAO {
             .standard()
             .withRegion("us-west-2")
             .build();
+
     private static DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
 
     private void getFeedTable() {
@@ -100,9 +100,8 @@ public class FeedDAO {
         return new FeedResponse(feed, (queryResult.getLastEvaluatedKey() != null));
     }
 
-    public UpdateFeedResponse updateFeed(List<User> followees, Status status, String datePlusPostedBy) {
+    public void updateFeed(List<User> followees, Status status, String datePlusPostedBy) {
         User postedByUser = status.getUser();
-
 
         List<Item> batch = new ArrayList<>();
         for (User followee : followees) {
@@ -113,15 +112,8 @@ public class FeedDAO {
                     .withString(postedByLastNameAttr, status.getUser().getLastName())
                     .withString(postedByImageUrlAttr, status.getUser().getImageUrl());
             batch.add(item);
-            if (batch.size() == 25) {
-                batchWriteToFeedTable(batch);
-                batch = new ArrayList<>();
-            }
         }
-        if (batch.size() > 0) {
-            batchWriteToFeedTable(batch);
-        }
-        return null;
+        batchWriteToFeedTable(batch);
     }
 
     private void batchWriteToFeedTable(List<Item> batch) {
@@ -136,6 +128,15 @@ public class FeedDAO {
             }
         } while (outcome.getUnprocessedItems().size() > 0);
     }
+
+    public void removeFolloweeFromFeed(String followerAlias, String followeeAlias) {
+        // TODO: Search through feed and remove all items in followerAlias's feed posted by followeeAlias
+    }
+
+    public void addFolloweeToFeed(List<Status> userStatuses, User follower) {
+        // TODO: batch-write all userStatuses to the feed of follower in db
+    }
+
     /*
     public void addStatusToFeed(String alias, String datePlusPostedBy, String statusText, User postedByUser) throws DataAccessException {
         try {
