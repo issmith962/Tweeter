@@ -7,6 +7,9 @@ dependencies {
     implementation group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: '1.11.911'
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-core', version: '1.11.911'
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-sqs', version: '1.11.914'
+    implementation group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '3.6.0'
+
     implementation 'org.testng:testng:6.9.6'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
     testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
