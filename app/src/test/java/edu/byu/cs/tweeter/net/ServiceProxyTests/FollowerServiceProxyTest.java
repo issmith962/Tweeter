@@ -16,7 +16,7 @@ import byu.edu.cs.tweeter.shared.response.FollowerCountResponse;
 import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 import edu.byu.cs.tweeter.Client.model.services.FollowerServiceProxy;
 import edu.byu.cs.tweeter.Client.net.ServerFacade;
-import byu.edu.cs.tweeter.shared.ByteArrayUtils;
+import byu.edu.cs.tweeter.shared.utils.ByteArrayUtils;
 
 public class FollowerServiceProxyTest {
     private FollowersRequest validRequest;

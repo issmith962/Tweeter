@@ -9,7 +9,6 @@ import byu.edu.cs.tweeter.shared.net.DataAccessException;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.request.UpdateFeedRequest;
 import byu.edu.cs.tweeter.shared.response.FeedResponse;
-import byu.edu.cs.tweeter.shared.response.UpdateFeedResponse;
 
 public class FeedServiceImpl implements FeedService {
     @Override
@@ -46,10 +45,10 @@ public class FeedServiceImpl implements FeedService {
         }
     }
 
-    public UpdateFeedResponse updateFeed(UpdateFeedRequest request) {
+    public void updateFeed(UpdateFeedRequest request) {
         String datePlusPostedBy = DAOHelperFunctions.createDatePlusPostedBy(
                 request.getStatus().getUser().getAlias(), request.getStatus().getTimestamp());
-        return getFeedDAO().updateFeed(request.getFollowees(), request.getStatus(), datePlusPostedBy);
+        getFeedDAO().updateFeed(request.getFollowees(), request.getStatus(), datePlusPostedBy);
     }
 
     public AuthTokenDAO getAuthTokenDAO() {

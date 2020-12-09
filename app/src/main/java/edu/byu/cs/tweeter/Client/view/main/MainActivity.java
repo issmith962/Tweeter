@@ -132,7 +132,6 @@ public class MainActivity extends InactivityManagerActivity implements LogoutTas
             userAlias.setText(user.getAlias());
             updateCounts();
         }
-
     }
 
     @Override

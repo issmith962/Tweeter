@@ -2,27 +2,25 @@ package edu.byu.cs.tweeter.Client.presenter;
 
 import java.io.IOException;
 
-import byu.edu.cs.tweeter.shared.model.domain.Follow;
+import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
+import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.model.domain.service.CheckUserFollowingService;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowerService;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowingService;
 import byu.edu.cs.tweeter.shared.model.domain.service.LogoutService;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
+import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
+import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
+import byu.edu.cs.tweeter.shared.request.LogoutRequest;
 import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
+import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
+import byu.edu.cs.tweeter.shared.response.FollowerCountResponse;
+import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 import edu.byu.cs.tweeter.Client.model.services.CheckUserFollowingServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.FollowerServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.FollowingServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.LogoutServiceProxy;
-import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
-import byu.edu.cs.tweeter.shared.request.FolloweeCountRequest;
-import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
-import byu.edu.cs.tweeter.shared.request.LogoutRequest;
-import byu.edu.cs.tweeter.shared.response.FolloweeCountResponse;
-import byu.edu.cs.tweeter.shared.response.FollowerCountResponse;
-import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 
 /**
  * A common base class for all presenters in the application.
@@ -42,6 +40,7 @@ public abstract class Presenter {
     }
 
     public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request) throws IOException, TweeterRemoteException {
+        int a = 5;
         return getCheckUserFollowingService().isUserFollowing(request);
     }
 

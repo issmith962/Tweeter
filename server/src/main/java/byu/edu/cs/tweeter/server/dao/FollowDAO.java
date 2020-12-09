@@ -2,8 +2,6 @@ package byu.edu.cs.tweeter.server.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -206,7 +204,7 @@ public class FollowDAO {
 //--------------------------------------------------------------------------------------------------
 
     public FollowUserResponse followUser(FollowUserRequest request) {
-        // TODO: create relationship between request.getFollower() and request.getFollowee() in tablez
+        // TODO: create relationship between request.getFollower() and request.getFollowee() in table
         return new FollowUserResponse(true, "Success: " +
                 request.getFollower().getAlias() + " successfully followed " +
                 request.getFollowee().getAlias());

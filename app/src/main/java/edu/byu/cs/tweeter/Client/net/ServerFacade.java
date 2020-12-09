@@ -1,23 +1,8 @@
 package edu.byu.cs.tweeter.Client.net;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
-import edu.byu.cs.tweeter.BuildConfig;
-import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
-import byu.edu.cs.tweeter.shared.model.domain.Follow;
-import byu.edu.cs.tweeter.shared.model.domain.Status;
-import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.CheckUserFollowingRequest;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
 import byu.edu.cs.tweeter.shared.request.FollowUserRequest;
@@ -31,7 +16,6 @@ import byu.edu.cs.tweeter.shared.request.LoginRequest;
 import byu.edu.cs.tweeter.shared.request.LogoutRequest;
 import byu.edu.cs.tweeter.shared.request.PostStatusRequest;
 import byu.edu.cs.tweeter.shared.request.RegisterRequest;
-import byu.edu.cs.tweeter.shared.request.StartUpRequest;
 import byu.edu.cs.tweeter.shared.request.StoryRequest;
 import byu.edu.cs.tweeter.shared.request.UnfollowUserRequest;
 import byu.edu.cs.tweeter.shared.response.CheckUserFollowingResponse;
@@ -47,7 +31,6 @@ import byu.edu.cs.tweeter.shared.response.LoginResponse;
 import byu.edu.cs.tweeter.shared.response.LogoutResponse;
 import byu.edu.cs.tweeter.shared.response.PostStatusResponse;
 import byu.edu.cs.tweeter.shared.response.RegisterResponse;
-import byu.edu.cs.tweeter.shared.response.StartUpResponse;
 import byu.edu.cs.tweeter.shared.response.StoryResponse;
 import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 
@@ -95,6 +78,7 @@ public class ServerFacade{
     }
     public StoryResponse getStory(StoryRequest request, String urlPath) throws IOException, TweeterRemoteException {
         StoryResponse response = clientCommunicator.doPost(urlPath, request, null, StoryResponse.class);
+        int a = 5;
         if (response.isSuccess()) {
             return response;
         }
@@ -122,6 +106,7 @@ public class ServerFacade{
     }
     public PostStatusResponse postStatus(PostStatusRequest request, String urlPath) throws IOException, TweeterRemoteException {
         PostStatusResponse response = clientCommunicator.doPost(urlPath, request, null, PostStatusResponse.class);
+        int a = 1;
         if (response.isSuccess()) {
             return response;
         }
@@ -185,6 +170,7 @@ public class ServerFacade{
     }
     public GetUserResponse getUser(GetUserRequest request, String urlPath) throws IOException, TweeterRemoteException {
         GetUserResponse response = clientCommunicator.doPost(urlPath, request, null, GetUserResponse.class);
+        int a = 5;
         if (response.isSuccess()) {
             return response;
         }

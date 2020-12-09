@@ -1,12 +1,7 @@
 package edu.byu.cs.tweeter.Client.presenter;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.io.IOException;
 
-import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.model.domain.service.LoginService;
 import byu.edu.cs.tweeter.shared.model.domain.service.RegisterService;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
@@ -14,11 +9,8 @@ import edu.byu.cs.tweeter.Client.model.services.LoginServiceProxy;
 import edu.byu.cs.tweeter.Client.model.services.RegisterServiceProxy;
 import byu.edu.cs.tweeter.shared.request.LoginRequest;
 import byu.edu.cs.tweeter.shared.request.RegisterRequest;
-import byu.edu.cs.tweeter.shared.request.StartUpRequest;
 import byu.edu.cs.tweeter.shared.response.LoginResponse;
 import byu.edu.cs.tweeter.shared.response.RegisterResponse;
-import byu.edu.cs.tweeter.shared.response.StartUpResponse;
-import edu.byu.cs.tweeter.Client.view.util.ByteArrayUtils;
 
 /**
  * The presenter for the "login" functionality of the application.

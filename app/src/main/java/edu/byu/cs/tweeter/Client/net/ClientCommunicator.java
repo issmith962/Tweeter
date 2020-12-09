@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import byu.edu.cs.tweeter.shared.utils.JsonSerializer;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.Client.net.Exception.TweeterRequestException;
 import edu.byu.cs.tweeter.Client.net.Exception.TweeterServerException;

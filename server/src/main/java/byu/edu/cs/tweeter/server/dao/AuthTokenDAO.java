@@ -32,6 +32,15 @@ public class AuthTokenDAO {
             .build();
     private static DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
 
+
+    private void getAuthTokenTable() {
+        table = dynamoDB.getTable(authTokenTableName);
+    }
+
+
+    //  ----------------------------- DAO ACCESS METHODS ---------------------------------------
+
+
     public void createAuthToken(AuthToken authToken, long exptime, String alias) throws DataAccessException {
         // TODO: add the given authToken/alias combo to table.
         try {
@@ -66,10 +75,6 @@ public class AuthTokenDAO {
         else {
             return outcome.getString(aliasAttr).equals(alias);
         }
-    }
-
-    private void getAuthTokenTable() {
-        table = dynamoDB.getTable(authTokenTableName);
     }
 
 }
