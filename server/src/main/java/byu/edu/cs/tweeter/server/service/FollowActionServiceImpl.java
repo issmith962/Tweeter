@@ -23,7 +23,6 @@ public class FollowActionServiceImpl implements FollowActionService
         if (request.getAuthToken() == null) {
             return new FollowUserResponse(false, "Bad Request: no authentication..");
         }
-        // TODO: validate the authtoken first, then allow the follow
         boolean correctToken = getAuthTokenDAO().validateAuthToken(request.getAuthToken(), request.getFollower().getAlias());
         if (!correctToken) {
             return new FollowUserResponse(false, "Failure: Login Expired! Please log in again..");
@@ -50,7 +49,6 @@ public class FollowActionServiceImpl implements FollowActionService
         if (request.getAuthToken() == null) {
             return new UnfollowUserResponse(false, "Bad Request: no authentication..");
         }
-        // TODO: validate the authtoken first, then allow the unfollow
         boolean correctToken = getAuthTokenDAO().validateAuthToken(request.getAuthToken(), request.getFollower().getAlias());
         if (!correctToken) {
             return new UnfollowUserResponse(false, "Failure: Login Expired! Please log in again..");
