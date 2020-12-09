@@ -39,7 +39,6 @@ public class FollowActionServiceImpl implements FollowActionService
         getUserDAO().incrementFolloweeCount(request.getFollower().getAlias());
         getUserDAO().incrementFollowerCount(request.getFollowee().getAlias());
 
-
         return new FollowUserResponse(true);
     }
 

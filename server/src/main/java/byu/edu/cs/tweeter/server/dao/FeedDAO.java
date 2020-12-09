@@ -129,14 +129,6 @@ public class FeedDAO {
         } while (outcome.getUnprocessedItems().size() > 0);
     }
 
-    public void removeFolloweeFromFeed(String followerAlias, String followeeAlias) {
-        // TODO: Search through feed and remove all items in followerAlias's feed posted by followeeAlias
-    }
-
-    public void addFolloweeToFeed(List<Status> userStatuses, User follower) {
-        // TODO: batch-write all userStatuses to the feed of follower in db
-    }
-
     /*
     public void addStatusToFeed(String alias, String datePlusPostedBy, String statusText, User postedByUser) throws DataAccessException {
         try {
