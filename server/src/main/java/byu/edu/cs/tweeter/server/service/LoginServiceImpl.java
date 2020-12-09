@@ -42,8 +42,7 @@ public class LoginServiceImpl implements LoginService {
         String newAuthToken = UUID.randomUUID().toString();
 
         try {
-            long threeDaysInSeconds = 259200;
-            long exptime = System.currentTimeMillis()/1000 + threeDaysInSeconds;
+            long exptime = System.currentTimeMillis()/1000 + 6 * 60 * 60; // 6 hrs = 6h * 60m * 60s
             getAuthTokenDAO().createAuthToken(new AuthToken(newAuthToken), exptime, request.getAlias());
         } catch (DataAccessException e) {
             e.printStackTrace();
