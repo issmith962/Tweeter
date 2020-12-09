@@ -16,7 +16,7 @@ public class CheckUserFollowingServiceImpl implements CheckUserFollowingService 
             return new CheckUserFollowingResponse("Bad Request: follower and followee aliases cannot be empty..");
         }
         if (request.getFollowerAlias().equals(request.getFolloweeAlias())) {
-            return new CheckUserFollowingResponse("User cannot be following self..");
+            return new CheckUserFollowingResponse("Bad Request: User cannot be following self..");
         }
 
         if ((getFolloweesDAO().checkFollow(request.getFollowerAlias(), request.getFolloweeAlias()))
