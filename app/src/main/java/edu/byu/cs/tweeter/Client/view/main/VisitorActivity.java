@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -47,7 +46,7 @@ import edu.byu.cs.tweeter.Client.view.main.adapters.VisitingSectionsPagerAdapter
 import edu.byu.cs.tweeter.R;
 
 public class
-VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver,
+VisitorActivity extends InactivityManager implements LoadImageTask.LoadImageObserver,
         LoadUriImageTask.LoadUriImageObserver, VisitorPresenter.View,
         CheckUserFollowingTask.CheckUserFollowingObserver, FollowUserTask.FollowUserObserver,
         UnfollowUserTask.UnfollowUserObserver, GetUserTask.GetUserObserver,
@@ -224,6 +223,7 @@ VisitorActivity extends AppCompatActivity implements LoadImageTask.LoadImageObse
 
     }
 
+    @Override
     public void reset() {
         LogoutRequest request = new LogoutRequest(getCurrentAuthToken());
         LogoutTask task = new LogoutTask(presenter, this);

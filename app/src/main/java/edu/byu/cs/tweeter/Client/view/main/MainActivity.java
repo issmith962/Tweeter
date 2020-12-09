@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,7 +47,7 @@ import edu.byu.cs.tweeter.R;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LogoutTask.LogoutObserver, GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver, LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
+public class MainActivity extends InactivityManager implements LogoutTask.LogoutObserver, GetFollowerCountTask.FollowerCountObserver, GetFolloweeCountTask.FolloweeCountObserver, LoadImageTask.LoadImageObserver, LoadUriImageTask.LoadUriImageObserver, MainPresenter.View, PostStatusTask.PostStatusAttemptObserver {
     private static final String[] STATES = new String[]{"Login", "Feed", "Reset", "Register"};
     private int state;
     private MainPresenter presenter;
@@ -136,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
 
     }
 
+    @Override
     public void reset() {
         LogoutRequest request = new LogoutRequest(authToken);
         LogoutTask task = new LogoutTask(presenter, this);
@@ -321,5 +321,8 @@ public class MainActivity extends AppCompatActivity implements LogoutTask.Logout
     @Override
     public void logoutAttempted(LogoutResponse response) {
         Toast.makeText(getApplicationContext(), response.getMessage(), Toast. LENGTH_SHORT).show();
+
     }
+
+
 }
