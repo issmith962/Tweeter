@@ -2,15 +2,18 @@ package byu.edu.cs.tweeter.server.dao;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -19,7 +22,10 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 
 import byu.edu.cs.tweeter.server.encryption.SaltedSHAHashing;
 import byu.edu.cs.tweeter.shared.model.domain.User;
@@ -220,9 +226,45 @@ public class UserDAO {
     }
 
 
+    // FOR TESTING PURPOSES ONLY
+    public void addUserToTable(User user, int followerCount, int followeeCount, String salt, String securePassword) throws DataAccessException {
+        try {
+            PutItemOutcome addUserOutcome = table.putItem(
+                    new Item().withPrimaryKey(aliasAttr, user.getAlias())
+                            .withString(firstNameAttr, user.getFirstName())
+                            .withString(lastNameAttr, user.getLastName())
+                            .withString(securePasswordAttr, securePassword)
+                            .withString(saltAttr, salt)
+                            .withString(imageUrlAttr, user.getImageUrl())
+                            .withInt(followerCountAttr, followerCount)
+                            .withInt(followeeCountAttr, followeeCount));
+        } catch (Exception e) {
+            throw new DataAccessException("Error when adding new user to table");
+        }
+    }
 
+    public void addUserBatch(List<User> users) {
+        List<Item> batch = new ArrayList<>();
+        for (User user : users) {
+            Item item = new Item().withPrimaryKey(aliasAttr, user.getAlias())
+                    .withString(firstNameAttr, user.getFirstName())
+                    .withString(lastNameAttr, user.getLastName())
+                    .withString(imageUrlAttr, user.getImageUrl());
+            batch.add(item);
 
+            if (batch.size() == 25) {
+                TableWriteItems tableWriteItems = new TableWriteItems(userTableName)
+                        .withItemsToPut(batch);
+                BatchWriteItemOutcome outcome = dynamoDB.batchWriteItem(tableWriteItems);
+                do {
+                    Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
+                    if (outcome.getUnprocessedItems().size() != 0) {
+                        outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
+                    }
+                } while (outcome.getUnprocessedItems().size() > 0);
 
-
-
+                batch = new ArrayList<>();
+            }
+        }
+    }
 }
