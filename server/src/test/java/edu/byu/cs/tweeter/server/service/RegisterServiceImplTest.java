@@ -1,3 +1,4 @@
+/*
 package edu.byu.cs.tweeter.server.service;
 
 import org.junit.jupiter.api.Assertions;
@@ -52,3 +53,4 @@ public class RegisterServiceImplTest {
         Assertions.assertEquals(failureResponse, response);
     }
 }
+*/

@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import byu.edu.cs.tweeter.server.dao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.dummydatadao.FollowDAO;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.request.FollowingRequest;
 import byu.edu.cs.tweeter.shared.response.FollowingResponse;

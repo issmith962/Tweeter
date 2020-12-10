@@ -1,3 +1,4 @@
+/*
 package edu.byu.cs.tweeter.server.service;
 
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +9,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
-import byu.edu.cs.tweeter.server.dao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.dummydatadao.FollowDAO;
 import byu.edu.cs.tweeter.server.service.FollowActionServiceImpl;
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
@@ -105,3 +106,4 @@ public class FollowActionServiceImplTest {
 
 
 }
+*/
