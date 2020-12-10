@@ -1,6 +1,6 @@
 package byu.edu.cs.tweeter.server.service;
 
-import byu.edu.cs.tweeter.server.dao.FollowersDAO;
+import byu.edu.cs.tweeter.server.dao.FollowDAO;
 import byu.edu.cs.tweeter.server.dao.UserDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowerService;
 import byu.edu.cs.tweeter.shared.request.FollowerCountRequest;
@@ -17,7 +17,7 @@ public class FollowerServiceImpl implements FollowerService {
         if (request.getLimit() == 0) {
             return new FollowersResponse("Bad Request: no followers requested..");
         }
-        return getFollowersDAO().getFollowers(request);
+        return getFollowDAO().getFollowers(request);
     }
 
     @Override
@@ -30,6 +30,8 @@ public class FollowerServiceImpl implements FollowerService {
     }
 
     public UserDAO getUserDAO() {return new UserDAO();}
-    public FollowersDAO getFollowersDAO() {return new FollowersDAO();}
+    public FollowDAO getFollowDAO() {
+        return new FollowDAO();
+    }
 }
 

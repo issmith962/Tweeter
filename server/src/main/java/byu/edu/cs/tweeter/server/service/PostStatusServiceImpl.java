@@ -1,10 +1,12 @@
 package byu.edu.cs.tweeter.server.service;
 
+import java.util.List;
+
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
-import byu.edu.cs.tweeter.server.dao.DAOHelperFunctions;
-import byu.edu.cs.tweeter.server.dao.PostUpdateFeedMessagesSQSManager;
+import byu.edu.cs.tweeter.server.dao.DAOHelpers.DAOHelperFunctions;
+import byu.edu.cs.tweeter.server.dao.DAOHelpers.PostUpdateFeedMessagesSQSManager;
+import byu.edu.cs.tweeter.server.dao.DAOHelpers.UpdateFeedSQSManager;
 import byu.edu.cs.tweeter.server.dao.StoryDAO;
-import byu.edu.cs.tweeter.server.dao.UpdateFeedSQSManager;
 import byu.edu.cs.tweeter.shared.model.domain.Status;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.model.domain.service.PostStatusService;
@@ -78,7 +80,10 @@ public class PostStatusServiceImpl implements PostStatusService {
             if (!followersResponse.hasMorePages()) {
                 break;
             }
+            List<User> followers = followersResponse.getFollowers();
+            lastFollower = followers.get(followers.size() - 1);
         }
+        System.out.println("done");
     }
 
     public AuthTokenDAO getAuthTokenDAO() {

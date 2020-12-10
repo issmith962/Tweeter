@@ -62,6 +62,14 @@ public class MainActivity extends InactivityManagerActivity implements LogoutTas
     private ViewPager viewPager;
     public static Context contextOfApplication;
 
+    private long benchmarkStartTime;
+    private long benchmarkEndTime;
+    private long getDurationMillis() {
+        return (benchmarkEndTime - benchmarkStartTime) / 1000000;
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,6 +240,7 @@ public class MainActivity extends InactivityManagerActivity implements LogoutTas
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                benchmarkStartTime = System.nanoTime();
                 String newStatus = input.getText().toString();
                 // send async to add newStatus to statuses in database
 //                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
@@ -255,7 +264,9 @@ public class MainActivity extends InactivityManagerActivity implements LogoutTas
 
     @Override
     public void postStatusAttempted(PostStatusResponse response) {
-        Toast.makeText(getApplicationContext(),response.getMessage(), Toast. LENGTH_SHORT).show();
+        benchmarkEndTime = System.nanoTime();
+        long durationMillis = getDurationMillis();
+        Toast.makeText(getApplicationContext(), response.getMessage() + "\nTook " + (durationMillis / 1000.0) + " secs", Toast. LENGTH_SHORT).show();
         if (!response.isSuccess()) {
             return;
         }

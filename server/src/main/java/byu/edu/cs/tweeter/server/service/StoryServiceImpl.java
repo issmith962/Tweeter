@@ -1,6 +1,6 @@
 package byu.edu.cs.tweeter.server.service;
 
-import byu.edu.cs.tweeter.server.dao.DAOHelperFunctions;
+import byu.edu.cs.tweeter.server.dao.DAOHelpers.DAOHelperFunctions;
 import byu.edu.cs.tweeter.server.dao.StoryDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.StoryService;
 import byu.edu.cs.tweeter.shared.net.DataAccessException;

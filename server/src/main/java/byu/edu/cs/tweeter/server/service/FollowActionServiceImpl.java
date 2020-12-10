@@ -1,10 +1,7 @@
 package byu.edu.cs.tweeter.server.service;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
-import byu.edu.cs.tweeter.server.dao.FeedDAO;
-import byu.edu.cs.tweeter.server.dao.FolloweesDAO;
-import byu.edu.cs.tweeter.server.dao.FollowersDAO;
-import byu.edu.cs.tweeter.server.dao.StoryDAO;
+import byu.edu.cs.tweeter.server.dao.FollowDAO;
 import byu.edu.cs.tweeter.server.dao.UserDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.FollowActionService;
 import byu.edu.cs.tweeter.shared.net.DataAccessException;
@@ -28,8 +25,7 @@ public class FollowActionServiceImpl implements FollowActionService
             return new FollowUserResponse(false, "Failure: Login Expired! Please log in again..");
         }
         try {
-            getFolloweesDAO().addFollow(request.getFollower(), request.getFollowee());
-            getFollowersDAO().addFollow(request.getFollowee(), request.getFollower());
+            getFollowDAO().addFollow(request.getFollowee(), request.getFollower());
         } catch (DataAccessException e) {
             e.printStackTrace();
             return new FollowUserResponse(false, "Failure: Error in trying to adding follow relationship to database");
@@ -54,8 +50,7 @@ public class FollowActionServiceImpl implements FollowActionService
             return new UnfollowUserResponse(false, "Failure: Login Expired! Please log in again..");
         }
         try {
-            getFolloweesDAO().removeFollow(request.getFollower(), request.getFollowee());
-            getFollowersDAO().removeFollow(request.getFollowee(), request.getFollower());
+            getFollowDAO().removeFollow(request.getFollowee(), request.getFollower());
         } catch (DataAccessException e) {
             e.printStackTrace();
             return new UnfollowUserResponse(false, "Failure: Error in trying to remove follow relationship from database");
@@ -69,10 +64,9 @@ public class FollowActionServiceImpl implements FollowActionService
 
     public AuthTokenDAO getAuthTokenDAO() {return new AuthTokenDAO();}
     public UserDAO getUserDAO() {return new UserDAO();}
-    public FollowersDAO getFollowersDAO() {return new FollowersDAO();}
-    public FolloweesDAO getFolloweesDAO() {return new FolloweesDAO();}
-    public FeedDAO getFeedDAO() {return new FeedDAO();}
-    public StoryDAO getStoryDAO() {return new StoryDAO();}
+    public FollowDAO getFollowDAO() {
+        return new FollowDAO();
+    }
 }
 
 

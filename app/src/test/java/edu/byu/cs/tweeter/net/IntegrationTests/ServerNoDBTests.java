@@ -157,9 +157,6 @@ public class ServerNoDBTests {
         user38 = new User("Roan", "Sutton",FEMALE_IMAGE_URL);
         user39 = new User("Abdurrahman", "Simmons", MALE_IMAGE_URL);
         user40 = new User("Imani", "Burton", MALE_IMAGE_URL);
-
-
-
     }
 
     private List<User> getDummyFollowees() {
