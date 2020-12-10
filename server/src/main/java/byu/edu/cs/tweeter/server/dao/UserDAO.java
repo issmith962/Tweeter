@@ -92,6 +92,9 @@ public class UserDAO {
     Returns the url to the profile picture in its new location.
      */
     public String storeProfPic(String alias, String imageData) {
+        if (imageData.isEmpty()) {
+            return null;
+        }
         byte[] profPic = Base64.getDecoder().decode(imageData);
         InputStream stream = new ByteArrayInputStream(profPic);
         ObjectMetadata metadata = new ObjectMetadata();
@@ -167,26 +170,25 @@ public class UserDAO {
         }
     }
 
-    public void incrementFollowerCount(String alias) {
+    public void incrementFollowerCount(String alias) throws DataAccessException {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
                 .withUpdateExpression("set followerCount = followerCount + :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error when incrementing follower count");
         }
     }
 
-    public void decrementFollowerCount(String alias) {
+    public void decrementFollowerCount(String alias) throws DataAccessException {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
                 .withUpdateExpression("set followerCount = followerCount - :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+            throw new DataAccessException("Error when decrementing follower count");        }
     }
 
     /*
@@ -205,26 +207,24 @@ public class UserDAO {
         }
     }
 
-    public void incrementFolloweeCount(String alias) {
+    public void incrementFolloweeCount(String alias) throws DataAccessException {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
                 .withUpdateExpression("set followeeCount = followeeCount + :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+            throw new DataAccessException("Error when incrementing followee count");        }
     }
 
-    public void decrementFolloweeCount(String alias) {
+    public void decrementFolloweeCount(String alias) throws DataAccessException {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(aliasAttr, alias)
                 .withUpdateExpression("set followeeCount = followeeCount - :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
         try {
             UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+            throw new DataAccessException("Error when decrementing followee count");        }
     }
 
 

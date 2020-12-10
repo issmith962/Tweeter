@@ -31,8 +31,16 @@ public class FollowActionServiceImpl implements FollowActionService
             return new FollowUserResponse(false, "Failure: Error in trying to adding follow relationship to database");
         }
         // increment the follower and followee counts
-        getUserDAO().incrementFolloweeCount(request.getFollower().getAlias());
-        getUserDAO().incrementFollowerCount(request.getFollowee().getAlias());
+        try {
+            getUserDAO().incrementFolloweeCount(request.getFollower().getAlias());
+        } catch (DataAccessException e) {
+            return new FollowUserResponse(false, e.getMessage());
+        }
+        try {
+            getUserDAO().incrementFollowerCount(request.getFollowee().getAlias());
+        } catch (DataAccessException e) {
+            return new FollowUserResponse(false, e.getMessage());
+        }
 
         return new FollowUserResponse(true);
     }
@@ -56,8 +64,16 @@ public class FollowActionServiceImpl implements FollowActionService
             return new UnfollowUserResponse(false, "Failure: Error in trying to remove follow relationship from database");
         }
         // decrement the follower and followee counts
-        getUserDAO().decrementFolloweeCount(request.getFollower().getAlias());
-        getUserDAO().decrementFollowerCount(request.getFollowee().getAlias());
+        try {
+            getUserDAO().decrementFolloweeCount(request.getFollower().getAlias());
+        } catch (DataAccessException e) {
+            return new UnfollowUserResponse(false, e.getMessage());
+        }
+        try {
+            getUserDAO().decrementFollowerCount(request.getFollowee().getAlias());
+        } catch (DataAccessException e) {
+            return new UnfollowUserResponse(false, e.getMessage());
+        }
 
         return new UnfollowUserResponse(true);
     }
