@@ -48,15 +48,12 @@ public class PostStatusServiceImpl implements PostStatusService {
             return new PostStatusResponse(false, "Error in posting status to story..");
         }
 
-        System.out.println("passed here 1...");
         // Create PostUpdateFeedMessagesHandler request
         PostUpdateFeedMessagesRequest postUpdateFeedMessagesRequest = new PostUpdateFeedMessagesRequest(
                 new Status(request.getUser(), request.getPostingTimestamp(), request.getNewStatus())
         );
-        System.out.println("passed here 2...");
         // Send message To SQSPostStatusQueue with the request
         PostUpdateFeedMessagesSQSManager.sendUpdateFeedMessage(postUpdateFeedMessagesRequest);
-        System.out.println("passed here 3...");
 
         return new PostStatusResponse(true);
     }
