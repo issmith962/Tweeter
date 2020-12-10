@@ -1,4 +1,4 @@
-package byu.edu.cs.tweeter.server.dao;
+package byu.edu.cs.tweeter.server.dao.DAOHelpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

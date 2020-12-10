@@ -1,4 +1,4 @@
-package byu.edu.cs.tweeter.server.dao;
+package byu.edu.cs.tweeter.server.dao.DAOHelpers;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
