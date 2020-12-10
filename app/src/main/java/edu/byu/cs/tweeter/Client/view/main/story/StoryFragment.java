@@ -242,7 +242,4 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
         intent.putExtra("imageURL", visitingUser.getImageUrl());
         startActivity(intent);
     }
-
-
-
 }

@@ -41,12 +41,7 @@ public class ServerFacade{
 
     public LoginResponse checkLogin(LoginRequest request, String urlPath) throws IOException, TweeterRemoteException {
         LoginResponse response = clientCommunicator.doPost(urlPath, request, null, LoginResponse.class);
-        if (response.isSuccess()) {
-            return response;
-        }
-        else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
 
     }
     public FollowingResponse getFollowees(FollowingRequest request, String urlPath) throws IOException, TweeterRemoteException {
@@ -69,12 +64,7 @@ public class ServerFacade{
     }
     public LogoutResponse logout(LogoutRequest request, String urlPath) throws IOException, TweeterRemoteException {
         LogoutResponse response = clientCommunicator.doPost(urlPath, request, null, LogoutResponse.class);
-        if (response.isSuccess()) {
-            return response;
-        }
-        else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
     }
     public StoryResponse getStory(StoryRequest request, String urlPath) throws IOException, TweeterRemoteException {
         StoryResponse response = clientCommunicator.doPost(urlPath, request, null, StoryResponse.class);
@@ -88,12 +78,7 @@ public class ServerFacade{
     }
     public FeedResponse getFeed(FeedRequest request, String urlPath) throws IOException, TweeterRemoteException {
         FeedResponse response = clientCommunicator.doPost(urlPath, request, null, FeedResponse.class);
-        if (response.isSuccess()) {
-            return response;
-        }
-        else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
     }
     public CheckUserFollowingResponse isUserFollowing(CheckUserFollowingRequest request, String urlPath) throws IOException, TweeterRemoteException {
         CheckUserFollowingResponse response = clientCommunicator.doPost(urlPath, request, null, CheckUserFollowingResponse.class);
@@ -106,31 +91,15 @@ public class ServerFacade{
     }
     public PostStatusResponse postStatus(PostStatusRequest request, String urlPath) throws IOException, TweeterRemoteException {
         PostStatusResponse response = clientCommunicator.doPost(urlPath, request, null, PostStatusResponse.class);
-        int a = 1;
-        if (response.isSuccess()) {
-            return response;
-        }
-        else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
     }
     public UnfollowUserResponse unfollowUser(UnfollowUserRequest request, String urlPath) throws IOException, TweeterRemoteException {
         UnfollowUserResponse response = clientCommunicator.doPost(urlPath, request, null, UnfollowUserResponse.class);
-        if (response.isSuccess()) {
-            return response;
-        }
-        else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
     }
     public FollowUserResponse followUser(FollowUserRequest request, String urlPath) throws IOException, TweeterRemoteException {
         FollowUserResponse response = clientCommunicator.doPost(urlPath, request, null, FollowUserResponse.class);
-        if (response.isSuccess()) {
-            return response;
-        }
-        else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
     }
     public GetAllUsersResponse getAllUsers(GetAllUsersRequest request, String urlPath) throws IOException, TweeterRemoteException {
         GetAllUsersResponse response = clientCommunicator.doPost(urlPath, request, null, GetAllUsersResponse.class);
@@ -161,12 +130,7 @@ public class ServerFacade{
     }
     public RegisterResponse registerUser(RegisterRequest request, String urlPath) throws IOException, TweeterRemoteException {
         RegisterResponse response = clientCommunicator.doPost(urlPath, request, null, RegisterResponse.class);
-        if (response.isSuccess()) {
-            return response;
-        }
-        else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
     }
     public GetUserResponse getUser(GetUserRequest request, String urlPath) throws IOException, TweeterRemoteException {
         GetUserResponse response = clientCommunicator.doPost(urlPath, request, null, GetUserResponse.class);

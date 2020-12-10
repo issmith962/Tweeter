@@ -184,8 +184,8 @@ public class RegisterFragment extends Fragment implements LoginPresenter.View, R
 
     @Override
     public void registerAttempted(RegisterResponse registerResponse) {
-        if (registerResponse.getNewUser() == null) {
-            Toast.makeText(getActivity(), "Registration failed!", Toast.LENGTH_SHORT).show();
+        if (!registerResponse.isSuccess()) {
+            Toast.makeText(getActivity(), registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
         }
         else {
             LoginAttemptTask task = new LoginAttemptTask(presenter, this);

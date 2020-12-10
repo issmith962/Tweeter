@@ -256,11 +256,11 @@ public class MainActivity extends InactivityManagerActivity implements LogoutTas
     @Override
     public void postStatusAttempted(PostStatusResponse response) {
         Toast.makeText(getApplicationContext(),response.getMessage(), Toast. LENGTH_SHORT).show();
-        // TODO: reload story to make status post immediately..
-        // lets try the following code in a bit...
+        if (!response.isSuccess()) {
+            return;
+        }
         state = 1;
         loadCurrentState();
-        // update: these two lines seem to work with dummy data, so I'll leave them for now..
     }
 
     @Override

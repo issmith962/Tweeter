@@ -101,7 +101,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View, Logi
 
     @Override
     public void loginAttempted(LoginResponse loginResponse) {
-        if (loginResponse.getAuthToken() == null) {
+        if (!loginResponse.isSuccess()) {
             Toast.makeText(getContext(), loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
         }
         else {

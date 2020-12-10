@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -201,6 +202,11 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
 
         @Override
         public void feedRetrieved(FeedResponse feedResponse) {
+            if (!feedResponse.isSuccess()) {
+                Toast.makeText(getContext(), feedResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             List<Status> feed = feedResponse.getFeed();
 
             lastStatus = (feed.size() > 0) ? feed.get(feed.size() -1) : null;
