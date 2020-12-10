@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
 import byu.edu.cs.tweeter.server.dao.FeedDAO;
-import byu.edu.cs.tweeter.server.dao.dummydatadao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.dummydatadao.OldFollowDAO;
 import byu.edu.cs.tweeter.server.dao.dummydatadao.StatusDAO;
 import byu.edu.cs.tweeter.server.service.FeedServiceImpl;
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
@@ -50,7 +50,7 @@ public class FeedServiceImplTest {
         failureResponse = new FeedResponse("Bad Request: No user given..");
 
         FeedDAO mockFeedDAO = Mockito.mock(FeedDAO.class);
-        FollowDAO mockFollowDAO = Mockito.mock(FollowDAO.class);
+        OldFollowDAO mockFollowDAO = Mockito.mock(OldFollowDAO.class);
         AuthTokenDAO mockAuthTokenDAO = Mockito.mock(AuthTokenDAO.class);
 
         Mockito.when(mockFeedDAO.getFeed(validRequest.getUser(), validRequest.getLimit(), "1245")).thenReturn(successResponse);

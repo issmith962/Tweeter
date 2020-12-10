@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 
-import byu.edu.cs.tweeter.server.dao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.OldFollowDAO;
 import byu.edu.cs.tweeter.server.service.CheckUserFollowingServiceImpl;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
@@ -38,7 +38,7 @@ public class CheckUserFollowingServiceImplTest {
         successResponse = new CheckUserFollowingResponse(true);
         failureResponse = new CheckUserFollowingResponse("Bad Request: Missing follower or followee alias..");
 
-        FollowDAO mockFollowDAO = Mockito.mock(FollowDAO.class);
+        OldFollowDAO mockFollowDAO = Mockito.mock(OldFollowDAO.class);
 
         Mockito.when(mockFollowDAO.checkFollow(validRequest.getFolloweeAlias(), validRequest.getFollowerAlias())).thenReturn(true);
 

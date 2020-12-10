@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.Arrays;
 
-import byu.edu.cs.tweeter.server.dao.dummydatadao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.dummydatadao.OldFollowDAO;
 import byu.edu.cs.tweeter.server.service.FollowerServiceImpl;
 import byu.edu.cs.tweeter.shared.model.domain.User;
 import byu.edu.cs.tweeter.shared.net.TweeterRemoteException;
@@ -55,7 +55,7 @@ public class FollowerServiceImplTest {
         successFollowerCountResponse = new FollowerCountResponse(10);
         failureFollowerCountResponse = new FollowerCountResponse("Bad Request: no user given..");
 
-        FollowDAO mockFollowDAO = Mockito.mock(FollowDAO.class);
+        OldFollowDAO mockFollowDAO = Mockito.mock(OldFollowDAO.class);
         Mockito.when(mockFollowDAO.getFollowers(validRequest)).thenReturn(successResponse);
         Mockito.when(mockFollowDAO.getFollowerCount(validFollowerCountRequest)).thenReturn(10);
 

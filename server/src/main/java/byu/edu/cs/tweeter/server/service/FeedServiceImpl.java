@@ -3,7 +3,6 @@ package byu.edu.cs.tweeter.server.service;
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
 import byu.edu.cs.tweeter.server.dao.DAOHelpers.DAOHelperFunctions;
 import byu.edu.cs.tweeter.server.dao.FeedDAO;
-import byu.edu.cs.tweeter.server.dao.dummydatadao.FollowDAO;
 import byu.edu.cs.tweeter.shared.model.domain.service.FeedService;
 import byu.edu.cs.tweeter.shared.net.DataAccessException;
 import byu.edu.cs.tweeter.shared.request.FeedRequest;
@@ -53,10 +52,6 @@ public class FeedServiceImpl implements FeedService {
 
     public AuthTokenDAO getAuthTokenDAO() {
         return new AuthTokenDAO();
-    }
-
-    public FollowDAO getFollowDAO() {
-        return new FollowDAO();
     }
 
     public FeedDAO getFeedDAO() {

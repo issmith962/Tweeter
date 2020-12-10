@@ -19,7 +19,7 @@ import byu.edu.cs.tweeter.shared.response.FollowersResponse;
 import byu.edu.cs.tweeter.shared.response.FollowingResponse;
 import byu.edu.cs.tweeter.shared.response.UnfollowUserResponse;
 
-public class FollowDAO {
+public class OldFollowDAO {
     private static final String MALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png";
     private static final String FEMALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png";
 

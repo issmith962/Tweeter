@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 
 import byu.edu.cs.tweeter.server.dao.AuthTokenDAO;
-import byu.edu.cs.tweeter.server.dao.dummydatadao.FollowDAO;
+import byu.edu.cs.tweeter.server.dao.dummydatadao.OldFollowDAO;
 import byu.edu.cs.tweeter.server.service.FollowActionServiceImpl;
 import byu.edu.cs.tweeter.shared.model.domain.AuthToken;
 import byu.edu.cs.tweeter.shared.model.domain.User;
@@ -53,7 +53,7 @@ public class FollowActionServiceImplTest {
         successUnfollowResponse = new UnfollowUserResponse(true);
         failureUnfollowResponse = new UnfollowUserResponse(false, "Bad Request: missing follower or followee alias..");
 
-        FollowDAO mockFollowDAO = Mockito.mock(FollowDAO.class);
+        OldFollowDAO mockFollowDAO = Mockito.mock(OldFollowDAO.class);
         AuthTokenDAO mockAuthTokenDAO = Mockito.mock(AuthTokenDAO.class);
 
         Mockito.when(mockFollowDAO.followUser(validFollowRequest)).thenReturn(successFollowResponse);
