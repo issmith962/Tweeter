@@ -5,10 +5,12 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
@@ -267,4 +269,15 @@ public class UserDAO {
             }
         }
     }
+
+    public void removeUser(String alias) throws DataAccessException {
+        DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+                .withPrimaryKey(new PrimaryKey(aliasAttr, alias));
+        try {
+            table.deleteItem(deleteItemSpec);
+        } catch (Exception e) {
+            throw new DataAccessException("Error when removing follow relationship from followers table");
+        }
+    }
+
 }

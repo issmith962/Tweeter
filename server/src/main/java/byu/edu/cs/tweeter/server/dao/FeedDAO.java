@@ -5,8 +5,10 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
@@ -145,4 +147,14 @@ public class FeedDAO {
         }
     }
     */
+
+    public void removeStatus(String alias, String datePlusPostedBy) throws DataAccessException {
+        DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+                .withPrimaryKey(new PrimaryKey(aliasAttr, alias, datePlusPostedByAttr, datePlusPostedBy));
+        try {
+            table.deleteItem(deleteItemSpec);
+        } catch (Exception e) {
+            throw new DataAccessException("Error when removing follow relationship from followers table");
+        }
+    }
 }
