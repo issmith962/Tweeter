@@ -1,4 +1,4 @@
-package byu.edu.cs.tweeter.server.dao;
+package byu.edu.cs.tweeter.server.dao.dummydatadao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
